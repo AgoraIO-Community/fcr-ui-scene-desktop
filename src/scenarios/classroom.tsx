@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 import { ClassroomLayout } from './layout';
 import { DeviceSettingsDialog } from '@onlineclass/containers/device-settings/dialog-wrapper';
-import { CloudDialog } from '@onlineclass/containers/cloud/dialog-wrapper';
+import { CloudDialog } from '@onlineclass/containers/cloud';
 
 export const Classroom = observer(() => {
   const {

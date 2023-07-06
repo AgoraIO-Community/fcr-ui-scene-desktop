@@ -1,5 +1,6 @@
 import {
   AgoraEduClassroomEvent,
+  ConversionOption,
   EduRegion,
   EduRoleTypeEnum,
   EduRoomTypeEnum,
@@ -7,8 +8,9 @@ import {
 } from 'agora-edu-core';
 import { AGMediaOptions, AgoraLatencyLevel, AGVideoEncoderConfiguration } from 'agora-rte-sdk';
 import { FcrMultiThemeMode } from 'agora-common-libs';
-import { AgoraWidgetBase } from 'agora-common-libs';
+import { AgoraOnlineclassSDKWidgetBase } from 'agora-common-libs';
 import { IBaseProcessor, IExtension } from 'agora-rte-extension';
+import { CloudDriveResourceConvertProgress } from './uistores/cloud/struct';
 
 /**
  * 启动参数
@@ -193,7 +195,7 @@ export type LaunchOptions = {
   /** @en
    * Widgets
    */
-  widgets?: Record<string, typeof AgoraWidgetBase>;
+  widgets?: Record<string, typeof AgoraOnlineclassSDKWidgetBase>;
 
   /**
    * 教室事件回调
@@ -258,48 +260,16 @@ export type CoursewarePageInfo = {
  *
  */
 export type CoursewareItem = {
-  /**
-   * 课件名称
-   */
-  /** @en
-   *
-   */
-  name: string;
-  /**
-   * 课件资源链接
-   */
-  /** @en
-   *
-   */
+  resourceName: string;
+  resourceUuid: string;
+  ext: string;
   url?: string;
-  /**
-   * 课件大小
-   */
-  /** @en
-   *
-   */
-  size?: number;
-  /**
-   * 更新时间
-   */
-  /** @en
-   *
-   */
-  updateTime?: number;
-  /**
-   * 课件转换ID
-   */
-  /** @en
-   *
-   */
+  size: number;
+  updateTime: number;
   taskUuid?: string;
-  /**
-   * 课件资源列表
-   */
-  /** @en
-   *
-   */
-  pages?: CoursewarePageInfo[];
+  taskProgress?: CloudDriveResourceConvertProgress;
+  conversion?: ConversionOption;
+  initOpen?: boolean;
 };
 
 /**

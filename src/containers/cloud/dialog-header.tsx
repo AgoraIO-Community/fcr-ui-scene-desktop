@@ -8,7 +8,7 @@ import { Popover } from '@components/popover';
 import classnames from 'classnames';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { CloudTabsValueContext, cloudTabsItems } from './dialog-wrapper';
+import { CloudTabsValueContext, cloudTabsItems } from '.';
 
 export const CloudDialogHeader = observer(() => {
   const { currentTab, setCurrentTab } = useContext(CloudTabsValueContext);

@@ -9,14 +9,14 @@ lib_dependencies=(
     agora-common-libs
 )
 lib_versions=(
-    2.8.21
-    2.8.21
-    2.8.1
+    2.9.0
+    2.9.0
+    2.9.0
 )
 lib_branches=(
-    feature/online-class-sdk
-    feature/online-class-sdk
-    feature/online-class-sdk
+    release/2.9.0
+    release/2.9.0
+    release/2.9.0
 )
 
 repos=(
@@ -36,7 +36,7 @@ fi
 
 download_packages $source_root $build_branch "${lib_dependencies[*]}" "${lib_versions[*]}" "${lib_branches[*]}"
 
-make_monorepo $source_root "${repos[*]}"
+make_monorepo $source_root "../agora-scenario-ui-kit-desktop"
 
 install_packages $source_root
 

@@ -89,11 +89,16 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
 
   const handleClick = () => {
     if (eduToolApi.isWidgetMinimized(id)) {
-      eduToolApi.setWidgetMinimized(false, id);
-    } else {
-      widgetUIStore.createWidget(id, {
-        trackProperties: PredefinedWidgetTrack.TrackCentered,
+      eduToolApi.setMinimizedState({
+        minimized: false,
+        widgetId: id,
+        minimizeProperties: {
+          minimizedCollapsed: widgetUIStore.widgetInstanceList.find((w) => w.widgetId === id)
+            ?.minimizeProperties?.minimizedCollapsed,
+        },
       });
+    } else {
+      widgetUIStore.createWidget(id);
     }
     onClick();
   };

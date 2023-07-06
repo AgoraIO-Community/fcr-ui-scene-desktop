@@ -43,8 +43,7 @@ export const MicrophoneDevice: FC = observer(() => {
   } = useDeviceTooltipVisible();
   const {
     streamUIStore: { localStream },
-    deviceSettingUIStore: { noAudioRecordingDevice },
-    layoutUIStore: { addDialog },
+    deviceSettingUIStore: { noAudioRecordingDevice, setDeviceSettingDialogVisible },
   } = useStore();
   const { toggleLocalAudioRecordingDevice, micEnabled } = useDeviceSwitch();
   const text = noAudioRecordingDevice ? 'No device' : micEnabled ? 'Mute' : 'Unmute';
@@ -71,7 +70,7 @@ export const MicrophoneDevice: FC = observer(() => {
             content={
               <AudioDeviceListPopoverContent
                 onMoreClick={() => {
-                  addDialog('device-settings');
+                  setDeviceSettingDialogVisible(true);
                   setPopoverOpened(false);
                 }}></AudioDeviceListPopoverContent>
             }>
@@ -97,8 +96,7 @@ export const CameraDevice: FC = observer(() => {
     setPopoverOpened,
   } = useDeviceTooltipVisible();
   const {
-    deviceSettingUIStore: { noCameraDevice },
-    layoutUIStore: { addDialog },
+    deviceSettingUIStore: { noCameraDevice, setDeviceSettingDialogVisible },
   } = useStore();
   const { toggleLocalCameraDevice, cameraEnabled } = useDeviceSwitch();
   const icon = noCameraDevice
@@ -122,7 +120,7 @@ export const CameraDevice: FC = observer(() => {
             content={
               <VideoDeviceListPopoverContent
                 onMoreClick={() => {
-                  addDialog('device-settings');
+                  setDeviceSettingDialogVisible(true);
                   setPopoverOpened(false);
                 }}></VideoDeviceListPopoverContent>
             }

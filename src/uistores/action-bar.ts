@@ -159,6 +159,10 @@ export class ActionBarUIStore extends EduUIStoreBase {
   closeChatDialog() {
     this.getters.eduTool.setWidgetVisible('easemobIM', false);
   }
+  @bound
+  setPrivateChat(userId: string) {
+    this.getters.eduTool.sendWidgetPrivateChat('easemobIM', userId);
+  }
   @action.bound
   setShowLeaveOption(show: boolean) {
     this.showLeaveOption = show;

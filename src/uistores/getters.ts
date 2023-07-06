@@ -20,6 +20,12 @@ export class Getters {
   get eduTool() {
     return this._classroomUIStore.eduToolApi;
   }
+
+  @computed
+  get widgetInstanceList() {
+    return this.classroomUIStore.widgetUIStore.widgetInstanceList;
+  }
+
   @computed
   get isGranted() {
     return this._classroomUIStore.boardApi.granted;

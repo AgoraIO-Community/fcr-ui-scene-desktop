@@ -4,47 +4,130 @@ import { action, computed, IReactionDisposer, observable } from 'mobx';
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
+import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
+
 @Log.attach({ proxyMethods: false })
 export class EduTool {
   logger!: Logger;
   private _controller?: AgoraWidgetController;
   private _disposers: IReactionDisposer[] = [];
+
   @observable
   private _visibleStateMap = new Map<string, boolean>();
   @observable
-  private _minimizedStateMap = new Map<string, { icon: SvgIconEnum; tooltip?: string }>();
+  private _minimizedStateMap = new Map<
+    string,
+    | { icon: SvgIconEnum; tooltip?: string }
+    | { icon: SvgIconEnum; tooltip?: string; widgetId?: string }[]
+  >();
 
   @computed
   get minimizedWidgetIcons() {
-    return Array.from(this._minimizedStateMap.entries()).map(([widgetId, { icon, tooltip }]) => ({
-      icon,
-      widgetId,
-      tooltip,
-    }));
+    return Array.from(this._minimizedStateMap.entries()).map(([key, value]) => {
+      if (value instanceof Array) {
+        return value.map((widget) => {
+          const { icon, tooltip, widgetId } = widget;
+          return {
+            icon,
+            tooltip,
+            widgetId,
+          };
+        });
+      } else {
+        const { icon, tooltip } = value;
+        return {
+          icon,
+          widgetId: key,
+          tooltip,
+        };
+      }
+    });
   }
   isWidgetVisible = computedFn((widgetId: string) => {
     return this._visibleStateMap.has(widgetId);
   });
   isWidgetMinimized = computedFn((widgetId: string) => {
-    return this._minimizedStateMap.has(widgetId);
+    let minimized = this._minimizedStateMap.has(widgetId);
+    this._minimizedStateMap.forEach((item) => {
+      if (item instanceof Array) {
+        if (item.find((w) => w.widgetId === widgetId)) {
+          minimized = true;
+        }
+      }
+    });
+    return minimized;
   });
-
+  @bound
+  setMinimizedState(params: {
+    minimized: boolean;
+    widgetId: string;
+    minimizeProperties: {
+      minimizedTooltip?: string;
+      minimizedIcon?: SvgIconEnum;
+      minimizedKey?: string;
+      minimizedCollapsed: boolean;
+    };
+  }) {
+    this._handleMinimizedStateChange(params);
+  }
   @action.bound
   private _handleMinimizedStateChange({
     minimized,
     widgetId,
-    icon = SvgIconEnum.FCR_CLOSE,
-    tooltip,
+    minimizeProperties,
   }: {
     minimized: boolean;
     widgetId: string;
-    icon?: SvgIconEnum;
-    tooltip?: string;
+    minimizeProperties: {
+      minimizedTooltip?: string;
+      minimizedIcon?: SvgIconEnum;
+      minimizedKey?: string;
+      minimizedCollapsed: boolean;
+    };
   }) {
+    const {
+      minimizedTooltip,
+      minimizedIcon = SvgIconEnum.FCR_CLOSE,
+      minimizedKey = '',
+      minimizedCollapsed,
+    } = minimizeProperties;
     if (minimized) {
-      this._minimizedStateMap.set(widgetId, { icon, tooltip });
+      if (minimizedCollapsed) {
+        let minimizedList = this._minimizedStateMap.get(minimizedKey);
+        if (minimizedList && !(minimizedList instanceof Array)) return;
+        if (!minimizedList) minimizedList = [];
+        const isMinimized = minimizedList.find((item) => item.widgetId === widgetId);
+        if (isMinimized) return;
+        minimizedList.push({
+          widgetId,
+          icon: minimizedIcon,
+          tooltip: minimizedTooltip,
+        });
+        this._minimizedStateMap.set(minimizedKey, minimizedList);
+      } else {
+        this._minimizedStateMap.set(widgetId, { icon: minimizedIcon, tooltip: minimizedTooltip });
+      }
     } else {
-      this._minimizedStateMap.delete(widgetId);
+      if (minimizedCollapsed) {
+        let minimizedKey = '';
+        this._minimizedStateMap.forEach((item, key) => {
+          if (item instanceof Array) {
+            if (item.find((w) => w.widgetId === widgetId)) {
+              minimizedKey = key;
+            }
+          }
+        });
+        let minimizedList = this._minimizedStateMap.get(minimizedKey);
+        if (!minimizedList || (minimizedList && !(minimizedList instanceof Array))) return;
+        minimizedList = minimizedList.filter((item) => item.widgetId !== widgetId);
+        if (minimizedList.length > 0) {
+          this._minimizedStateMap.set(minimizedKey, minimizedList);
+        } else {
+          this._minimizedStateMap.delete(minimizedKey);
+        }
+      } else {
+        this._minimizedStateMap.delete(widgetId);
+      }
     }
     this._sendMessage(AgoraExtensionRoomEvent.SetMinimize, { widgetId, minimized });
   }
@@ -62,10 +145,7 @@ export class EduTool {
     this._minimizedStateMap.delete(widgetId);
     this._visibleStateMap.delete(widgetId);
   }
-  @bound
-  setWidgetMinimized(minimized: boolean, widgetId: string) {
-    this._handleMinimizedStateChange({ minimized, widgetId });
-  }
+
   @bound
   setWidgetVisible(widgetId: string, visible: boolean) {
     this._handleVisibleStateChange({ widgetId, visible });
@@ -73,6 +153,22 @@ export class EduTool {
   @bound
   sendWidgetVisible(widgetId: string, visible: boolean) {
     this._sendMessage(AgoraExtensionRoomEvent.VisibleChanged, { widgetId, visible });
+  }
+  @bound
+  sendWidgetPrivateChat(widgetId: string, userId: string) {
+    this._sendMessage(AgoraExtensionRoomEvent.PrivateChat, { widgetId, userId });
+  }
+  @bound
+  refreshWidget(widgetId: string) {
+    this._sendMessage(AgoraExtensionRoomEvent.Refresh, { widgetId });
+  }
+  @bound
+  openWebview(params: WebviewOpenParams) {
+    this._sendMessage(AgoraExtensionRoomEvent.OpenWebview, params);
+  }
+  @bound
+  openMediaStreamPlayer(params: StreamMediaPlayerOpenParams) {
+    this._sendMessage(AgoraExtensionRoomEvent.OpenStreamMediaPlayer, params);
   }
   install(controller: AgoraWidgetController) {
     this._controller = controller;

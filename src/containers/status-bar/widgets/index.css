@@ -15,3 +15,26 @@
 .fcr-status-bar-widget-slot .fcr-minimized-widget-icon:hover {
   @apply fcr-bg-brand;
 }
+.fcr-minimized-widget-item {
+  @apply fcr-rounded-4  fcr-text-1;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+.fcr-minimized-widget-item:hover {
+  @apply fcr-bg-brand;
+}
+.fcr-minimized-widget-container {
+  padding: 0 10px 20px;
+}
+.fcr-status-bar-widget-slot .fcr-minimized-widget-icon.fcr-minimized-widget-icon-collapsed {
+  @apply fcr-text-1;
+  padding: 0 8px 0 2px;
+  font-size: 14px;
+  gap: 3px;
+  width: auto;
+}

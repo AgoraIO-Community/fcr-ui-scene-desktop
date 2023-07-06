@@ -9,8 +9,15 @@ import { bound, Log, Logger } from 'agora-rte-sdk';
 import { action, computed, IReactionDisposer, observable, runInAction, toJS } from 'mobx';
 
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
-import { BoardConnectionState, BoardMountState, FcrBoardShape, FcrBoardTool } from './type';
+import {
+  BoardConnectionState,
+  BoardMountState,
+  FcrBoardMaterialWindowConfig,
+  FcrBoardShape,
+  FcrBoardTool,
+} from './type';
 import { getTheme } from '@onlineclass/utils/launch-options-holder';
+import { BoardH5WindowConfig, BoardMediaWindowConfig } from '@onlineclass/uistores/type';
 
 @Log.attach({ proxyMethods: false })
 export class Board {
@@ -85,6 +92,19 @@ export class Board {
   @bound
   clean() {
     this._sendBoardCommandMessage(AgoraExtensionRoomEvent.BoardClean);
+  }
+  openMaterialResourceWindow(resource: FcrBoardMaterialWindowConfig) {
+    this._sendBoardCommandMessage(AgoraExtensionRoomEvent.BoardOpenMaterialResourceWindow, [
+      resource,
+    ]);
+  }
+
+  openMediaResourceWindow(resource: BoardMediaWindowConfig) {
+    this._sendBoardCommandMessage(AgoraExtensionRoomEvent.BoardOpenMediaResourceWindow, [resource]);
+  }
+
+  openH5ResourceWindow(resource: BoardH5WindowConfig) {
+    this._sendBoardCommandMessage(AgoraExtensionRoomEvent.BoardOpenH5ResourceWindow, [resource]);
   }
   @bound
   putImageResource(url: string, pos?: { x: number; y: number; width: number; height: number }) {

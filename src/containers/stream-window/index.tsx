@@ -222,7 +222,10 @@ const StreamActions = observer(() => {
   const streamWindowContext = useContext(StreamWindowContext);
   const streamWindowMouseContext = useContext(StreamWindowMouseContext);
   const size = streamWindowContext?.labelSize;
+  const stream = streamWindowContext?.stream;
+
   const {
+    actionBarUIStore: { openChatDialog, setPrivateChat },
     participantsUIStore: { sendReward },
     streamUIStore: { pinnedStreamUuid, pinDisabled },
     classroomStore: {
@@ -308,6 +311,17 @@ const StreamActions = observer(() => {
         pinned ? removePin() : addPin(streamUuid);
       },
       visible: !pinDisabled,
+    },
+    {
+      key: 'privateChat',
+
+      icon: <SvgImg size={20} type={SvgIconEnum.FCR_CHAT2}></SvgImg>,
+      label: 'Private Chat',
+      onClick: async () => {
+        setPrivateChat(userUuid);
+        openChatDialog();
+      },
+      visible: !stream?.stream.isLocal || false,
     },
     {
       key: 'remove',

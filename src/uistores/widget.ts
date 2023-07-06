@@ -1,12 +1,8 @@
 import {
   AgoraMultiInstanceWidget,
-  AgoraTrackSyncedWidget,
   AgoraUiCapableConfirmDialogProps,
-  AgoraViewportBoundaries,
-  AgoraWidgetBase,
   AgoraWidgetLifecycle,
-  AgoraWidgetTrackMode,
-  AgoraWidgetTrackController,
+  AgoraOnlineclassSDKWidgetBase,
 } from 'agora-common-libs';
 import { WidgetState, AgoraWidgetTrack, AgoraWidgetController } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
@@ -20,16 +16,16 @@ import { CommonDialogType } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
-  private _registeredWidgets: Record<string, typeof AgoraWidgetBase> = {};
+  private _registeredWidgets: Record<string, typeof AgoraOnlineclassSDKWidgetBase> = {};
   @observable
-  private _widgetInstances: Record<string, AgoraWidgetBase> = {};
+  private _widgetInstances: Record<string, AgoraOnlineclassSDKWidgetBase> = {};
 
   private _stateListener = {
     onActive: this._handleWidgetActive,
     onInactive: this._handleWidgetInactive,
     onPropertiesUpdate: this._handlePropertiesUpdate,
     onUserPropertiesUpdate: this._handleUserPropertiesUpdate,
-    onTrackUpdate: this._handleTrackUpdate,
+    onTrackUpdate: () => {},
   };
 
   @computed
@@ -62,7 +58,6 @@ export class WidgetUIStore extends EduUIStoreBase {
     defaults?: {
       properties?: Record<string, any>;
       userProperties?: Record<string, any>;
-      trackProperties?: AgoraWidgetTrack;
     },
   ) {
     const [widgetName, instanceId] = this._extractWidgetNameId(widgetId);
@@ -88,23 +83,10 @@ export class WidgetUIStore extends EduUIStoreBase {
         this._createUiCapable(),
         getUiConfig(),
         getTheme(),
-      ) as AgoraWidgetBase;
+      ) as AgoraOnlineclassSDKWidgetBase;
 
       if (instanceId) {
         this._callWidgetSetInstanceId(widget, instanceId);
-      }
-
-      const trackProps =
-        widgetController.getWidgetTrack(widget.widgetId) || (defaults?.trackProperties ?? {});
-
-      const trackMode = this._getWidgetTrackMode(widget);
-
-      if (trackMode) {
-        const trackController = new AgoraWidgetTrackController(widget, trackProps, {
-          posOnly: trackMode === AgoraWidgetTrackMode.TrackPositionOnly,
-        });
-
-        widget.setTrackController(trackController);
       }
 
       const props =
@@ -126,9 +108,6 @@ export class WidgetUIStore extends EduUIStoreBase {
   destroyWidget(widgetId: string) {
     const widget = this._widgetInstances[widgetId];
     if (widget) {
-      if (widget.trackController) {
-        widget.trackController.destory();
-      }
       this._callWidgetDestroy(widget);
       delete this._widgetInstances[widgetId];
     }
@@ -147,7 +126,7 @@ export class WidgetUIStore extends EduUIStoreBase {
       ...defaults?.trackProperties,
     });
   }
-
+  @bound
   setWidgetInactive(widgetId: string) {
     this.classroomStore.widgetStore.setInactive(widgetId);
   }
@@ -183,63 +162,55 @@ export class WidgetUIStore extends EduUIStoreBase {
     }
   }
 
-  @bound
-  private _handleTrackUpdate(widgetId: string, trackProps: unknown) {
-    const widget = this._widgetInstances[widgetId];
-    if (widget) {
-      this._callWidgetUpdateTrack(widget, trackProps);
-    }
-  }
-
-  private _callWidgetCreate(widget: AgoraWidgetBase, props: unknown, userProps: unknown) {
+  private _callWidgetCreate(
+    widget: AgoraOnlineclassSDKWidgetBase,
+    props: unknown,
+    userProps: unknown,
+  ) {
     if ((widget as unknown as AgoraWidgetLifecycle).onCreate) {
       (widget as unknown as AgoraWidgetLifecycle).onCreate(props, userProps);
     }
   }
 
-  private _callWidgetSetInstanceId(widget: AgoraWidgetBase, instanceId: string) {
+  private _callWidgetSetInstanceId(widget: AgoraOnlineclassSDKWidgetBase, instanceId: string) {
     if ((widget as unknown as AgoraMultiInstanceWidget).setInstanceId) {
       (widget as unknown as AgoraMultiInstanceWidget).setInstanceId(instanceId);
     }
   }
 
-  private _callWidgetPropertiesUpdate(widget: AgoraWidgetBase, props: unknown) {
+  private _callWidgetPropertiesUpdate(widget: AgoraOnlineclassSDKWidgetBase, props: unknown) {
     if ((widget as unknown as AgoraWidgetLifecycle).onPropertiesUpdate) {
       (widget as unknown as AgoraWidgetLifecycle).onPropertiesUpdate(props);
     }
   }
-  private _callWidgetUserPropertiesUpdate(widget: AgoraWidgetBase, userProps: unknown) {
+  private _callWidgetUserPropertiesUpdate(
+    widget: AgoraOnlineclassSDKWidgetBase,
+    userProps: unknown,
+  ) {
     if ((widget as unknown as AgoraWidgetLifecycle).onUserPropertiesUpdate) {
       (widget as unknown as AgoraWidgetLifecycle).onUserPropertiesUpdate(userProps);
     }
   }
 
-  private _callWidgetDestroy(widget: AgoraWidgetBase) {
+  private _callWidgetDestroy(widget: AgoraOnlineclassSDKWidgetBase) {
     if ((widget as unknown as AgoraWidgetLifecycle).onDestroy) {
       (widget as unknown as AgoraWidgetLifecycle).onDestroy();
     }
   }
 
-  private _callWidgetUpdateTrack(widget: AgoraWidgetBase, trackProps: unknown) {
-    if ((widget as unknown as AgoraTrackSyncedWidget).updateToLocal) {
-      (widget as unknown as AgoraTrackSyncedWidget).updateToLocal(trackProps as AgoraWidgetTrack);
-      (widget as unknown as AgoraTrackSyncedWidget).updateZIndexToLocal(
-        (trackProps as AgoraWidgetTrack).zIndex ?? 0,
-      );
-    }
-  }
-
-  private _getWidgetTrackMode(widget: AgoraWidgetBase) {
-    return (widget as unknown as AgoraTrackSyncedWidget).trackMode;
-  }
-
-  private _callWidgetInstall(widget: AgoraWidgetBase, controller: AgoraWidgetController) {
+  private _callWidgetInstall(
+    widget: AgoraOnlineclassSDKWidgetBase,
+    controller: AgoraWidgetController,
+  ) {
     if ((widget as unknown as AgoraWidgetLifecycle).onInstall) {
       (widget as unknown as AgoraWidgetLifecycle).onInstall(controller);
     }
   }
 
-  private _callWidgetUninstall(widget: AgoraWidgetBase, controller: AgoraWidgetController) {
+  private _callWidgetUninstall(
+    widget: AgoraOnlineclassSDKWidgetBase,
+    controller: AgoraWidgetController,
+  ) {
     if ((widget as unknown as AgoraWidgetLifecycle).onUninstall) {
       (widget as unknown as AgoraWidgetLifecycle).onUninstall(controller);
     }
@@ -312,14 +283,6 @@ export class WidgetUIStore extends EduUIStoreBase {
     };
   }
 
-  @bound
-  private _notifyViewportChange(boundaries?: AgoraViewportBoundaries) {
-    if (boundaries) {
-      this.widgetInstanceList.forEach((instance) => {
-        instance.onViewportBoundaryUpdate(boundaries);
-      });
-    }
-  }
   @bound
   private _handlePollActiveStateChanged(state: boolean) {
     if (this.getters.isStudent && !state) {
@@ -404,10 +367,6 @@ export class WidgetUIStore extends EduUIStoreBase {
           }
         },
       ),
-    );
-
-    this._disposers.push(
-      reaction(() => this.getters.viewportBoundaries, this._notifyViewportChange),
     );
   }
 

@@ -27,3 +27,24 @@
   top: 0;
   left: 0;
 }
+.fcr-widget-dialog-transition-enter {
+  transform: scale(0);
+}
+.fcr-widget-dialog-transition-enter-active {
+  transform: scale(1);
+  transform-origin: 50% 50%;
+  transition: all 0.5s;
+}
+.fcr-widget-dialog-transition-enter-done {
+  transform: scale(1);
+}
+.fcr-widget-dialog-transition-exit {
+  transform: scale(1);
+}
+.fcr-widget-dialog-transition-exit-active {
+  transform: scale(0);
+  transition: all 0.5s;
+}
+.fcr-widget-dialog-transition-exit-done {
+  transform: scale(0);
+}

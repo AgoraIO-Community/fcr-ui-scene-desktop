@@ -30,3 +30,11 @@ export enum FcrBoardShape {
   Pentagram = 7,
   Ellipse = 8,
 }
+export type FcrBoardMaterialWindowConfig<T = unknown> = {
+  resourceUuid: string;
+  urlPrefix: string;
+  title: string;
+  pageList: T[];
+  taskUuid: string;
+  resourceHasAnimation: boolean;
+};
