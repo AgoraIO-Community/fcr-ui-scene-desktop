@@ -19,6 +19,7 @@ import { ToolTip } from '@components/tooltip';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './dialog.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { Boundaries, Size, clampBounds } from '@onlineclass/utils/clamp-bounds';
 interface WidgetDialogProps extends PropsWithChildren {
   widget: AgoraOnlineclassSDKWidgetBase & AgoraOnlineclassSDKDialogWidget;
 }
@@ -26,9 +27,6 @@ export const WINDOW_TITLE_HEIGHT = 28;
 // width / height
 export const WINDOW_ASPECT_RATIO = 1836 / 847;
 export const videoRowClassName = 'fcr-layout-content-video-list-row';
-type Size = { width: number; height: number };
-
-type Boundaries = Size & { top: number; left: number };
 
 export const layoutContentClassName = 'fcr-layout-content-main-view';
 
@@ -46,7 +44,12 @@ export const WidgetDialog = observer(
     });
     const {
       widgetUIStore: { destroyWidget, setWidgetInactive },
-      eduToolApi: { isWidgetMinimized, setMinimizedState, refreshWidget },
+      eduToolApi: {
+        isWidgetMinimized,
+        setMinimizedState,
+        refreshWidget,
+        updateWidgetDialogBoundaries,
+      },
       participantsUIStore: { isHost },
     } = useStore();
     const minimized = isWidgetMinimized(widget.widgetId);
@@ -140,10 +143,11 @@ export const WidgetDialog = observer(
         minimized: true,
         widgetId: widget.widgetId,
         minimizeProperties: {
-          minimizedTooltip: widget.widgetName,
+          minimizedTooltip: widget.displayName || widget.widgetName,
           minimizedIcon: widget.minimizeProperties?.minimizedIcon as SvgIconEnum,
           minimizedKey: widget.minimizeProperties?.minimizedKey || widget.widgetId,
           minimizedCollapsed: widget.minimizeProperties?.minimizedCollapsed || false,
+          minimizedCollapsedIcon: widget.minimizeProperties?.minimizedCollapsedIcon as SvgIconEnum,
         },
       });
     };
@@ -209,6 +213,7 @@ export const WidgetDialog = observer(
       }
 
       rndInstance.current.updateSize(size);
+      updateWidgetDialogBoundaries(widget.widgetId, size);
     };
 
     const { style: miniStyle, ref: miniRef } = useMinimize({
@@ -231,6 +236,9 @@ export const WidgetDialog = observer(
       <Rnd
         onResize={() => {
           if (fitted) setFitted(false);
+        }}
+        onResizeStop={(_e, _dir, _ele, delta) => {
+          updateWidgetDialogBoundaries(widget.widgetId, delta);
         }}
         style={rndStyle}
         ref={rndInstance}
@@ -255,7 +263,7 @@ export const WidgetDialog = observer(
         <div className={clsn} ref={miniRef} style={miniStyle}>
           <div ref={ref} className="fcr-widget-dialog-zindex-wrapper">
             <div className={`fcr-widget-dialog-title-bar`}>
-              <span>{widget.widgetName}</span>
+              <span>{widget.displayName || widget.widgetName}</span>
               <div className={`fcr-widget-dialog-title-actions`}>
                 <ul>
                   {widget?.refreshable && (
@@ -323,34 +331,3 @@ export const WidgetDialog = observer(
     );
   }),
 );
-const clampBounds = (selfBoundaries: Boundaries, containerBoundaries: Boundaries) => {
-  const newBounds = {
-    width: selfBoundaries.width,
-    height: selfBoundaries.height,
-    x: selfBoundaries.left,
-    y: selfBoundaries.top,
-  };
-  if (selfBoundaries.left < containerBoundaries.left) {
-    newBounds.x = containerBoundaries.left;
-  }
-
-  if (selfBoundaries.top < containerBoundaries.top) {
-    newBounds.y = containerBoundaries.top;
-  }
-
-  if (
-    selfBoundaries.width + selfBoundaries.left >
-    containerBoundaries.width + containerBoundaries.left
-  ) {
-    newBounds.width = containerBoundaries.width + containerBoundaries.left - selfBoundaries.left;
-  }
-
-  if (
-    selfBoundaries.height + selfBoundaries.top >
-    containerBoundaries.height + containerBoundaries.top
-  ) {
-    newBounds.height = containerBoundaries.height + containerBoundaries.top - selfBoundaries.top;
-  }
-
-  return newBounds;
-};

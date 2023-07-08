@@ -17,16 +17,32 @@
 }
 .fcr-minimized-widget-item {
   @apply fcr-rounded-4  fcr-text-1;
-  height: 32px;
+  min-height: 32px;
   display: flex;
   align-items: center;
   gap: 7px;
   cursor: pointer;
   font-size: 12px;
   font-weight: 500;
+  padding: 0 6px;
 }
+
 .fcr-minimized-widget-item:hover {
   @apply fcr-bg-brand;
+}
+.fcr-minimized-widget-item div {
+  flex: 1;
+  padding: 8px 0;
+}
+.fcr-minimized-widget-item span {
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-height: 15px;
 }
 .fcr-minimized-widget-container {
   padding: 0 10px 20px;
@@ -37,4 +53,10 @@
   font-size: 14px;
   gap: 3px;
   width: auto;
+}
+.fcr-minimized-widget-container-title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 16px 16px 13px 16px;
 }

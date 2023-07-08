@@ -20,14 +20,14 @@ export const StatusBarWidgetSlot = observer(() => {
       {eduToolApi.minimizedWidgetIcons.reverse().map((item, index) => {
         if (item instanceof Array) {
           const firstItem = item[0];
-          const { icon } = firstItem;
+          const { minimizedIcon } = firstItem;
           return (
             <Popover
               overlayInnerStyle={{
                 width: 207,
               }}
               mouseEnterDelay={0}
-              placement="bottomRight"
+              placement="bottom"
               content={
                 <WidgetMinimizedPopoverContent
                   widgetList={item}
@@ -38,7 +38,7 @@ export const StatusBarWidgetSlot = observer(() => {
               <div
                 className="fcr-minimized-widget-icon fcr-minimized-widget-icon-collapsed"
                 key={index.toString()}>
-                <SvgImg type={icon} size={20} />
+                <SvgImg type={minimizedIcon} size={20} />
                 {item.length}
               </div>
             </Popover>
@@ -62,6 +62,7 @@ export const StatusBarWidgetSlot = observer(() => {
 });
 const WidgetMinimizedPopoverContent = (props: {
   widgetList: {
+    key: string;
     icon: SvgIconEnum;
     tooltip?: string;
     widgetId?: string;
@@ -69,8 +70,10 @@ const WidgetMinimizedPopoverContent = (props: {
   onClick: (widgetId: string) => void;
 }) => {
   const { widgetList, onClick } = props;
+  const { key } = widgetList[0];
   return (
     <div className="fcr-minimized-widget-container">
+      <div className="fcr-minimized-widget-container-title">{key}</div>
       {widgetList.map((w) => {
         return (
           <div
@@ -79,8 +82,10 @@ const WidgetMinimizedPopoverContent = (props: {
             }}
             key={w.widgetId}
             className="fcr-minimized-widget-item">
-            <SvgImg type={w.icon}></SvgImg>
-            <span>{w.tooltip}</span>
+            <SvgImg type={w.icon} size={30}></SvgImg>
+            <div>
+              <span>{w.tooltip}</span>
+            </div>
           </div>
         );
       })}

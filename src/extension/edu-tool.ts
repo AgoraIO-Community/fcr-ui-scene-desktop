@@ -5,6 +5,7 @@ import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
 import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
+import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs/*';
 
 @Log.attach({ proxyMethods: false })
 export class EduTool {
@@ -18,7 +19,7 @@ export class EduTool {
   private _minimizedStateMap = new Map<
     string,
     | { icon: SvgIconEnum; tooltip?: string }
-    | { icon: SvgIconEnum; tooltip?: string; widgetId?: string }[]
+    | { icon: SvgIconEnum; tooltip?: string; widgetId?: string; minimizedIcon: SvgIconEnum }[]
   >();
 
   @computed
@@ -26,11 +27,13 @@ export class EduTool {
     return Array.from(this._minimizedStateMap.entries()).map(([key, value]) => {
       if (value instanceof Array) {
         return value.map((widget) => {
-          const { icon, tooltip, widgetId } = widget;
+          const { icon, tooltip, widgetId, minimizedIcon } = widget;
           return {
+            key,
             icon,
             tooltip,
             widgetId,
+            minimizedIcon,
           };
         });
       } else {
@@ -61,11 +64,8 @@ export class EduTool {
   setMinimizedState(params: {
     minimized: boolean;
     widgetId: string;
-    minimizeProperties: {
+    minimizeProperties: AgoraOnlineclassSDKMinimizableWidget['minimizeProperties'] & {
       minimizedTooltip?: string;
-      minimizedIcon?: SvgIconEnum;
-      minimizedKey?: string;
-      minimizedCollapsed: boolean;
     };
   }) {
     this._handleMinimizedStateChange(params);
@@ -78,11 +78,8 @@ export class EduTool {
   }: {
     minimized: boolean;
     widgetId: string;
-    minimizeProperties: {
+    minimizeProperties: AgoraOnlineclassSDKMinimizableWidget['minimizeProperties'] & {
       minimizedTooltip?: string;
-      minimizedIcon?: SvgIconEnum;
-      minimizedKey?: string;
-      minimizedCollapsed: boolean;
     };
   }) {
     const {
@@ -90,6 +87,7 @@ export class EduTool {
       minimizedIcon = SvgIconEnum.FCR_CLOSE,
       minimizedKey = '',
       minimizedCollapsed,
+      minimizedCollapsedIcon,
     } = minimizeProperties;
     if (minimized) {
       if (minimizedCollapsed) {
@@ -100,12 +98,16 @@ export class EduTool {
         if (isMinimized) return;
         minimizedList.push({
           widgetId,
-          icon: minimizedIcon,
+          icon: minimizedIcon as SvgIconEnum,
           tooltip: minimizedTooltip,
+          minimizedIcon: minimizedCollapsedIcon as SvgIconEnum,
         });
         this._minimizedStateMap.set(minimizedKey, minimizedList);
       } else {
-        this._minimizedStateMap.set(widgetId, { icon: minimizedIcon, tooltip: minimizedTooltip });
+        this._minimizedStateMap.set(widgetId, {
+          icon: minimizedIcon as SvgIconEnum,
+          tooltip: minimizedTooltip,
+        });
       }
     } else {
       if (minimizedCollapsed) {
@@ -169,6 +171,16 @@ export class EduTool {
   @bound
   openMediaStreamPlayer(params: StreamMediaPlayerOpenParams) {
     this._sendMessage(AgoraExtensionRoomEvent.OpenStreamMediaPlayer, params);
+  }
+  @bound
+  updateWidgetDialogBoundaries(
+    widgetId: string,
+    params: { width: string | number; height: string | number },
+  ) {
+    this._sendMessage(AgoraExtensionRoomEvent.WidgetDialogBoundariesChanged, {
+      widgetId,
+      ...params,
+    });
   }
   install(controller: AgoraWidgetController) {
     this._controller = controller;

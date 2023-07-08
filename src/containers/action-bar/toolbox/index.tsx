@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { ActionBarItemWithPopover } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
-import { PredefinedWidgetTrack } from 'agora-common-libs';
+import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 export const ToolBox = observer(() => {
   const {
@@ -93,8 +93,12 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
         minimized: false,
         widgetId: id,
         minimizeProperties: {
-          minimizedCollapsed: widgetUIStore.widgetInstanceList.find((w) => w.widgetId === id)
-            ?.minimizeProperties?.minimizedCollapsed,
+          minimizedCollapsed:
+            (
+              widgetUIStore.widgetInstanceList.find(
+                (w) => w.widgetId === id,
+              ) as AgoraOnlineclassSDKMinimizableWidget
+            )?.minimizeProperties?.minimizedCollapsed || false,
         },
       });
     } else {

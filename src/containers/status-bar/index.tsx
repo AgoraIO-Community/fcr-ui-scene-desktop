@@ -21,7 +21,6 @@ export const StatusBar = observer(() => {
   const {
     layoutUIStore: { showStatusBar, setIsPointingBar, noAvailabelStream },
     statusBarUIStore: { localUser, isStudent },
-    presentationUIStore: { isBoardWidgetActive },
   } = useStore();
   const { logo } = getConfig();
   const userUuid = localUser?.userUuid || '';
@@ -77,7 +76,6 @@ const StatusBarCollapeButton = observer(() => {
   const {
     layoutUIStore: { layout, showListView, toggleShowListView },
   } = useStore();
-  console.log(showListView, 'showListView');
   const visible = !showListView && layout === Layout.ListOnTop;
   return visible ? (
     <ToolTip placement="bottom" content={'Show lectern'}>
