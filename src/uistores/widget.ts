@@ -6,7 +6,7 @@ import {
 } from 'agora-common-libs';
 import { WidgetState, AgoraWidgetTrack, AgoraWidgetController } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
-import { action, computed, observable, reaction } from 'mobx';
+import { action, computed, observable, reaction, trace } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { getLaunchOptions, getUiConfig, getTheme } from '@onlineclass/utils/launch-options-holder';
 import { ToastApi } from '@components/toast';
@@ -302,13 +302,15 @@ export class WidgetUIStore extends EduUIStoreBase {
       reaction(
         () => ({
           controller: this.classroomStore.widgetStore.widgetController,
-          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+          // widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
           ready: this.getters.layoutReady,
         }),
-        ({ widgetIds, ready, controller }) => {
+        ({ ready, controller }) => {
+          trace();
+          const widgetIds = controller?.widgetIds || [];
           // wait until the layout is ready
           if (ready && controller) {
-            widgetIds?.forEach((widgetId) => {
+            widgetIds.forEach((widgetId) => {
               const state = controller.getWidgetState(widgetId);
 
               if (state === WidgetState.Active || widgetId === 'easemobIM') {

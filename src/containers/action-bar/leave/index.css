@@ -12,3 +12,49 @@
   flex-direction: column;
   gap: 15px;
 }
+
+.fcr-leave-subroom-action {
+  width: 130px;
+}
+
+.fcr-leave-subroom-action .fcr-action-bar-item-icon {
+  @apply fcr-bg-brand;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  height: 24px;
+  width: 63px;
+}
+.fcr-leave-subroom-action .fcr-action-bar-item-icon svg {
+  margin-top: -5px;
+}
+
+.fcr-leave-room-action .fcr-action-bar-item-icon {
+  @apply fcr-bg-red;
+  border-radius: 8px;
+  height: 24px;
+  width: 24px;
+}
+
+.fcr-leave-room-action .fcr-action-bar-item-icon svg {
+  margin-top: -6px;
+  margin-left: -6px;
+}
+
+.fcr-leave-room-action .fcr-action-bar-item,
+.fcr-leave-subroom-action .fcr-action-bar-item {
+  justify-content: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.fcr-leave-room-action .fcr-action-bar-item-icon,
+.fcr-leave-subroom-action .fcr-action-bar-item-icon {
+  border-radius: 8px;
+  margin-bottom: 3px;
+}
+
+.fcr-leave-subroom-action .fcr-action-bar-item-icon {
+  display: flex;
+  justify-content: center;
+}

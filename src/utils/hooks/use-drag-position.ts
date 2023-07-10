@@ -10,11 +10,23 @@ export const useDraggablePosition = ({
   const [position, setPosition] = useState(initPosition);
   const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    centered &&
-      setPosition({
-        x: document.body.getBoundingClientRect().width / 2 - (ref.current?.offsetWidth || 0) / 2,
-        y: document.body.getBoundingClientRect().height / 2 - (ref.current?.offsetHeight || 0) / 2,
-      });
+    reposition();
   }, []);
-  return { position, setPosition, ref };
+
+  const moveToCenter = () => {
+    setPosition({
+      x: document.body.getBoundingClientRect().width / 2 - (ref.current?.offsetWidth || 0) / 2,
+      y: document.body.getBoundingClientRect().height / 2 - (ref.current?.offsetHeight || 0) / 2,
+    });
+  };
+
+  const reposition = () => {
+    if (centered) {
+      moveToCenter();
+    } else {
+      setPosition(initPosition);
+    }
+  };
+
+  return { position, setPosition, reposition, ref };
 };

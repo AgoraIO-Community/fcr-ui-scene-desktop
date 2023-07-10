@@ -8,15 +8,33 @@ import { Popover } from '@components/popover';
 import { Button } from '@components/button';
 import { useEffect, useState } from 'react';
 import { ClassState } from 'agora-edu-core';
+
 export const Leave = observer(() => {
   const {
     actionBarUIStore: { setShowLeaveOption },
+    breakoutUIStore: { currentSubRoomInfo, leaveSubRoom },
   } = useStore();
-  return (
+
+  return currentSubRoomInfo ? (
     <ToolTip content="Leave">
       <ActionBarItem
+        classNames="fcr-leave-subroom-action"
+        onClick={leaveSubRoom}
+        icon={{
+          type: SvgIconEnum.FCR_QUIT2,
+          size: 36,
+        }}
+        text={'Leave breakout room'}></ActionBarItem>
+    </ToolTip>
+  ) : (
+    <ToolTip content="Leave">
+      <ActionBarItem
+        classNames="fcr-leave-room-action"
         onClick={() => setShowLeaveOption(true)}
-        icon={SvgIconEnum.FCR_QUIT2}
+        icon={{
+          type: SvgIconEnum.FCR_QUIT2,
+          size: 36,
+        }}
         text={'Leave'}></ActionBarItem>
     </ToolTip>
   );

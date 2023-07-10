@@ -17,7 +17,6 @@ export const CoverView = () => {
         pointerEvents: 'none',
       }}>
       <StatusBar></StatusBar>
-
       <ActionBar></ActionBar>
     </div>
   );

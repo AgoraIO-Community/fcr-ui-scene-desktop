@@ -27,6 +27,7 @@ import { ParticipantsUIStore } from './participants';
 import { NotiticationUIStore } from './notification';
 import { EduTool } from '@onlineclass/extension/edu-tool';
 import { CloudUIStore } from './cloud';
+import { BreakoutUIStore } from './breakout';
 
 export class OnlineclassUIStore {
   @observable
@@ -47,6 +48,7 @@ export class OnlineclassUIStore {
   readonly participantsUIStore: ParticipantsUIStore;
   readonly notiticationUIStore: NotiticationUIStore;
   readonly cloudUIStore: CloudUIStore;
+  readonly breakoutUIStore: BreakoutUIStore;
 
   readonly boardApi = new Board();
   readonly eduToolApi = new EduTool();
@@ -66,6 +68,7 @@ export class OnlineclassUIStore {
     this.participantsUIStore = new ParticipantsUIStore(this.classroomStore, this.getters);
     this.notiticationUIStore = new NotiticationUIStore(this.classroomStore, this.getters);
     this.cloudUIStore = new CloudUIStore(this.classroomStore, this.getters);
+    this.breakoutUIStore = new BreakoutUIStore(this.classroomStore, this.getters);
   }
 
   get initialized() {

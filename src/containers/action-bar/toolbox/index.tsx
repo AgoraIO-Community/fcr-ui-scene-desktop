@@ -6,6 +6,7 @@ import { observer } from 'mobx-react';
 import './index.css';
 import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
+import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 export const ToolBox = observer(() => {
   const {
     layoutUIStore: { setHasPopoverShowed },
@@ -54,7 +55,12 @@ export const ToolBox = observer(() => {
 });
 const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) => {
   const { getters } = useStore();
-  const isWidgetActive = (widgetId: string) => getters.activeWidgetIds.includes(widgetId);
+  const isWidgetActive = (widgetId: string) => {
+    if (widgetId === 'breakout') {
+      return getters.isBreakoutActive;
+    }
+    return getters.activeWidgetIds.includes(widgetId);
+  };
   return (
     <div className="fcr-toolbox-popover-content">
       <div className="fcr-toolbox-popover-title">ToolBox</div>
@@ -62,6 +68,7 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
         {[
           // { label: 'Timer', id: 'timer', icon: SvgIconEnum.FCR_V2_TIMER },
           { label: 'Poll', id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
+          { label: 'Breakout Room', id: 'breakout', icon: SvgIconEnum.FCR_V2_BREAKROOM },
         ].map(({ id, icon, label }) => (
           <ToolBoxItem
             key={id}
@@ -85,7 +92,8 @@ interface ToolBoxItemProps {
 }
 const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
   const { icon, label, active, id, onClick } = props;
-  const { widgetUIStore, eduToolApi } = useStore();
+  const { widgetUIStore, eduToolApi, breakoutUIStore } = useStore();
+  const { updateZIndex } = useZIndex('breakout');
 
   const handleClick = () => {
     if (eduToolApi.isWidgetMinimized(id)) {
@@ -102,8 +110,15 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
         },
       });
     } else {
-      widgetUIStore.createWidget(id);
+      if (id === 'breakout') {
+        updateZIndex();
+
+        breakoutUIStore.setDialogVisible(true);
+      } else {
+        widgetUIStore.createWidget(id);
+      }
     }
+
     onClick();
   };
 

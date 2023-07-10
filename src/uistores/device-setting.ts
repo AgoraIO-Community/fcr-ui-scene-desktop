@@ -174,6 +174,14 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this._beautyOptions?.blush;
   }
 
+  get pretestCameraEnabled() {
+    return this._pretestCameraEnabled;
+  }
+
+  get pretestMicEnabled() {
+    return this._pretestMicEnabled;
+  }
+
   /**
    * 麦克风测试音量
    * @returns 音量 0 ~ 1
@@ -265,6 +273,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   get cameraAccessors() {
     return {
       classroomState: this.classroomStore.connectionStore.classroomState,
+      subRoomState: this.classroomStore.connectionStore.subRoomState,
       cameraDeviceId: this._cameraDeviceId,
       localCameraStream: this.classroomStore.streamStore.streamByStreamUuid.get(
         this.classroomStore.streamStore.localCameraStreamUuid || '',
@@ -282,6 +291,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   get micAccessors() {
     return {
       classroomState: this.classroomStore.connectionStore.classroomState,
+      subRoomState: this.classroomStore.connectionStore.subRoomState,
       recordingDeviceId: this._audioRecordingDeviceId,
       localMicStream: this.classroomStore.streamStore.streamByStreamUuid.get(
         this.classroomStore.streamStore.localMicStreamUuid || '',

@@ -22,6 +22,7 @@ import { ParticipantsDialog } from '../participants/dialog';
 import { ZIndexContext, useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { WidgetDialog } from './dialog';
+import { BreakoutDialog } from '../breakout-room';
 export const WidgetContainer = observer(() => {
   const {
     widgetUIStore: { z0Widgets, z10Widgets },
@@ -32,6 +33,7 @@ export const WidgetContainer = observer(() => {
       <React.Fragment>
         <div className="fcr-widget-container fcr-z-0">
           <ParticipantsDialogWrapper></ParticipantsDialogWrapper>
+          <BreakoutDialogWrapper></BreakoutDialogWrapper>
           <TransitionGroup>
             {z0Widgets.map((w: AgoraOnlineclassSDKWidgetBase) => {
               const ref = createRef<HTMLDivElement>();
@@ -213,6 +215,24 @@ const ParticipantsDialogWrapper = observer(() => {
       unmountOnExit
       classNames="fcr-widget-dialog-transition">
       <ParticipantsDialog ref={ref}></ParticipantsDialog>
+    </CSSTransition>
+  );
+});
+
+const BreakoutDialogWrapper = observer(() => {
+  const ref = useRef<HTMLDivElement>(null);
+  const {
+    breakoutUIStore: { breakoutDialogVisible },
+  } = useStore();
+
+  return (
+    <CSSTransition
+      nodeRef={ref}
+      in={breakoutDialogVisible}
+      timeout={500}
+      unmountOnExit
+      classNames="fcr-widget-dialog-transition">
+      <BreakoutDialog ref={ref}></BreakoutDialog>
     </CSSTransition>
   );
 });

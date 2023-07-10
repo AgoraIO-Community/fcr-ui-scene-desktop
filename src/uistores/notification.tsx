@@ -6,6 +6,7 @@ import {
   ClassState,
   EduClassroomConfig,
   EduEventCenter,
+  EduRoleTypeEnum,
   LeaveReason,
 } from 'agora-edu-core';
 import { bound } from 'agora-rte-sdk';
@@ -225,7 +226,125 @@ export class NotiticationUIStore extends EduUIStoreBase {
     //     );
     //   }
     // }
+
+    // user join group
+    if (event === AgoraEduClassroomEvent.UserJoinGroup) {
+      const { role } = EduClassroomConfig.shared.sessionInfo;
+      const { groupUuid, users }: { groupUuid: string; users: [] } = param;
+      const { teacherList, studentList, assistantList } =
+        this.classroomStore.userStore.mainRoomDataStore;
+
+      const teachers = this._filterUsers(users, teacherList);
+      const students = this._filterUsers(users, studentList);
+      const assistants = this._filterUsers(users, assistantList);
+
+      const isCurrentRoom = this.classroomStore.groupStore.currentSubRoom === groupUuid;
+
+      if (isCurrentRoom) {
+        if (teachers.length) {
+          if (role === EduRoleTypeEnum.student) {
+            ToastApi.open({
+              toastProps: {
+                type: 'normal',
+                content: `Teacher ${teachers.join(',')} has joined group`,
+              },
+            });
+          }
+        }
+
+        if (assistants.length) {
+          if (role === EduRoleTypeEnum.student) {
+            ToastApi.open({
+              toastProps: {
+                type: 'normal',
+                content: `Assistant ${assistants.join(',')} has joined group`,
+              },
+            });
+          }
+        }
+
+        if (students.length) {
+          if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
+            ToastApi.open({
+              toastProps: {
+                type: 'normal',
+                content: `Student ${students.join(',')} has joined group`,
+              },
+            });
+          }
+        }
+      }
+    }
+    // user leave group
+    if (event === AgoraEduClassroomEvent.UserLeaveGroup) {
+      const { role } = EduClassroomConfig.shared.sessionInfo;
+      const { groupUuid, users }: { groupUuid: string; users: [] } = param;
+      const { teacherList, studentList, assistantList } =
+        this.classroomStore.userStore.mainRoomDataStore;
+
+      const teachers = this._filterUsers(users, teacherList);
+      const students = this._filterUsers(users, studentList);
+      const assistants = this._filterUsers(users, assistantList);
+
+      const isCurrentRoom = this.classroomStore.groupStore.currentSubRoom === groupUuid;
+
+      if (isCurrentRoom) {
+        if (teachers.length) {
+          if (role === EduRoleTypeEnum.student) {
+            ToastApi.open({
+              toastProps: {
+                type: 'warn',
+                content: `Teacher ${teachers.join(',')} has left group`,
+              },
+            });
+          }
+        }
+
+        if (assistants.length) {
+          if (role === EduRoleTypeEnum.student) {
+            ToastApi.open({
+              toastProps: {
+                type: 'warn',
+                content: `Assistant ${assistants.join(',')} has left group`,
+              },
+            });
+          }
+        }
+
+        if (students.length) {
+          if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
+            ToastApi.open({
+              toastProps: {
+                type: 'warn',
+                content: `Student ${students.join(',')} has left group`,
+              },
+            });
+          }
+        }
+      }
+    }
+
+    if (event === AgoraEduClassroomEvent.RejectedToGroup) {
+      const { inviting } = param;
+      const { role } = EduClassroomConfig.shared.sessionInfo;
+      if (role === EduRoleTypeEnum.student && inviting) {
+        this.getters.classroomUIStore.layoutUIStore.addDialog('class-info', {
+          title: 'Request help',
+          content: 'The teacher is currently helping others. Please try again later.',
+        });
+      }
+    }
   }
+
+  private _filterUsers(
+    users: string[],
+    userList: Map<string, { userUuid: string; userName: string }>,
+  ) {
+    return users
+      .filter((userUuid: string) => userList.has(userUuid))
+      .map((userUuid: string) => userList.get(userUuid)?.userName || 'unknown');
+  }
+
   private _getStateErrorReason(reason?: string): string {
     switch (reason) {
       case 'REMOTE_LOGIN':

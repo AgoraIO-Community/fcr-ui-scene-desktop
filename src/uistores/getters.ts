@@ -145,4 +145,12 @@ export class Getters {
   get activeWidgetIds() {
     return this._classroomUIStore.widgetUIStore.widgetInstanceList.map((w) => w.widgetId);
   }
+
+  get isBreakoutActive() {
+    return (
+      this._classroomUIStore.breakoutUIStore.breakoutDialogVisible ||
+      this.eduTool.isWidgetMinimized('breakout') ||
+      !!this.classroomUIStore.breakoutUIStore.groupState
+    );
+  }
 }

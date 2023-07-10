@@ -48,10 +48,15 @@ export class ParticipantsUIStore extends EduUIStoreBase {
   }
   @computed
   get participantList() {
+    const { groupUuidByUserUuid } = this.classroomStore.groupStore;
     const { list } = iterateMap(this.classroomStore.userStore.users, {
       onFilter: (_, item) => {
+        const currentRoomId = this.classroomStore.connectionStore.sceneId;
+        const userGroupUuid = groupUuidByUserUuid.get(item.userUuid) || currentRoomId;
+
         return (
-          item.userRole === EduRoleTypeEnum.teacher || item.userRole === EduRoleTypeEnum.student
+          currentRoomId === userGroupUuid &&
+          (item.userRole === EduRoleTypeEnum.teacher || item.userRole === EduRoleTypeEnum.student)
         );
       },
       onMap: (_, item) => {

@@ -1,3 +1,6 @@
+import { AskHelpList } from '@onlineclass/containers/breakout-room/ask-help-list';
+import { GroupInfoPanel } from '@onlineclass/containers/breakout-room/group-info-panel';
+import { GroupStatusPanel } from '@onlineclass/containers/breakout-room/group-status-panel';
 import { CoverView } from '@onlineclass/containers/layout/cover-view';
 import { GalleryView } from '@onlineclass/containers/layout/gallery-view';
 import { PresentationView } from '@onlineclass/containers/layout/presentation-view';
@@ -18,6 +21,9 @@ export const ClassroomLayout = observer(() => {
       <CoverView></CoverView>
       {layout === Layout.Grid ? <GalleryView></GalleryView> : <PresentationView></PresentationView>}
       <WidgetContainer />
+      <GroupInfoPanel />
+      <GroupStatusPanel />
+      <AskHelpList />
     </>
   );
 });

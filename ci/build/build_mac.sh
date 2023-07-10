@@ -19,10 +19,6 @@ lib_branches=(
     release/2.9.0
 )
 
-repos=(
-    ../agora-scenario-ui-kit-desktop
-)
-
 . ../apaas-cicd-web/utilities/tools.sh
 . ../apaas-cicd-web/build/$ci_script_version/dependency.sh
 . ../apaas-cicd-web/build/$ci_script_version/build.sh
