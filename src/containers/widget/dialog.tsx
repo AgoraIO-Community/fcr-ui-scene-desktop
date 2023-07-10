@@ -1,14 +1,6 @@
 import { useMinimize } from '@ui-kit-utils/hooks/animations';
 import { observer } from 'mobx-react';
-import {
-  CSSProperties,
-  FC,
-  PropsWithChildren,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { CSSProperties, PropsWithChildren, forwardRef, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import classNames from 'classnames';
 import {

@@ -26,6 +26,9 @@ export const PersonalResource = observer(() => {
   const { columns, selectedResources } = usePersonalTableColumns({ tableRowHover });
   const reloadRef = useRef<HTMLDivElement>(null);
   const {
+    classroomStore: {
+      cloudDriveStore: { retryUpload },
+    },
     cloudUIStore: {
       fileNameToType,
       personalResourcesList,
@@ -52,6 +55,9 @@ export const PersonalResource = observer(() => {
   const hasUploadingFiles = uploadingProgresses.some((progress) => {
     return progress.status === CloudDriveResourceUploadStatus.Pending;
   });
+  const uploadingFilesNum = uploadingProgresses.filter((progress) => {
+    return progress.status === CloudDriveResourceUploadStatus.Pending;
+  }).length;
   useEffect(() => {
     uploadingProgresses.length > 0 && hasUploadingFiles && setUploadListVisible(true);
   }, [uploadingProgresses.length, hasUploadingFiles]);
@@ -171,7 +177,8 @@ export const PersonalResource = observer(() => {
           unmountOnExit>
           <div className="fcr-cloud-personal-tab-upload-list">
             <div className="fcr-cloud-personal-tab-upload-list-header">
-              （1/3）网页刷新后，上传任务会被清空；上传过程中请勿关闭网面。
+              （{uploadingFilesNum}/{uploadingProgresses.length}）Please do not close the webpage
+              during the uploading process.
               <div
                 className="fcr-cloud-personal-tab-upload-list-header-collapsed"
                 onClick={() => {
@@ -206,8 +213,16 @@ export const PersonalResource = observer(() => {
                       )}
                       {progress.status === CloudDriveResourceUploadStatus.Failed && (
                         <>
-                          <div>Failed</div>
-                          <Button size="XXS">Update again</Button>
+                          <div className="fcr-cloud-personal-tab-upload-list-item-status-failed">
+                            Failed
+                          </div>
+                          <Button
+                            size="XXS"
+                            onClick={() => {
+                              retryUpload(progress.resourceUuid);
+                            }}>
+                            Update again
+                          </Button>
                         </>
                       )}
                     </div>

@@ -144,7 +144,8 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 .fcr-cloud-personal-tab-upload-list-header {
-  @apply fcr-bg-brand-3 fcr-text-1 fcr-rounded-12;
+  @apply fcr-text-1 fcr-rounded-12;
+  background: #99bbfe;
   height: 36px;
   backdrop-filter: blur(25px);
   line-height: 36px;
@@ -205,8 +206,14 @@
   width: 150px;
   font-weight: 300;
   font-size: 12px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
 }
-
+.fcr-cloud-personal-tab-upload-list-item-status-failed {
+  @apply fcr-text-red-6;
+  padding-right: 10px;
+}
 .fcr-cloud-personal-tab-table-row-actions {
   display: flex;
   align-items: center;

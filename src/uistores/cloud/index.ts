@@ -316,13 +316,13 @@ export class CloudUIStore extends EduUIStoreBase {
     return new Promise((resolve, reject) => {
       if (!this.getters.isBoardWidgetActive) {
         this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-          title: '即将打开白板',
-          content: '该文件需要打开白板才能使用，继续打开该文件吗？',
-          okText: 'open',
+          title: 'Open the whiteboard',
+          content:
+            'This file requires opening the whiteboard to be used. Would you like to continue opening this file?',
+
           onOk: async () => {
             this.getters.boardApi.enable();
-            await when(() => this.getters.boardApi.connected);
-
+            await when(() => this.getters.boardApi.mounted);
             resolve(null);
           },
           onClose() {
