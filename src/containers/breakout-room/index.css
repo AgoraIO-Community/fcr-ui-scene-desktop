@@ -108,7 +108,7 @@
 .fcr-breakout-room__grouping-column--ungroupped {
   display: flex;
   align-items: center;
-  padding: 10px 11px 10px 15px;
+  padding: 4px 11px 4px 15px;
 }
 .fcr-breakout-room__grouping-column--ungroupped {
   width: 168px;
@@ -392,7 +392,7 @@
 }
 
 .fcr-breakout-room__create-panel {
-  @apply fcr-bg-2 fcr-border-1 fcr-border fcr-rounded-12;
+  @apply fcr-bg-2 fcr-border-1 fcr-border-2 fcr-rounded-12;
   width: 214px;
   position: relative;
 }
@@ -582,13 +582,14 @@
 }
 
 .fcr-breakout-room__ask-for-help__list-item {
-  @apply fcr-bg-2 fcr-border-1 fcr-border fcr-rounded-8 fcr-text-1;
+  @apply fcr-bg-2 fcr-border-1 fcr-border-2 fcr-rounded-8 fcr-text-1;
   display: flex;
   align-items: center;
   width: 377px;
   font-size: 12px;
   padding: 15px 30px 15px 13px;
   pointer-events: all;
+  position: relative;
 }
 
 .fcr-breakout-room__ask-for-help__list-item-icon {

@@ -1,6 +1,7 @@
 import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToastApi } from '@components/toast';
+import { ToolTip } from '@components/tooltip';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { AGServiceErrorCode, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { AGError } from 'agora-rte-sdk';
@@ -74,9 +75,11 @@ export const GroupInfoPanel = observer(() => {
       style={{ opacity: showStatusBar ? 1 : 0 }}>
       <span style={{ marginLeft: 9 }}>{currentSubRoomInfo.groupName}</span>
       <div className="fcr-divider" style={{ marginRight: 1 }} />
-      <Button onClick={handleHelp}>
-        <SvgImg type={SvgIconEnum.FCR_QUESTION} size={24} />
-      </Button>
+      <ToolTip content="Request for Help">
+        <Button onClick={handleHelp}>
+          <SvgImg type={SvgIconEnum.FCR_QUESTION} size={24} />
+        </Button>
+      </ToolTip>
     </div>
   ) : null;
 });
