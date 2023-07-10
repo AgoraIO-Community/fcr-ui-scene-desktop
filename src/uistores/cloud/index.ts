@@ -24,6 +24,8 @@ import {
 } from './helper';
 import { MimeTypesKind, UploadItem, supportedTypes } from '../type';
 import { CloudDriveResourceInfo } from 'agora-edu-core/lib/stores/domain/common/cloud-drive/type';
+import { ToastApi } from '@components/toast';
+import { AGErrorWrapper } from 'agora-rte-sdk';
 let _lastFetchPersonalResourcesOptions: CloudDrivePagingOption;
 
 export class CloudUIStore extends EduUIStoreBase {
@@ -325,7 +327,7 @@ export class CloudUIStore extends EduUIStoreBase {
             await when(() => this.getters.boardApi.mounted);
             resolve(null);
           },
-          onClose() {
+          onCancel() {
             reject();
           },
         });
@@ -339,12 +341,16 @@ export class CloudUIStore extends EduUIStoreBase {
     const ext = resource.ext?.toLowerCase?.();
 
     if (!supportedTypes.includes(ext)) {
-      // return this.shareUIStore.addGenericErrorDialog(
-      //   AGErrorWrapper(
-      //     AGEduErrorCode.EDU_ERR_INVALID_CLOUD_RESOURCE,
-      //     new Error(`unsupported file type ${ext}`),
-      //   ),
-      // );
+      ToastApi.open({
+        toastProps: {
+          type: 'error',
+          content: `unsupported file type ${ext}`,
+        },
+      });
+      throw AGErrorWrapper(
+        AGEduErrorCode.EDU_ERR_INVALID_CLOUD_RESOURCE,
+        Error(`unsupported file type ${ext}`),
+      );
     }
 
     if (resource instanceof CloudDriveCourseResource) {
@@ -416,13 +422,16 @@ export class CloudUIStore extends EduUIStoreBase {
     }
 
     if (resource.status == 'Fail') {
-      // this.shareUIStore.addGenericErrorDialog(
-      //   AGErrorWrapper(
-      //     AGEduErrorCode.EDU_ERR_CLOUD_RESOURCE_CONVERSION_FAIL,
-      //     Error('fail to convert resource'),
-      //   ),
-      // );
-      return;
+      ToastApi.open({
+        toastProps: {
+          type: 'error',
+          content: `fail to convert resource`,
+        },
+      });
+      throw AGErrorWrapper(
+        AGEduErrorCode.EDU_ERR_CLOUD_RESOURCE_CONVERSION_FAIL,
+        Error('fail to convert resource'),
+      );
     }
     const pageList = (resource.scenes || []).map(
       ({ name, contentUrl, previewUrl, width, height }) => {

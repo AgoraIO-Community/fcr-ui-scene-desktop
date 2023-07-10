@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import './index.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
-import classnames from 'classnames';
 
 export const Record = observer(() => {
   const {
@@ -17,7 +16,7 @@ export const Record = observer(() => {
   const handleRecord = () => {
     if (isRecordStoped) {
       addDialog('confirm', {
-        title: 'Recording Prompt',
+        title: 'Recording',
         content: 'Are you sure you want to start recording?',
         cancelText: 'Cancel',
         okText: 'Record',
@@ -25,7 +24,7 @@ export const Record = observer(() => {
       });
     } else {
       addDialog('confirm', {
-        title: 'Recording Prompt',
+        title: 'Recording',
         content:
           'Are you sure you want to stop recording？\nThe recording file will be generated after the course ends and displayed on the course details page.',
         cancelText: 'Cancel',

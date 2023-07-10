@@ -302,17 +302,14 @@ export class WidgetUIStore extends EduUIStoreBase {
       reaction(
         () => ({
           controller: this.classroomStore.widgetStore.widgetController,
-          // widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+
           ready: this.getters.layoutReady,
         }),
-        ({ ready, controller }) => {
-          trace();
-          const widgetIds = controller?.widgetIds || [];
-          // wait until the layout is ready
-          if (ready && controller) {
+        ({ ready, controller, widgetIds }) => {
+          if (ready && controller && widgetIds) {
             widgetIds.forEach((widgetId) => {
               const state = controller.getWidgetState(widgetId);
-
               if (state === WidgetState.Active || widgetId === 'easemobIM') {
                 this._handleWidgetActive(widgetId);
               }

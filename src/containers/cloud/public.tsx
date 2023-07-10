@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import './index.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import dayjs from 'dayjs';
+import { Logger } from 'agora-rte-sdk';
 
 export const PublicResource = observer(() => {
   const {
@@ -17,6 +18,7 @@ export const PublicResource = observer(() => {
       openResource,
       setSearchPublicResourcesKeyword,
       searchPublicResourcesKeyword,
+      setCloudDialogVisible,
     },
   } = useStore();
   return (
@@ -44,8 +46,13 @@ export const PublicResource = observer(() => {
                 return (
                   <div
                     className="fcr-cloud-public-tab-table-filename"
-                    onClick={() => {
-                      openResource(record);
+                    onClick={async () => {
+                      try {
+                        await openResource(record);
+                        setCloudDialogVisible(false);
+                      } catch (error) {
+                        Logger.error(error);
+                      }
                     }}>
                     <SvgImg size={24} type={fileNameToType(record.ext)}></SvgImg>
                     <span title={fileName}>{fileName}</span>

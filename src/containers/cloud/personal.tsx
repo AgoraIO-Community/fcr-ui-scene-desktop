@@ -20,6 +20,7 @@ import { convertableTypes } from '@onlineclass/uistores/type';
 import { CloudDriveCourseResource } from '@onlineclass/uistores/cloud/struct';
 import { throttle } from 'lodash';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
+import { Logger } from 'agora-rte-sdk';
 export const PersonalResource = observer(() => {
   const [uploadListVisible, setUploadListVisible] = useState(false);
   const [tableRowHover, setTableRowHover] = useState('');
@@ -374,6 +375,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
       removePersonalResources,
       updatePersonalResource,
       openResource,
+      setCloudDialogVisible,
     },
     layoutUIStore: { addDialog },
   } = useStore();
@@ -445,8 +447,13 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
         };
         return (
           <PersonalTableFilenameRow
-            onClick={() => {
-              openResource(record);
+            onClick={async () => {
+              try {
+                await openResource(record);
+                setCloudDialogVisible(false);
+              } catch (error) {
+                Logger.error(error);
+              }
             }}
             resourceName={resourceName}
             ext={ext}
