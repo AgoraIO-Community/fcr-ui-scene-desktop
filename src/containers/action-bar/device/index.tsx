@@ -18,9 +18,9 @@ export const AudioRecordinDeviceIcon = observer(
     const {
       streamUIStore: { remoteStreamVolume, localVolume },
     } = useStore();
-    const { micEnabled } = useDeviceSwitch(stream);
+    const isLocalStream = !!stream?.isLocal;
 
-    const isLocalStream = stream?.isLocal;
+    const { micEnabled } = useDeviceSwitch({ stream, isLocal: isLocalStream });
 
     const volume = isLocalStream ? localVolume : remoteStreamVolume(stream);
     return !micEnabled ? (
@@ -45,7 +45,10 @@ export const MicrophoneDevice: FC = observer(() => {
     streamUIStore: { localStream },
     deviceSettingUIStore: { noAudioRecordingDevice, setDeviceSettingDialogVisible },
   } = useStore();
-  const { toggleLocalAudioRecordingDevice, micEnabled } = useDeviceSwitch();
+  const { toggleLocalAudioRecordingDevice, micEnabled } = useDeviceSwitch({
+    stream: localStream,
+    isLocal: true,
+  });
   const text = noAudioRecordingDevice ? 'No device' : micEnabled ? 'Mute' : 'Unmute';
 
   return (
@@ -96,9 +99,13 @@ export const CameraDevice: FC = observer(() => {
     setPopoverOpened,
   } = useDeviceTooltipVisible();
   const {
+    streamUIStore: { localStream },
     deviceSettingUIStore: { noCameraDevice, setDeviceSettingDialogVisible },
   } = useStore();
-  const { toggleLocalCameraDevice, cameraEnabled } = useDeviceSwitch();
+  const { toggleLocalCameraDevice, cameraEnabled } = useDeviceSwitch({
+    stream: localStream,
+    isLocal: true,
+  });
   const icon = noCameraDevice
     ? SvgIconEnum.FCR_CAMERACRASH
     : cameraEnabled

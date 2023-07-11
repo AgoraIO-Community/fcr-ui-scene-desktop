@@ -1,11 +1,20 @@
 import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { Log } from 'agora-rte-sdk';
+import { Layout } from './type';
+export enum ListViewStreamPageSize {
+  Normal = 6,
+  Compact = 5,
+}
 @Log.attach({ proxyMethods: false })
 export class PresentationUIStore extends EduUIStoreBase {
   private _cacheBoardEnableStatus = false;
   @observable boardViewportSize?: { width: number; height: number };
-  pageSize = 6;
+  @observable pageSize = ListViewStreamPageSize.Normal;
+  @action.bound
+  setPageSize(size: number) {
+    this.pageSize = size;
+  }
   @observable currentPage = 1;
   @action.bound
   setCurrentPage(page: number) {
@@ -60,6 +69,21 @@ export class PresentationUIStore extends EduUIStoreBase {
     this._disposers = [];
   }
   onInstall(): void {
+    this._disposers.push(
+      reaction(
+        () => ({
+          layout: this.getters.layout,
+          viewportBoundaries: this.getters.viewportBoundaries,
+        }),
+        ({ layout, viewportBoundaries }) => {
+          if (layout === Layout.ListOnRight && (viewportBoundaries?.height || 0) <= 820) {
+            this.setPageSize(ListViewStreamPageSize.Compact);
+          } else {
+            this.setPageSize(ListViewStreamPageSize.Normal);
+          }
+        },
+      ),
+    );
     this._disposers.push(
       reaction(
         () => this.totalPage,

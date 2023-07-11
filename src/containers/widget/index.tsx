@@ -158,7 +158,7 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
     const minimize = isWidgetMinimized(widget.widgetId);
     const visible = isWidgetVisible(widget.widgetId);
     useEffect(() => {
-      if (minimize) zIndexController.updateZIndex(widget.widgetId);
+      if (!minimize) zIndexController.updateZIndex(widget.widgetId);
     }, [minimize]);
     useEffect(() => {
       sendWidgetVisible(widget.widgetId, visible);

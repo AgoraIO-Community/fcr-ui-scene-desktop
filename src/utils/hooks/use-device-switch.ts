@@ -15,7 +15,13 @@ export const checkCameraEnabled = (stream?: EduStreamUI) => {
 export const checkMicEnabled = (stream?: EduStreamUI) => {
   return stream?.isMicDeviceEnabled && stream.isMicStreamPublished;
 };
-export const useDeviceSwitch = (userStream?: EduStreamUI) => {
+export const useDeviceSwitch = ({
+  stream,
+  isLocal,
+}: {
+  stream?: EduStreamUI;
+  isLocal: boolean;
+}) => {
   const {
     layoutUIStore: { addDialog },
     deviceSettingUIStore: {
@@ -24,15 +30,12 @@ export const useDeviceSwitch = (userStream?: EduStreamUI) => {
       enableCamera,
       enableAudioRecording,
     },
-    streamUIStore: { localStream },
     classroomStore: {
       streamStore: { updateRemotePublishState },
       roomStore: { sendCustomPeerMessage },
     },
   } = useStore();
-  const stream = userStream || localStream;
 
-  const isLocal = !userStream || stream?.isLocal;
   const micEnabled = isLocal ? isAudioRecordingDeviceEnabled : checkMicEnabled(stream);
 
   const cameraEnabled = isLocal ? isCameraDeviceEnabled : checkCameraEnabled(stream);

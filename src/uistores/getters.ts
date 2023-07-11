@@ -20,7 +20,10 @@ export class Getters {
   get eduTool() {
     return this._classroomUIStore.eduToolApi;
   }
-
+  @computed
+  get layout() {
+    return this.classroomUIStore.layoutUIStore.layout;
+  }
   @computed
   get widgetInstanceList() {
     return this.classroomUIStore.widgetUIStore.widgetInstanceList;
@@ -140,6 +143,7 @@ export class Getters {
   get isBoardWidgetMinimized() {
     return this._classroomUIStore.eduToolApi.isWidgetMinimized('netlessBoard');
   }
+  @computed
   get viewportBoundaries() {
     return this._classroomUIStore.layoutUIStore.viewportBoundaries;
   }

@@ -12,6 +12,7 @@ import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './dialog.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { Boundaries, Size, clampBounds } from '@onlineclass/utils/clamp-bounds';
+import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 interface WidgetDialogProps extends PropsWithChildren {
   widget: AgoraOnlineclassSDKWidgetBase & AgoraOnlineclassSDKDialogWidget;
 }
@@ -47,6 +48,7 @@ export const WidgetDialog = observer(
     const minimized = isWidgetMinimized(widget.widgetId);
     const [fitted, setFitted] = useState(widget.defaultFullscreen);
     const [rndStyle, setRndStyle] = useState<CSSProperties>({ display: 'block' });
+    const { updateZIndex } = useZIndex(widget.widgetId);
     const canClose = isHost;
     const bounds = 'parent';
     const getBounds = () => {
@@ -63,6 +65,7 @@ export const WidgetDialog = observer(
 
       return !!clasNameExists;
     };
+
     const getMaxSizeInContainer = (containerSize: Size) => {
       let width = containerSize.width;
       let height = containerSize.width / WINDOW_ASPECT_RATIO + WINDOW_TITLE_HEIGHT;
@@ -145,6 +148,9 @@ export const WidgetDialog = observer(
         },
       });
     };
+    useEffect(() => {
+      if (!minimized) updateZIndex();
+    }, [minimized]);
     const getContentAreaSize = () => {
       const layoutContentDom = document.querySelector(`.${layoutContentClassName}`);
 

@@ -177,7 +177,10 @@ const UserInteract = observer(() => {
 const MuteIcon = observer(({ size, visible }: { size: 'large' | 'small'; visible: boolean }) => {
   const streamWindowContext = useContext(StreamWindowContext);
 
-  const { handleMicrophoneClick, micEnabled } = useDeviceSwitch(streamWindowContext?.stream);
+  const { handleMicrophoneClick, micEnabled } = useDeviceSwitch({
+    stream: streamWindowContext?.stream,
+    isLocal: !!streamWindowContext?.stream.isLocal,
+  });
 
   return visible ? (
     <div
@@ -242,7 +245,10 @@ const StreamActions = observer(() => {
     handleMicrophoneClick,
     micEnabled,
     cameraEnabled,
-  } = useDeviceSwitch(streamWindowContext?.stream);
+  } = useDeviceSwitch({
+    stream: streamWindowContext?.stream,
+    isLocal: !!streamWindowContext?.stream.isLocal,
+  });
   const userUuid = streamWindowContext?.stream.fromUser.userUuid || '';
   const streamUuid = streamWindowContext?.stream.stream.streamUuid || '';
 

@@ -289,7 +289,7 @@ const TableCamera = observer(({ stream }: { stream?: EduStreamUI }) => {
     handleCameraClick,
     cameraIcon: icon,
     cameraIconColor: iconColor,
-  } = useDeviceSwitch(stream);
+  } = useDeviceSwitch({ stream, isLocal: !!stream?.isLocal });
 
   return (
     <TableIconWrapper tooltip={cameraTooltip} disabled={actionDisabled} onClick={handleCameraClick}>
@@ -303,7 +303,7 @@ const TableMicrophone = observer(({ stream }: { stream?: EduStreamUI }) => {
     handleMicrophoneClick,
     micIcon: icon,
     micIconColor: iconColor,
-  } = useDeviceSwitch(stream);
+  } = useDeviceSwitch({ stream, isLocal: !!stream?.isLocal });
   const {
     statusBarUIStore: { isHost },
     classroomStore: {
