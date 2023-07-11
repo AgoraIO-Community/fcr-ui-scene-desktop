@@ -10,7 +10,7 @@ export const useVideoRenderable = () => {
   const {
     layoutUIStore: { layout },
     deviceSettingUIStore: { deviceSettingDialogVisible },
-    presentationUIStore: { mainViewStream, isBoardWidgetActive },
+    presentationUIStore: { mainViewStream, isBoardWidgetActive, isBoardWidgetMinimized },
   } = useStore();
   const checkVideoVisible = () => {
     if (stream?.isLocal && deviceSettingDialogVisible) return false;
@@ -18,13 +18,16 @@ export const useVideoRenderable = () => {
     if (layout === Layout.Grid) return true;
     if (streamWindowContext?.renderAtMainView) {
       return (
-        mainViewStream?.stream.streamUuid === stream?.stream.streamUuid && !isBoardWidgetActive
+        mainViewStream?.stream.streamUuid === stream?.stream.streamUuid &&
+        (!isBoardWidgetActive || isBoardWidgetMinimized)
       );
     }
     if (streamWindowContext?.renderAtListView) {
       return (
         mainViewStream?.stream.streamUuid !== stream?.stream.streamUuid ||
-        (mainViewStream?.stream.streamUuid === stream?.stream.streamUuid && isBoardWidgetActive)
+        (mainViewStream?.stream.streamUuid === stream?.stream.streamUuid &&
+          isBoardWidgetActive &&
+          !isBoardWidgetMinimized)
       );
     }
     return true;

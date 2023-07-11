@@ -137,7 +137,9 @@ export class Getters {
       return widget.widgetName === 'netlessBoard';
     });
   }
-
+  get isBoardWidgetMinimized() {
+    return this._classroomUIStore.eduToolApi.isWidgetMinimized('netlessBoard');
+  }
   get viewportBoundaries() {
     return this._classroomUIStore.layoutUIStore.viewportBoundaries;
   }

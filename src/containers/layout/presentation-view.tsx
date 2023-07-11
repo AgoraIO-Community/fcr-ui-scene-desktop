@@ -19,8 +19,6 @@ export const PresentationView = observer(() => {
       totalPage,
       currentPage,
       setCurrentPage,
-      showPager,
-      isBoardWidgetActive,
     },
   } = useStore();
   useEffect(() => {

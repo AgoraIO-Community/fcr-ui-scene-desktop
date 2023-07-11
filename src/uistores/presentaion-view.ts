@@ -15,6 +15,9 @@ export class PresentationUIStore extends EduUIStoreBase {
   @computed get isBoardWidgetActive() {
     return this.getters.isBoardWidgetActive;
   }
+  @computed get isBoardWidgetMinimized() {
+    return this.getters.isBoardWidgetMinimized;
+  }
   @computed get mainViewStream() {
     //观众优先展示屏幕分享
     if (this.getters.screenShareUIStream && !this.getters.isLocalScreenSharing)
@@ -34,15 +37,36 @@ export class PresentationUIStore extends EduUIStoreBase {
   @computed get showPager() {
     return this.totalPage > 1;
   }
+
   @computed get listViewStreamsByPage() {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    return this.getters.cameraUIStreams.slice(start, end);
+    const currentPageStreams = this.getters.cameraUIStreams.slice(start, end);
+    const needFill =
+      this.getters.cameraUIStreams.length > this.pageSize &&
+      start + currentPageStreams.length >= this.getters.cameraUIStreams.length;
+    if (needFill) {
+      return this.getters.cameraUIStreams.slice(
+        this.getters.cameraUIStreams.length - this.pageSize,
+        this.getters.cameraUIStreams.length,
+      );
+    } else {
+      return currentPageStreams;
+    }
   }
 
   onDestroy(): void {
     this._disposers.forEach((d) => d());
     this._disposers = [];
   }
-  onInstall(): void {}
+  onInstall(): void {
+    this._disposers.push(
+      reaction(
+        () => this.totalPage,
+        (totalPage) => {
+          if (this.currentPage > totalPage) this.setCurrentPage(totalPage);
+        },
+      ),
+    );
+  }
 }

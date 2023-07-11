@@ -65,6 +65,14 @@ export class GalleryUIStore extends EduUIStoreBase {
   }
   onInstall(): void {
     this._disposers.push(
+      reaction(
+        () => this.totalPage,
+        (totalPage) => {
+          if (this.currentPage > totalPage) this.setCurrentPage(totalPage);
+        },
+      ),
+    );
+    this._disposers.push(
       reaction(() => {
         return this.getters.cameraUIStreams;
       }, this._handleMainCameraStream),
