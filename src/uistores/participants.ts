@@ -51,7 +51,7 @@ export class ParticipantsUIStore extends EduUIStoreBase {
     const { groupUuidByUserUuid } = this.classroomStore.groupStore;
     const { list } = iterateMap(this.classroomStore.userStore.users, {
       onFilter: (_, item) => {
-        const currentRoomId = this.classroomStore.connectionStore.sceneId;
+        const currentRoomId = this.classroomStore.connectionStore?.scene?.sceneId;
         const userGroupUuid = groupUuidByUserUuid.get(item.userUuid) || currentRoomId;
 
         return (
