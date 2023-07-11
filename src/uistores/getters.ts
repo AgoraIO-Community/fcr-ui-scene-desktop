@@ -153,4 +153,8 @@ export class Getters {
       !!this.classroomUIStore.breakoutUIStore.groupState
     );
   }
+
+  get isJoiningSubRoom() {
+    return this.classroomUIStore.breakoutUIStore.isJoiningSubRoom;
+  }
 }

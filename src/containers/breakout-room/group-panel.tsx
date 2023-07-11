@@ -11,7 +11,7 @@ export const GroupPanel: FC<{ groupId?: string; onChange: (groupId: string) => v
 
     return (
       <div className="fcr-breakout-room__group-panel">
-        <ul className="fcr-breakout-room__group-panel-list">
+        <ul className="fcr-breakout-room__group-panel-list fcr-breakout-room--scroll">
           {groups.map(({ id, text, children }, index) => {
             const disabled = groupId === id;
             const liCls = classNames({
@@ -25,7 +25,7 @@ export const GroupPanel: FC<{ groupId?: string; onChange: (groupId: string) => v
             return (
               <li key={id} className={liCls} onClick={handleChange}>
                 <span>{index + 1}</span>
-                <span>{text}</span>
+                <span className='fcr-breakout-room__group-panel-list__name'>{text}</span>
                 <span>({children.length})</span>
               </li>
             );

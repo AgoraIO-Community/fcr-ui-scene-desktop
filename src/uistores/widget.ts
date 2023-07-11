@@ -4,7 +4,7 @@ import {
   AgoraWidgetLifecycle,
   AgoraOnlineclassSDKWidgetBase,
 } from 'agora-common-libs';
-import { WidgetState, AgoraWidgetTrack, AgoraWidgetController } from 'agora-edu-core';
+import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
 import { action, computed, observable, reaction, trace } from 'mobx';
 import { EduUIStoreBase } from './base';
@@ -16,6 +16,7 @@ import { CommonDialogType } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
+  private _defaultActiveWidgetIds = ['easemobIM'];
   private _registeredWidgets: Record<string, typeof AgoraOnlineclassSDKWidgetBase> = {};
   @observable
   private _widgetInstances: Record<string, AgoraOnlineclassSDKWidgetBase> = {};
@@ -294,74 +295,85 @@ export class WidgetUIStore extends EduUIStoreBase {
       });
     }
   }
+
   onInstall() {
     this._registeredWidgets = this._getEnabledWidgets();
-    this.classroomStore.widgetStore.addWidgetStateListener(this._stateListener);
-    // switch between widget controllers of scenes
-    this._disposers.push(
-      reaction(
-        () => ({
-          controller: this.classroomStore.widgetStore.widgetController,
-          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
 
-          ready: this.getters.layoutReady,
-        }),
-        ({ ready, controller, widgetIds }) => {
-          if (ready && controller && widgetIds) {
-            widgetIds.forEach((widgetId) => {
+    this._disposers.push(
+      computed(() => {
+        trace();
+        return {
+          // isJoingingSubRoom: this.getters.isJoiningSubRoom,
+          controller: this.classroomStore.widgetStore.widgetController,
+        };
+      }).observe(({ oldValue, newValue }) => {
+        const oldController = oldValue?.controller;
+        const controller = newValue.controller;
+
+        // destory all widget instances after switched to a new scene
+        this.widgetInstanceList.forEach((instance) => {
+          this._handleWidgetInactive(instance.widgetId);
+        });
+        // uninstall all installed widgets
+        if (oldController) {
+          this._uninstallWidgets(oldController);
+          oldController.removeWidgetStateListener(this._stateListener);
+          this.getters.boardApi.uninstall();
+          this.getters.eduTool.uninstall();
+          oldController.removeBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
+            onMessage: this._handleBecomeActive,
+          });
+          oldController.removeBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
+            onMessage: this._handleBecomeInactive,
+          });
+          oldController.removeBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
+            onMessage: this._handlePollActiveStateChanged,
+          });
+        }
+        // install widgets
+        if (controller) {
+          this.getters.boardApi.install(controller);
+          this.getters.eduTool.install(controller);
+
+          this._installWidgets(controller);
+          controller.addWidgetStateListener(this._stateListener);
+          controller.addBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
+            onMessage: this._handleBecomeActive,
+          });
+          controller.addBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
+            onMessage: this._handleBecomeInactive,
+          });
+          controller.addBroadcastListener({
+            messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
+            onMessage: this._handlePollActiveStateChanged,
+          });
+        }
+      }),
+      reaction(
+        () => {
+          trace();
+          return {
+            widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+            isJoingingSubRoom: this.getters.isJoiningSubRoom,
+            controller: this.classroomStore.widgetStore.widgetController,
+          };
+        },
+        ({ controller, isJoingingSubRoom, widgetIds }) => {
+          // install widgets
+          if (controller && !isJoingingSubRoom && widgetIds) {
+            // recovery widget state
+
+            controller.widgetIds.forEach((widgetId) => {
               const state = controller.getWidgetState(widgetId);
-              if (state === WidgetState.Active || widgetId === 'easemobIM') {
+
+              if (state === WidgetState.Active || this._defaultActiveWidgetIds.includes(widgetId)) {
                 this._handleWidgetActive(widgetId);
               }
-            });
-          }
-        },
-      ),
-    );
-
-    this._disposers.push(
-      computed(() => this.classroomStore.widgetStore.widgetController).observe(
-        ({ oldValue: oldController, newValue: controller }) => {
-          // destory all widget instances after switched to a new scene
-          this.widgetInstanceList.forEach((instance) => {
-            this._handleWidgetInactive(instance.widgetId);
-          });
-          // uninstall all installed widgets
-          if (oldController) {
-            this._uninstallWidgets(oldController);
-            this.getters.boardApi.uninstall();
-            this.getters.eduTool.uninstall();
-            oldController.removeBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
-              onMessage: this._handleBecomeActive,
-            });
-            oldController.removeBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
-              onMessage: this._handleBecomeInactive,
-            });
-            oldController.removeBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
-              onMessage: this._handlePollActiveStateChanged,
-            });
-          }
-          // install widgets
-          if (controller) {
-            this.getters.boardApi.install(controller);
-            this.getters.eduTool.install(controller);
-
-            this._installWidgets(controller);
-
-            controller.addBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
-              onMessage: this._handleBecomeActive,
-            });
-            controller.addBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
-              onMessage: this._handleBecomeInactive,
-            });
-            controller.addBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
-              onMessage: this._handlePollActiveStateChanged,
             });
           }
         },
@@ -370,7 +382,6 @@ export class WidgetUIStore extends EduUIStoreBase {
   }
 
   onDestroy() {
-    this.classroomStore.widgetStore.removeWidgetStateListener(this._stateListener);
     this._disposers.forEach((d) => d());
     this._disposers = [];
   }

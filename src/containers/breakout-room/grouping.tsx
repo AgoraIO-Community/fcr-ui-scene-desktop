@@ -56,11 +56,11 @@ export const BreakoutRoomGrouping = observer(() => {
         {/* content */}
         <div className="fcr-breakout-room__grouping-column-content">
           {/* ungrouped member list */}
-          <div className="fcr-breakout-room__grouping-column--ungroupped">
+          <div className="fcr-breakout-room__grouping-column--ungroupped fcr-breakout-room--scroll">
             <UngroupedList />
           </div>
           {/* grouped member list */}
-          <div className="fcr-breakout-room__grouping-column--grouped">
+          <div className="fcr-breakout-room__grouping-column--grouped fcr-breakout-room--scroll">
             <Groups />
           </div>
         </div>

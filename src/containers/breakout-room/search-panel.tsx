@@ -44,7 +44,7 @@ export const SearchPanel: FC<{ groupId: string; onChange: (users: string[]) => v
           size="small"
         />
         {list.length ? (
-          <ul className="fcr-breakout-room__search-list">
+          <ul className="fcr-breakout-room__search-list fcr-breakout-room--scroll">
             {list.map((item) => (
               <li key={item.userUuid}>
                 <Checkbox

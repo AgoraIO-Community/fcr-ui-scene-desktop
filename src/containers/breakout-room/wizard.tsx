@@ -154,6 +154,7 @@ export const WizardGrouping: FC = observer(() => {
 
 export const WizardCreate = observer(() => {
   const {
+    eduToolApi,
     breakoutUIStore: { setWizardState, setDialogVisible, createGroups, numberToBeAssigned },
   } = useStore();
   const [type, setType] = useState<1 | 2>(1);
@@ -170,6 +171,17 @@ export const WizardCreate = observer(() => {
   const handleCreate = () => {
     createGroups(type, groupNum);
     setWizardState(1);
+  };
+
+  const handleMinimize = () => {
+    eduToolApi.setMinimizedState({
+      minimized: true,
+      widgetId: 'breakout',
+      minimizeProperties: {
+        minimizedIcon: SvgIconEnum.FCR_V2_BREAKROOM,
+        minimizedTooltip: 'Breakout room',
+      },
+    });
   };
 
   const handleClose = () => {
@@ -195,7 +207,11 @@ export const WizardCreate = observer(() => {
             <ul>
               <ToolTip content="Minimization">
                 <li>
-                  <SvgImg type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER} size={14} />
+                  <SvgImg
+                    type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER}
+                    size={14}
+                    onClick={handleMinimize}
+                  />
                 </li>
               </ToolTip>
               <ToolTip content="Close">

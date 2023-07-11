@@ -15,7 +15,7 @@ export const AskHelpList = observer(() => {
   } = useStore();
 
   return (
-    <div className="fcr-breakout-room__ask-for-help">
+    <div className="fcr-breakout-room__ask-for-help fcr-breakout-room--scroll">
       {helpRequestList.map((item, index) => (
         <AskForHelpListItem key={index.toString()} item={item} />
       ))}
@@ -44,7 +44,7 @@ export const AskForHelpListItem: FC<{ item: AskHelpRequest }> = ({ item }) => {
         </div>
       </div>
       <div className="fcr-breakout-room__ask-for-help__list-item-icon">
-        <SvgImg type={SvgIconEnum.FCR_STUDENT_RASIEHAND} />
+        <SvgImg type={SvgIconEnum.FCR_STUDENT_RASIEHAND} size={32} />
       </div>
       <div className="fcr-breakout-room__ask-for-help__list-item-label">
         <p>

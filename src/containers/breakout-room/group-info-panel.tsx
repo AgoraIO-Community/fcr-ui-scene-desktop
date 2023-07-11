@@ -6,6 +6,7 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { AGServiceErrorCode, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { AGError } from 'agora-rte-sdk';
 import { observer } from 'mobx-react';
+import { Rnd } from 'react-rnd';
 
 export const GroupInfoPanel = observer(() => {
   const {
@@ -70,16 +71,21 @@ export const GroupInfoPanel = observer(() => {
   };
 
   return !isTeacher && currentSubRoomInfo ? (
-    <div
-      className="fcr-breakout-room__status-panel fcr-breakout-room__ask-for-help-panel"
-      style={{ opacity: showStatusBar ? 1 : 0 }}>
-      <span style={{ marginLeft: 9 }}>{currentSubRoomInfo.groupName}</span>
-      <div className="fcr-divider" style={{ marginRight: 1 }} />
-      <ToolTip content="Request for Help">
-        <Button onClick={handleHelp}>
-          <SvgImg type={SvgIconEnum.FCR_QUESTION} size={24} />
-        </Button>
-      </ToolTip>
-    </div>
+    <Rnd
+      default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
+      enableResizing={false}
+      style={{ zIndex: 100 }}>
+      <div
+        className="fcr-breakout-room__status-panel fcr-breakout-room__ask-for-help-panel"
+        style={{ opacity: showStatusBar ? 1 : 0 }}>
+        <span style={{ marginLeft: 9 }}>{currentSubRoomInfo.groupName}</span>
+        <div className="fcr-divider" style={{ marginRight: 1 }} />
+        <ToolTip content="Request for Help">
+          <Button onClick={handleHelp}>
+            <SvgImg type={SvgIconEnum.FCR_QUESTION} size={24} />
+          </Button>
+        </ToolTip>
+      </div>
+    </Rnd>
   ) : null;
 });

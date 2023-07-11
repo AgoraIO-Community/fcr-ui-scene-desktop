@@ -31,7 +31,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
    */
   static readonly MAX_USER_COUNT = 15;
   /**
-   *
+   * 当前分组序号
    */
   private _groupSeq = 0;
   /**
@@ -75,6 +75,14 @@ export class BreakoutUIStore extends EduUIStoreBase {
    */
   @observable
   private _localGroups: Map<string, GroupDetail> = new Map();
+
+  /**
+   * 正在加入分组
+   */
+  @computed
+  get isJoiningSubRoom() {
+    return this._isJoiningSubRoom;
+  }
   /**
    * 请求列表
    */
