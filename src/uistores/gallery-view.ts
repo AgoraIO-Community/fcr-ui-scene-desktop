@@ -68,7 +68,7 @@ export class GalleryUIStore extends EduUIStoreBase {
       reaction(
         () => this.totalPage,
         (totalPage) => {
-          if (this.currentPage > totalPage) this.setCurrentPage(totalPage);
+          if (this.currentPage > totalPage) this.setCurrentPage(totalPage <= 0 ? 1 : totalPage);
         },
       ),
     );
