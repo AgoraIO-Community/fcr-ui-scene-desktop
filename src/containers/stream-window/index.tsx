@@ -118,15 +118,13 @@ const StreamPlayer = observer(() => {
                 ? AGRemoteVideoStreamType.HIGH_STREAM
                 : AGRemoteVideoStreamType.LOW_STREAM,
             );
-          } else {
-            removeVideoDom(stream.stream.streamUuid);
           }
         }
-        return () => {
-          removeVideoDom(stream.stream.streamUuid);
-        };
       }
     }
+    return () => {
+      stream && videoRenderable && removeVideoDom(stream.stream.streamUuid);
+    };
   }, [stream, stream?.isLocal, stream?.stream.streamUuid, videoRenderable]);
 
   return (

@@ -111,7 +111,9 @@ export const WidgetDialog = observer(
             left: position.x,
             top: position.y,
           },
-          getContentAreaSize(),
+          {
+            ...(rndInstance.current?.getParent() as HTMLElement).getBoundingClientRect(),
+          },
         );
         updatePosition({ x: bounds.x, y: bounds.y });
         updateSize({ width: bounds.width, height: bounds.height });
@@ -227,6 +229,9 @@ export const WidgetDialog = observer(
     return (
       <Rnd
         onResize={() => {
+          if (fitted) setFitted(false);
+        }}
+        onDrag={() => {
           if (fitted) setFitted(false);
         }}
         onResizeStop={(_e, _dir, _ele, delta) => {

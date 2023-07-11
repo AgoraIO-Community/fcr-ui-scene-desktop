@@ -1,4 +1,5 @@
 import { Layout, StreamWindowPlacement } from '@onlineclass/uistores/type';
+import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { EduStreamUI } from '@onlineclass/utils/stream/struct';
 import { EduRoleTypeEnum } from 'agora-edu-core';
 import { AGRenderMode, AgoraRteVideoSourceType } from 'agora-rte-sdk';
@@ -17,6 +18,9 @@ export const convertStreamUIStatus = (
   layout: Layout,
   isGrid: boolean,
 ) => {
+  const {
+    streamUIStore: { cameraUIStreams },
+  } = useStore();
   const renderAtMainView = placement === 'main-view';
   const renderAtListView = placement === 'list-view';
   const videoBackgroundGray = renderAtMainView && !isGrid && layout !== Layout.Grid;
@@ -37,8 +41,12 @@ export const convertStreamUIStatus = (
   const labelIconSize = labelSize === 'large' ? 30 : 24;
   const audioIconSize = labelSize === 'large' ? 24 : 16;
   const isHostStream = stream.role === EduRoleTypeEnum.teacher;
-  const renderMode = ((renderAtMainView && !isGrid) || stream.stream.videoSourceType === AgoraRteVideoSourceType.ScreenShare) ? AGRenderMode.fit : AGRenderMode.fill;
-  const disableAudioVolumeEffect = renderAtMainView;
+  const renderMode =
+    (renderAtMainView && !isGrid) ||
+    stream.stream.videoSourceType === AgoraRteVideoSourceType.ScreenShare
+      ? AGRenderMode.fit
+      : AGRenderMode.fill;
+  const disableAudioVolumeEffect = renderAtMainView && (!isGrid || cameraUIStreams.length <= 1);
   return {
     topLabelAnimation,
     bottomLabelAnimation,
