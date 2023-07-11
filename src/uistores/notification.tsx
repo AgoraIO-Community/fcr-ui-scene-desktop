@@ -328,9 +328,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
       const { inviting } = param;
       const { role } = EduClassroomConfig.shared.sessionInfo;
       if (role === EduRoleTypeEnum.student && inviting) {
-        this.getters.classroomUIStore.layoutUIStore.addDialog('class-info', {
+        this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
           title: 'Request help',
           content: 'The teacher is currently helping others. Please try again later.',
+          cancelButtonVisible: false,
         });
       }
     }
