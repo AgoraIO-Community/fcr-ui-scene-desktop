@@ -1,14 +1,17 @@
-import React, { useContext } from 'react';
 import { VerticalSlider } from '@components/slider';
 import { SvgIconEnum } from '@components/svg-img';
 import { ClickableIcon } from '@components/svg-img/clickable-icon';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { observer } from 'mobx-react';
-import { DeviceTabKeysContext } from '.';
 
 export const BeautySlider = observer(() => {
   const { deviceSettingUIStore } = useStore();
-  const { activeBeautyValue = 0, activeBeautyType, setBeautyFilter } = deviceSettingUIStore;
+  const {
+    activeBeautyValue = 0,
+    activeBeautyType,
+    setBeautyFilter,
+    defaultBeautyOptions,
+  } = deviceSettingUIStore;
   const sliderValue = activeBeautyValue * 100;
 
   const handleBeautyValueChange = (value: number) => {
@@ -19,7 +22,7 @@ export const BeautySlider = observer(() => {
 
   const handleResetBeautyValue = () => {
     if (activeBeautyType) {
-      setBeautyFilter({ [activeBeautyType]: 0 });
+      setBeautyFilter({ [activeBeautyType]: defaultBeautyOptions[activeBeautyType] });
     }
   };
 

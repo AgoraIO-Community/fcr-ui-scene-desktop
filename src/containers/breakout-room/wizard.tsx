@@ -29,7 +29,7 @@ export const WizardGrouping: FC = observer(() => {
     eduToolApi,
     breakoutUIStore: { setDialogVisible, groupState, startGroup, toasts, stopGroup },
   } = useStore();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [createVisible, setCreateVisible] = useState(false);
   const panelRef = useRef<{ closePopover: () => void }>(null);
   const handleMinimize = () => {
@@ -100,7 +100,7 @@ export const WizardGrouping: FC = observer(() => {
         {groupState === GroupState.OPEN ? (
           <React.Fragment>
             <Button size="XS" onClick={handleStop} styleType="danger">
-              Stop Discussion
+              Stop
             </Button>
           </React.Fragment>
         ) : (
@@ -133,7 +133,7 @@ export const WizardGrouping: FC = observer(() => {
               </Button>
             </PopoverWithTooltip>
             <Button size="XS" onClick={handleStart}>
-              Open All Rooms
+              Start
             </Button>
           </React.Fragment>
         )}

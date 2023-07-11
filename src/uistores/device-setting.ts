@@ -43,6 +43,7 @@ import {
  */
 @Log.attach()
 export class DeviceSettingUIStore extends EduUIStoreBase {
+  private _defaultBeautyOptions = { smooth: 0.5, brightening: 0.6, blush: 0.1 };
   private _pretestCameraEnabled = false;
   private _pretestMicEnabled = false;
   @bound
@@ -180,6 +181,10 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
 
   get pretestMicEnabled() {
     return this._pretestMicEnabled;
+  }
+
+  get defaultBeautyOptions() {
+    return this._defaultBeautyOptions;
   }
 
   /**
@@ -672,7 +677,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
         this._virtualBackgroundOptions = this.virtualBackgroundList[0];
       }
       this._beautyType = 'smooth';
-      this._beautyOptions = { smooth: 0.5, brightening: 0.6, blush: 0.1 };
+      this._beautyOptions = { ...this._defaultBeautyOptions };
     });
     this.classroomStore.roomStore.addCustomMessageObserver({
       onReceiveChannelMessage: this._onReceiveChannelMessage,
@@ -942,10 +947,6 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
                 type: type === 'image' ? 'img' : 'video',
                 source: data,
               });
-              console.log(
-                this._virtualBackgroundProcessorForPreview,
-                'this._virtualBackgroundProcessorForPreview',
-              );
             });
 
             this._virtualBackgroundProcessor?.enable();
@@ -968,9 +969,18 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
               smoothnessLevel: options.smooth,
               rednessLevel: options.blush,
             });
+            this._beautyEffectProcessorForPreview?.setOptions({
+              lighteningContrastLevel: 0,
+              sharpnessLevel: 0,
+              lighteningLevel: options.brightening,
+              smoothnessLevel: options.smooth,
+              rednessLevel: options.blush,
+            });
             this._beautyEffectProcessor?.enable();
+            this._beautyEffectProcessorForPreview?.enable();
           } else {
             this._beautyEffectProcessor?.disable();
+            this._beautyEffectProcessorForPreview?.disable();
           }
         },
       ),

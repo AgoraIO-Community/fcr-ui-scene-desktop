@@ -599,6 +599,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
       runInAction(() => {
         this._localGroups = new Map();
         this._groupSeq = 0;
+        this._wizardState = 0;
       });
     } catch (e) {
       // this.shareUIStore.addGenericErrorDialog(e as AGError);

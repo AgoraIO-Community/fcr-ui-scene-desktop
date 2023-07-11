@@ -64,7 +64,7 @@ export const GroupStatusPanel = observer(() => {
             </Button>
           </PopoverWithTooltip>
           <Button size="XS" preIcon={SvgIconEnum.FCR_CLOSE} styleType="danger" onClick={handleStop}>
-            Stop Discussion
+            Stop
           </Button>
         </div>
       </div>
