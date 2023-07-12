@@ -18,9 +18,6 @@ export const convertStreamUIStatus = (
   layout: Layout,
   isGrid: boolean,
 ) => {
-  const {
-    streamUIStore: { cameraUIStreams },
-  } = useStore();
   const renderAtMainView = placement === 'main-view';
   const renderAtListView = placement === 'list-view';
   const videoBackgroundGray = renderAtMainView && !isGrid && layout !== Layout.Grid;
@@ -46,7 +43,6 @@ export const convertStreamUIStatus = (
     stream.stream.videoSourceType === AgoraRteVideoSourceType.ScreenShare
       ? AGRenderMode.fit
       : AGRenderMode.fill;
-  const disableAudioVolumeEffect = renderAtMainView && (!isGrid || cameraUIStreams.length <= 1);
   return {
     topLabelAnimation,
     bottomLabelAnimation,
@@ -67,6 +63,5 @@ export const convertStreamUIStatus = (
     isHostStream,
     placement,
     videoBackgroundGray,
-    disableAudioVolumeEffect,
   };
 };

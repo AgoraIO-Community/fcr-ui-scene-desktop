@@ -479,7 +479,8 @@ const AudioVolumeEffect = observer(
     const streamWindowContext = useContext(StreamWindowContext);
     const stream = streamWindowContext?.stream;
     const {
-      streamUIStore: { localVolume, remoteStreamVolume },
+      layoutUIStore: { layout },
+      streamUIStore: { localVolume, remoteStreamVolume, cameraUIStreams },
       deviceSettingUIStore: { isAudioRecordingDeviceEnabled },
     } = useStore();
     const [showAudioVolumeEffect, setShowAudioVolumeEffect] = useState(false);
@@ -511,7 +512,10 @@ const AudioVolumeEffect = observer(
       isAudioRecordingDeviceEnabled,
       stream?.isMicStreamPublished,
     ]);
-    return showAudioVolumeEffect && !streamWindowContext?.disableAudioVolumeEffect ? (
+    const disableAudioVolumeEffect =
+      streamWindowContext?.renderAtMainView &&
+      (layout !== Layout.Grid || cameraUIStreams.length <= 1);
+    return showAudioVolumeEffect && disableAudioVolumeEffect ? (
       <div className={'fcr-audio-volume-effect'}></div>
     ) : null;
   },
