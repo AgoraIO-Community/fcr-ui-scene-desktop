@@ -447,21 +447,15 @@ export class BreakoutUIStore extends EduUIStoreBase {
     const group = this.groupDetails.get(toGroupUuid);
 
     if (group) {
-      let studentsCount = 0;
-      // let assistantsCount = 0;
-      // let teachersCount = 0;
-      group.users.forEach(({ userUuid }) => {
-        if (this.classroomStore.userStore.studentList.get(userUuid)) studentsCount += 1;
-        // if (this.classroomStore.userStore.assistantList.get(userUuid)) assistantsCount += 1;
-        // if (this.classroomStore.userStore.teacherList.get(userUuid)) teachersCount += 1;
-      });
+      const studentsCount = group.users.reduce((total, { userUuid }) => {
+        if (this.classroomStore.userStore.studentList.get(userUuid)) total += 1;
+        return total;
+      }, 0);
       // check students number
       if (studentsCount >= BreakoutUIStore.MAX_USER_COUNT) {
         this.addToast({ text: `Group is full of ${BreakoutUIStore.MAX_USER_COUNT}` });
         return;
       }
-      // check assistants number
-      // check teachers number
     }
 
     if (this.groupState === GroupState.OPEN) {

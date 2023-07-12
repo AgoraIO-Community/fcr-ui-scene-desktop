@@ -79,28 +79,6 @@ export class NotiticationUIStore extends EduUIStoreBase {
       });
     }
 
-    // if (
-    //   event === AgoraEduClassroomEvent.RewardReceived ||
-    //   event === AgoraEduClassroomEvent.BatchRewardReceived
-    // ) {
-    //   const users: { userUuid: string; userName: string }[] = param;
-    //   const userNames = users.map((user) => user.userName);
-    //   if (users.length > 3) {
-    //     this.shareUIStore.addToast(
-    //       transI18n('toast2.teacher.reward2', {
-    //         reason1: userNames
-    //           .slice(0, 3)
-
-    //           .join(','),
-    //         reason2: userNames.length,
-    //       }),
-    //     );
-    //   } else {
-    //     this.shareUIStore.addToast(
-    //       transI18n('toast2.teacher.reward', { reason: userNames.join(',') }),
-    //     );
-    //   }
-    // }
     // capture screen permission denied received
     if (event === AgoraEduClassroomEvent.CaptureScreenPermissionDenied) {
       this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
@@ -113,119 +91,6 @@ export class NotiticationUIStore extends EduUIStoreBase {
         icon: <SvgImg type={SvgIconEnum.FCR_BELL} size={50}></SvgImg>,
       });
     }
-    // // user join group
-    // if (event === AgoraEduClassroomEvent.UserJoinGroup) {
-    //   const { role } = EduClassroomConfig.shared.sessionInfo;
-    //   const { groupUuid, users }: { groupUuid: string; users: [] } = param;
-    //   const { teacherList, studentList, assistantList } =
-    //     this.classroomStore.userStore.mainRoomDataStore;
-
-    //   const teachers = this._filterUsers(users, teacherList);
-    //   const students = this._filterUsers(users, studentList);
-    //   const assistants = this._filterUsers(users, assistantList);
-
-    //   const isCurrentRoom = this.classroomStore.groupStore.currentSubRoom === groupUuid;
-
-    //   if (isCurrentRoom) {
-    //     if (teachers.length) {
-    //       if (role === EduRoleTypeEnum.student) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_enter_group', {
-    //             reason1: transI18n('role.teacher'),
-    //             reason2: teachers.join(','),
-    //           }),
-    //         );
-    //       }
-    //     }
-
-    //     if (assistants.length) {
-    //       if (role === EduRoleTypeEnum.student) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_enter_group', {
-    //             reason1: transI18n('role.assistant'),
-    //             reason2: assistants.join(','),
-    //           }),
-    //         );
-    //       }
-    //     }
-
-    //     if (students.length) {
-    //       if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_enter_group', {
-    //             reason1: transI18n('role.student'),
-    //             reason2: students.join(','),
-    //           }),
-    //         );
-    //       }
-    //     }
-    //   }
-    // }
-    // // user leave group
-    // if (event === AgoraEduClassroomEvent.UserLeaveGroup) {
-    //   const { role } = EduClassroomConfig.shared.sessionInfo;
-    //   const { groupUuid, users }: { groupUuid: string; users: [] } = param;
-    //   const { teacherList, studentList, assistantList } =
-    //     this.classroomStore.userStore.mainRoomDataStore;
-
-    //   const teachers = this._filterUsers(users, teacherList);
-    //   const students = this._filterUsers(users, studentList);
-    //   const assistants = this._filterUsers(users, assistantList);
-
-    //   const isCurrentRoom = this.classroomStore.groupStore.currentSubRoom === groupUuid;
-
-    //   if (isCurrentRoom) {
-    //     if (teachers.length) {
-    //       if (role === EduRoleTypeEnum.student) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_exit_group', {
-    //             reason1: transI18n('role.teacher'),
-    //             reason2: teachers.join(','),
-    //           }),
-    //           'warning',
-    //         );
-    //       }
-    //     }
-
-    //     if (assistants.length) {
-    //       if (role === EduRoleTypeEnum.student) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_exit_group', {
-    //             reason1: transI18n('role.assistant'),
-    //             reason2: assistants.join(','),
-    //           }),
-    //           'warning',
-    //         );
-    //       }
-    //     }
-
-    //     if (students.length) {
-    //       if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
-    //         this.shareUIStore.addToast(
-    //           transI18n('fcr_group_exit_group', {
-    //             reason1: transI18n('role.student'),
-    //             reason2: students.join(','),
-    //           }),
-    //           'warning',
-    //         );
-    //       }
-    //     }
-    //   }
-    // }
-
-    // if (event === AgoraEduClassroomEvent.RejectedToGroup) {
-    //   const { inviting } = param;
-    //   const { role } = EduClassroomConfig.shared.sessionInfo;
-    //   if (role === EduRoleTypeEnum.student && inviting) {
-    //     this.shareUIStore.addConfirmDialog(
-    //       transI18n('fcr_group_help_title'),
-    //       transI18n('fcr_group_help_teacher_busy_msg'),
-    //       {
-    //         actions: ['ok'],
-    //       },
-    //     );
-    //   }
-    // }
 
     // user join group
     if (event === AgoraEduClassroomEvent.UserJoinGroup) {
@@ -334,6 +199,13 @@ export class NotiticationUIStore extends EduUIStoreBase {
           cancelButtonVisible: false,
         });
       }
+    }
+
+    if (
+      event === AgoraEduClassroomEvent.LeaveSubRoom ||
+      event === AgoraEduClassroomEvent.JoinSubRoom
+    ) {
+      ToastApi.destroyAll();
     }
   }
 

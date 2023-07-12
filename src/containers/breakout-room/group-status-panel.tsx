@@ -10,7 +10,7 @@ import { Rnd } from 'react-rnd';
 
 export const GroupStatusPanel = observer(() => {
   const {
-    layoutUIStore: { showStatusBar },
+    layoutUIStore: { showStatusBar, addDialog },
     breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo },
   } = useStore();
 
@@ -20,7 +20,15 @@ export const GroupStatusPanel = observer(() => {
   const isTeacher = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
 
   const handleStop = () => {
-    stopGroup();
+    addDialog('confirm', {
+      title: 'Stop discussion?',
+      content:
+        'Do you want to close all breakout rooms? After closing all breakout rooms, all the students will be returned to the main classroom.',
+      onOk: () => {
+        stopGroup();
+      },
+      okText: 'Stop',
+    });
   };
 
   const handleClose = () => {

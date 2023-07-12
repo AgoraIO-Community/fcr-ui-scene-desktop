@@ -27,6 +27,7 @@ export const BreakoutWizard: FC<{ onChange: () => void }> = observer(({ onChange
 export const WizardGrouping: FC = observer(() => {
   const {
     eduToolApi,
+    layoutUIStore: { addDialog },
     breakoutUIStore: { setDialogVisible, groupState, startGroup, toasts, stopGroup },
   } = useStore();
   const [checked, setChecked] = useState(true);
@@ -59,7 +60,15 @@ export const WizardGrouping: FC = observer(() => {
   };
 
   const handleStop = () => {
-    stopGroup();
+    addDialog('confirm', {
+      title: 'Stop discussion?',
+      content:
+        'Do you want to close all breakout rooms? After closing all breakout rooms, all the students will be returned to the main classroom.',
+      onOk: () => {
+        stopGroup();
+      },
+      okText: 'Stop',
+    });
   };
 
   const groupStateLabel = groupState ? 'In Progress' : 'Not Started';
