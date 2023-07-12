@@ -23,9 +23,10 @@ export const GroupInfoPanel = observer(() => {
     const assistants = classroomStore.userStore.mainRoomDataStore.assistantList;
 
     if (!teachers.size && !assistants.size) {
-      addDialog('class-info', {
+      addDialog('confirm', {
         title: 'Request help',
         content: 'Teacher is not in this classroom',
+        cancelButtonVisible: false,
       });
       return;
     }
@@ -56,9 +57,10 @@ export const GroupInfoPanel = observer(() => {
           true,
         ).catch((e) => {
           if (AGError.isOf(e, AGServiceErrorCode.SERV_USER_BEING_INVITED)) {
-            addDialog('class-info', {
+            addDialog('confirm', {
               title: 'Request help',
               content: 'The teacher is helping other group, Please wait for minutes.',
+              cancelButtonVisible: false,
             });
           } else {
             // this.shareUIStore.addGenericErrorDialog(e as AGError);
