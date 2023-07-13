@@ -213,7 +213,7 @@
 .fcr-breakout-room__grouping-grouped-title:hover
   .fcr-breakout-room__grouping-grouped-group-actions
   .fcr-button {
-  visibility: visible;
+  display: inline-flex;
 }
 
 .fcr-breakout-room__grouping-grouped-title:hover {
@@ -222,7 +222,7 @@
 }
 
 .fcr-breakout-room__grouping-grouped-group-actions .fcr-button {
-  visibility: hidden;
+  display: none;
 }
 
 .fcr-breakout-room__grouping-grouped-group-actions > div {
@@ -273,6 +273,10 @@
   height: 100%;
 }
 
+.fcr-breakout-room__grouping__drop-container {
+  border: 2px dashed transparent;
+}
+
 .fcr-breakout-room__grouping-grouped-list {
   display: flex;
   flex-wrap: wrap;
@@ -293,6 +297,7 @@
 .fcr-breakout-room__grouping-grouped-group-actions {
   display: flex;
   align-items: center;
+  height: 24px;
 }
 
 .fcr-breakout-room__grouping-grouped-group-actions .fcr-button {
@@ -795,4 +800,8 @@
 .fcr-breakout-room--scroll::-webkit-scrollbar-thumb {
   @apply fcr-bg-4 fcr-rounded-8;
   width: 8px;
+}
+
+.fcr-breakout-room__grouping--dashed-border {
+  @apply fcr-border-brand;
 }

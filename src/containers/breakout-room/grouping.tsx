@@ -73,15 +73,27 @@ export const UngroupedList = observer(() => {
   const {
     breakoutUIStore: { ungroupedList, groupState },
   } = useStore();
-  const [_, drop] = useDrop({
+  const [{ isOver }, drop] = useDrop({
     accept: DraggableTypes.NameCard,
+    collect(monitor) {
+      return { isOver: monitor.isOver() };
+    },
     drop: (item: GroupItem) => {
       return {};
     },
   });
-  const ulCls = classNames('fcr-breakout-room__grouping-ungrouped-list', {
-    'fcr-breakout-room--drop-not-allowed': !!groupState,
-  });
+
+  const canDrop = !groupState;
+
+  const ulCls = classNames(
+    'fcr-breakout-room__grouping-ungrouped-list',
+    'fcr-breakout-room__grouping__drop-container',
+    {
+      // 'fcr-breakout-room--drop-not-allowed': !!groupState,
+      'fcr-breakout-room__grouping--dashed-border': canDrop && isOver,
+    },
+  );
+
   return (
     <ul ref={drop} className={ulCls}>
       {ungroupedList.map((item) => (
@@ -110,7 +122,14 @@ export const GroupedList = observer(
   ({ groupId, groupName, list }: { groupId: string; groupName: string; list: GroupItem[] }) => {
     const {
       layoutUIStore: { addDialog },
-      breakoutUIStore: { removeGroup, renameGroupName, setGroupUsers, groupState, joinSubRoom },
+      breakoutUIStore: {
+        removeGroup,
+        renameGroupName,
+        setGroupUsers,
+        groupState,
+        joinSubRoom,
+        helpRequestList,
+      },
     } = useStore();
     const [expanded, setExpanded] = useState(true);
 
@@ -118,7 +137,7 @@ export const GroupedList = observer(
 
     const [inputVal, setInputVal] = useState('');
 
-    const [{}, drop] = useDrop({
+    const [{ isOver }, drop] = useDrop({
       accept: DraggableTypes.NameCard,
       collect: (monitor) => {
         return {
@@ -176,85 +195,97 @@ export const GroupedList = observer(
       joinSubRoom(groupId);
     };
 
+    const haveRequest = helpRequestList.some((request) => {
+      return request.groupUuid === groupId;
+    });
+
     const ulCls = classNames('fcr-breakout-room__grouping-grouped-list', {
       'fcr-breakout-room__grouping-grouped-list--hidden': !expanded,
     });
 
+    const containerCls = classNames('fcr-breakout-room__grouping__drop-container', {
+      'fcr-breakout-room__grouping--dashed-border': isOver,
+    });
+
     return (
       <React.Fragment>
-        <div className="fcr-breakout-room__grouping-grouped-title">
-          <SvgImg
-            type={SvgIconEnum.FCR_DROPDOWN}
-            onClick={toggleExpand}
-            style={{ transform: `rotate(${expanded ? 0 : -90}deg)`, transition: '.3s all' }}
-            size={20}
-          />
-          {/* <ToolTip content="Someone in the group is asking for help">
-            <Button size="XXS" shape="rounded" type="secondary">
-              <SvgImg type={SvgIconEnum.FCR_STUDENT_RASIEHAND} />
-            </Button>
-          </ToolTip> */}
-          {!editing ? (
-            <React.Fragment>
-              <span className="fcr-breakout-room__grouping-grouped-group-name">
-                {groupName} ({list.length})
-              </span>
-              <div className="fcr-breakout-room__grouping-grouped-group-actions">
-                <ToolTip content="Delete">
-                  <Button size="XXS" shape="circle" styleType="danger">
-                    <SvgImg type={SvgIconEnum.FCR_DELETE3} size={24} onClick={handleDelete} />
-                  </Button>
-                </ToolTip>
-                <ToolTip content="Rename">
-                  <Button size="XXS" shape="circle" type="secondary" onClick={handleRename}>
-                    <SvgImg type={SvgIconEnum.FCR_RENAME} size={24} />
-                  </Button>
-                </ToolTip>
-                {!groupState ? (
-                  <PopoverWithTooltip
-                    toolTipProps={{ placement: 'top', content: 'Move to' }}
-                    popoverProps={{
-                      overlayOffset: 18,
-                      placement: 'rightTop',
-                      content: <SearchPanel groupId={groupId} onChange={handleUsersChange} />,
-                      overlayClassName: 'fcr-breakout-room__search__overlay',
-                    }}>
+        <div ref={drop} className={containerCls}>
+          <div className="fcr-breakout-room__grouping-grouped-title">
+            <SvgImg
+              type={SvgIconEnum.FCR_DROPDOWN}
+              onClick={toggleExpand}
+              style={{ transform: `rotate(${expanded ? 0 : -90}deg)`, transition: '.3s all' }}
+              size={20}
+            />
+            {haveRequest && (
+              <ToolTip content="Someone in the group is asking for help">
+                <Button size="XXS" shape="rounded" type="secondary">
+                  <SvgImg type={SvgIconEnum.FCR_STUDENT_RASIEHAND} />
+                </Button>
+              </ToolTip>
+            )}
+            {!editing ? (
+              <React.Fragment>
+                <span className="fcr-breakout-room__grouping-grouped-group-name">
+                  {groupName} ({list.length})
+                </span>
+                <div className="fcr-breakout-room__grouping-grouped-group-actions">
+                  <ToolTip content="Delete">
+                    <Button size="XXS" shape="circle" styleType="danger">
+                      <SvgImg type={SvgIconEnum.FCR_DELETE3} size={24} onClick={handleDelete} />
+                    </Button>
+                  </ToolTip>
+                  <ToolTip content="Rename">
+                    <Button size="XXS" shape="circle" type="secondary" onClick={handleRename}>
+                      <SvgImg type={SvgIconEnum.FCR_RENAME} size={24} />
+                    </Button>
+                  </ToolTip>
+                  {!groupState ? (
+                    <PopoverWithTooltip
+                      toolTipProps={{ placement: 'top', content: 'Move to' }}
+                      popoverProps={{
+                        overlayOffset: 18,
+                        placement: 'rightTop',
+                        content: <SearchPanel groupId={groupId} onChange={handleUsersChange} />,
+                        overlayClassName: 'fcr-breakout-room__search__overlay',
+                      }}>
+                      <Button
+                        size="XXS"
+                        shape="circle"
+                        type="secondary"
+                        preIcon={SvgIconEnum.FCR_MOVETO}>
+                        Assign
+                      </Button>
+                    </PopoverWithTooltip>
+                  ) : (
                     <Button
                       size="XXS"
                       shape="circle"
                       type="secondary"
-                      preIcon={SvgIconEnum.FCR_MOVETO}>
-                      Assign
+                      preIcon={SvgIconEnum.FCR_MOVETO}
+                      onClick={handleJoin}>
+                      Join
                     </Button>
-                  </PopoverWithTooltip>
-                ) : (
-                  <Button
-                    size="XXS"
-                    shape="circle"
-                    type="secondary"
-                    preIcon={SvgIconEnum.FCR_MOVETO}
-                    onClick={handleJoin}>
-                    Join
-                  </Button>
-                )}
-              </div>
-            </React.Fragment>
-          ) : (
-            <Input
-              size="small"
-              value={inputVal}
-              onChange={setInputVal}
-              onBlur={handleBlur}
-              onKeyDown={handleKeyDown}
-              autoFocus
-            />
-          )}
+                  )}
+                </div>
+              </React.Fragment>
+            ) : (
+              <Input
+                size="small"
+                value={inputVal}
+                onChange={setInputVal}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
+                autoFocus
+              />
+            )}
+          </div>
+          <ul className={ulCls}>
+            {list.map((item) => {
+              return <DraggableNameCard key={item.id} item={item} groupId={groupId} />;
+            })}
+          </ul>
         </div>
-        <ul ref={drop} className={ulCls}>
-          {list.map((item) => {
-            return <DraggableNameCard key={item.id} item={item} groupId={groupId} />;
-          })}
-        </ul>
       </React.Fragment>
     );
   },
