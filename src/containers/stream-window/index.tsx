@@ -515,7 +515,7 @@ const AudioVolumeEffect = observer(
     const disableAudioVolumeEffect =
       streamWindowContext?.renderAtMainView &&
       (layout !== Layout.Grid || cameraUIStreams.length <= 1);
-    return showAudioVolumeEffect && disableAudioVolumeEffect ? (
+    return showAudioVolumeEffect && !disableAudioVolumeEffect ? (
       <div className={'fcr-audio-volume-effect'}></div>
     ) : null;
   },
