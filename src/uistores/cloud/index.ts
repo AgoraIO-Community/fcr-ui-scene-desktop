@@ -398,7 +398,6 @@ export class CloudUIStore extends EduUIStoreBase {
         'youtu.be/',
         'youtube.com/embed/',
       ].some((part) => resource.url.toLowerCase().includes(part));
-      console.log(resource, 'CloudDriveLinkResource');
       if (isYoutube) {
         this.getters.eduTool.openMediaStreamPlayer({
           resourceUuid: resource.resourceUuid,

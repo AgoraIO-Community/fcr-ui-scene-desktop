@@ -13,6 +13,7 @@ import './dialog.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { Boundaries, Size, clampBounds } from '@onlineclass/utils/clamp-bounds';
 import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+import { AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
 interface WidgetDialogProps extends PropsWithChildren {
   widget: AgoraOnlineclassSDKWidgetBase & AgoraOnlineclassSDKDialogWidget;
 }
@@ -36,6 +37,9 @@ export const WidgetDialog = observer(
       position: WINDOW_REMAIN_POSITION,
     });
     const {
+      classroomStore: {
+        widgetStore: { widgetController },
+      },
       widgetUIStore: { destroyWidget, setWidgetInactive },
       eduToolApi: {
         isWidgetMinimized,
@@ -148,6 +152,25 @@ export const WidgetDialog = observer(
         },
       });
     };
+    const handleWidgetBecomeActive = ({ widgetId }: { widgetId: string }) => {
+      if (widgetId === widget.widgetId) {
+        updateZIndex();
+      }
+    };
+    useEffect(() => {
+      if (widgetController) {
+        widgetController.addBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
+          onMessage: handleWidgetBecomeActive,
+        });
+      }
+      return () => {
+        widgetController?.removeBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.WidgetBecomeActive,
+          onMessage: handleWidgetBecomeActive,
+        });
+      };
+    }, [widgetController]);
     useEffect(() => {
       if (!minimized) updateZIndex();
     }, [minimized]);

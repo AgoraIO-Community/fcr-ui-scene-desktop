@@ -23,6 +23,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { WidgetDialog } from './dialog';
 import { BreakoutDialog } from '../breakout-room';
 import { chatroomWidgetId } from '@onlineclass/extension/type';
+import { useRndPosition } from '@onlineclass/utils/hooks/use-rnd-position';
 export const WidgetContainer = observer(() => {
   const {
     widgetUIStore: { z0Widgets, z10Widgets, widgetInstanceList },
@@ -202,6 +203,8 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
       width: number;
       height: number;
     };
+    const rndInstance = useRef<Rnd>(null);
+    useRndPosition(rndInstance.current);
     const [rndStyle, setRndStyle] = useState<CSSProperties>({});
     const {
       layoutUIStore: { classroomViewportClassName },
@@ -237,6 +240,7 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
 
     return (
       <Rnd
+        ref={rndInstance}
         default={defaultRect}
         style={{ ...rndStyle }}
         bounds={`.${classroomViewportClassName}`}
