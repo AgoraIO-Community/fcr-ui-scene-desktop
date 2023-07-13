@@ -23,6 +23,7 @@ import {
   CustomMessageHandsUpState,
   CustomMessageHandsUpType,
 } from './type';
+import { chatroomWidgetId } from '@onlineclass/extension/type';
 export class ActionBarUIStore extends EduUIStoreBase {
   // for student hands up
   private _handsUpTask: Scheduler.Task | null = null;
@@ -153,15 +154,15 @@ export class ActionBarUIStore extends EduUIStoreBase {
 
   @bound
   openChatDialog() {
-    this.getters.eduTool.setWidgetVisible('easemobIM', true);
+    this.getters.eduTool.setWidgetVisible(chatroomWidgetId, true);
   }
   @bound
   closeChatDialog() {
-    this.getters.eduTool.setWidgetVisible('easemobIM', false);
+    this.getters.eduTool.setWidgetVisible(chatroomWidgetId, false);
   }
   @bound
   setPrivateChat(userId: string) {
-    this.getters.eduTool.sendWidgetPrivateChat('easemobIM', userId);
+    this.getters.eduTool.sendWidgetPrivateChat(chatroomWidgetId, userId);
   }
   @action.bound
   setShowLeaveOption(show: boolean) {

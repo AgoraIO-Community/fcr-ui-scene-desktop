@@ -13,7 +13,6 @@ import { createPortal } from 'react-dom';
 import './index.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { AgoraDraggableWidget, AgoraOnlineclassSDKWidgetBase } from 'agora-common-libs';
-import { ZIndexController } from '../../utils/z-index-controller';
 import { Rnd } from 'react-rnd';
 
 import { useMinimize } from '@ui-kit-utils/hooks/animations';
@@ -23,19 +22,22 @@ import { ZIndexContext, useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { WidgetDialog } from './dialog';
 import { BreakoutDialog } from '../breakout-room';
+import { chatroomWidgetId } from '@onlineclass/extension/type';
 export const WidgetContainer = observer(() => {
   const {
-    widgetUIStore: { z0Widgets, z10Widgets },
+    widgetUIStore: { z0Widgets, z10Widgets, widgetInstanceList },
   } = useStore();
-  const zIndexControllerRef = useRef(new ZIndexController());
+  const chatWidget = widgetInstanceList.find((w) => w.widgetId === chatroomWidgetId);
   return (
-    <ZIndexContext.Provider value={zIndexControllerRef.current}>
-      <React.Fragment>
-        <div className="fcr-widget-container fcr-z-0">
-          <ParticipantsDialogWrapper></ParticipantsDialogWrapper>
-          <BreakoutDialogWrapper></BreakoutDialogWrapper>
-          <TransitionGroup>
-            {z0Widgets.map((w: AgoraOnlineclassSDKWidgetBase) => {
+    <React.Fragment>
+      <div className="fcr-widget-container fcr-z-0">
+        <ParticipantsDialogWrapper></ParticipantsDialogWrapper>
+        <BreakoutDialogWrapper></BreakoutDialogWrapper>
+        {chatWidget && <ChatroomWidget chatWidget={chatWidget}></ChatroomWidget>}
+        <TransitionGroup>
+          {z0Widgets
+            .filter((w) => w.widgetId !== chatroomWidgetId)
+            .map((w: AgoraOnlineclassSDKWidgetBase) => {
               const ref = createRef<HTMLDivElement>();
               return (
                 <CSSTransition
@@ -48,17 +50,69 @@ export const WidgetContainer = observer(() => {
                 </CSSTransition>
               );
             })}
-          </TransitionGroup>
-        </div>
-        <div className="fcr-widget-container fcr-z-10">
-          {z10Widgets.map((w: AgoraOnlineclassSDKWidgetBase) => (
-            <Widget key={w.widgetId} widget={w} />
-          ))}
-        </div>
-      </React.Fragment>
-    </ZIndexContext.Provider>
+        </TransitionGroup>
+      </div>
+      <div className="fcr-widget-container fcr-z-10">
+        {z10Widgets.map((w: AgoraOnlineclassSDKWidgetBase) => (
+          <Widget key={w.widgetId} widget={w} />
+        ))}
+      </div>
+    </React.Fragment>
   );
 });
+export const ChatroomZindexWrapper: FC<PropsWithChildren> = ({ children }) => {
+  const { ref: zIndexRef } = useZIndex(chatroomWidgetId);
+  return <div ref={zIndexRef}>{children}</div>;
+};
+export const ChatroomWidget = observer(
+  ({ chatWidget }: { chatWidget: AgoraOnlineclassSDKWidgetBase }) => {
+    const {
+      eduToolApi: { isWidgetVisible, sendWidgetVisible },
+    } = useStore();
+    const visible = isWidgetVisible(chatroomWidgetId);
+    const animRef = useRef<HTMLDivElement | null>(null);
+    const renderRef = useRef<HTMLDivElement | null>(null);
+    const { zIndex } = useZIndex(chatroomWidgetId);
+
+    useEffect(() => {
+      if (renderRef.current) {
+        chatWidget.render(renderRef.current);
+      }
+      return () => {
+        chatWidget?.unload();
+      };
+    }, []);
+    useEffect(() => {
+      visible && sendWidgetVisible(chatroomWidgetId, visible);
+    }, [visible]);
+
+    const handleRef = (ref: HTMLDivElement) => {
+      animRef.current = ref;
+    };
+    return (
+      <>
+        <div ref={renderRef}></div>
+        <CSSTransition
+          onExited={() => sendWidgetVisible(chatroomWidgetId, false)}
+          in={visible}
+          nodeRef={animRef}
+          timeout={500}
+          unmountOnExit
+          classNames={'fcr-widget-dialog-transition'}>
+          <div style={{ zIndex }} className="fcr-widget-inner">
+            <WidgetDraggableWrapper widget={chatWidget}>
+              <div ref={handleRef}>
+                <ChatroomZindexWrapper>
+                  <div id="fcr-chatroom-dialog-slot"></div>
+                </ChatroomZindexWrapper>
+              </div>
+            </WidgetDraggableWrapper>
+          </div>
+        </CSSTransition>
+      </>
+    );
+  },
+);
 
 export const Widget = observer(
   forwardRef<HTMLDivElement, { widget: AgoraOnlineclassSDKWidgetBase }>(function w(
@@ -118,7 +172,7 @@ const WidgetWrapper = observer(
     };
     return (
       <>
-        {widget.widgetId !== 'poll' && widget.widgetId !== 'easemobIM' ? (
+        {widget.widgetId !== 'poll' ? (
           <div style={{ zIndex }} ref={ref} className="fcr-widget-inner">
             <WidgetDialog ref={zIndexRef} widget={widget}>
               <div ref={renderRef}></div>
@@ -151,17 +205,16 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
     const [rndStyle, setRndStyle] = useState<CSSProperties>({});
     const {
       layoutUIStore: { classroomViewportClassName },
-      eduToolApi: { isWidgetMinimized, isWidgetVisible, sendWidgetVisible },
+      eduToolApi: { isWidgetMinimized, isWidgetVisible },
     } = useStore();
     const zIndexController = React.useContext(ZIndexContext);
+    const visible = isWidgetVisible(widget.widgetId);
 
     const minimize = isWidgetMinimized(widget.widgetId);
-    const visible = isWidgetVisible(widget.widgetId);
     useEffect(() => {
       if (!minimize) zIndexController.updateZIndex(widget.widgetId);
     }, [minimize]);
     useEffect(() => {
-      sendWidgetVisible(widget.widgetId, visible);
       if (visible) zIndexController.updateZIndex(widget.widgetId);
     }, [visible]);
     const { style: minimizeStyle, ref: minimizeRef } = useMinimize({
@@ -185,7 +238,7 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
     return (
       <Rnd
         default={defaultRect}
-        style={{ ...rndStyle, visibility: visible ? 'visible' : 'hidden' }}
+        style={{ ...rndStyle }}
         bounds={`.${classroomViewportClassName}`}
         enableResizing={false}
         dragHandleClassName={
@@ -195,9 +248,7 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
           (widget as AgoraOnlineclassSDKWidgetBase & AgoraDraggableWidget).dragCancelClassName
         }>
         <div ref={refHandle} style={{ ...minimizeStyle }}>
-          <CSSTransition in={visible} timeout={500} classNames={'fcr-widget-dialog-transition'}>
-            <div>{children}</div>
-          </CSSTransition>
+          <div>{children}</div>
         </div>
       </Rnd>
     );

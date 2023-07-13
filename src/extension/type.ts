@@ -38,3 +38,4 @@ export type FcrBoardMaterialWindowConfig<T = unknown> = {
   taskUuid: string;
   resourceHasAnimation: boolean;
 };
+export const chatroomWidgetId = 'easemobIM';

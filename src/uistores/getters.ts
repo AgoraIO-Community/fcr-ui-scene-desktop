@@ -52,22 +52,7 @@ export class Getters {
   get localUser() {
     return this._classroomUIStore.classroomStore.userStore.localUser;
   }
-  @computed
-  get videoStreams() {
-    const { streamByUserUuid, streamByStreamUuid } =
-      this._classroomUIStore.classroomStore.streamStore;
-    const videoStreams = extractUserStreams(
-      this._classroomUIStore.classroomStore.userStore.users,
-      streamByUserUuid,
-      streamByStreamUuid,
-      [AgoraRteVideoSourceType.Camera, AgoraRteVideoSourceType.ScreenShare],
-    );
-    return videoStreams;
-  }
-  @computed
-  get videoUIStreams() {
-    return Array.from(this.videoStreams).map((stream) => new EduStreamUI(stream));
-  }
+
   @computed
   get cameraStreams() {
     const { streamByUserUuid, streamByStreamUuid } =
@@ -83,7 +68,18 @@ export class Getters {
 
   @computed
   get cameraUIStreams() {
-    return Array.from(this.cameraStreams).map((stream) => new EduStreamUI(stream));
+    const isIngroupLocal = this._classroomUIStore.classroomStore.groupStore.groupUuidByUserUuid.get(
+      this.localUser?.userUuid || '',
+    );
+    return Array.from(this.cameraStreams)
+      .filter((stream) => {
+        return isIngroupLocal
+          ? true
+          : !this._classroomUIStore.classroomStore.groupStore.groupUuidByUserUuid.get(
+              stream.fromUser.userUuid,
+            );
+      })
+      .map((stream) => new EduStreamUI(stream));
   }
   @computed
   get teacherUIStream() {

@@ -7,23 +7,32 @@ import { PresentationView } from '@onlineclass/containers/layout/presentation-vi
 import { WidgetContainer } from '@onlineclass/containers/widget';
 import { Layout } from '@onlineclass/uistores/type';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { ZIndexContext } from '@onlineclass/utils/hooks/use-z-index';
+import { ZIndexController } from '@onlineclass/utils/z-index-controller';
 import { observer } from 'mobx-react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 export const ClassroomLayout = observer(() => {
   const {
     layoutUIStore: { layout, setLayoutReady },
   } = useStore();
+  const zIndexControllerRef = useRef(new ZIndexController());
   useEffect(() => {
     setLayoutReady(true);
   }, []);
   return (
-    <>
-      <CoverView></CoverView>
-      {layout === Layout.Grid ? <GalleryView></GalleryView> : <PresentationView></PresentationView>}
-      <WidgetContainer />
-      <GroupInfoPanel />
-      <GroupStatusPanel />
-      <AskHelpList />
-    </>
+    <ZIndexContext.Provider value={zIndexControllerRef.current}>
+      <>
+        <CoverView></CoverView>
+        {layout === Layout.Grid ? (
+          <GalleryView></GalleryView>
+        ) : (
+          <PresentationView></PresentationView>
+        )}
+        <WidgetContainer />
+        <GroupInfoPanel />
+        <GroupStatusPanel />
+        <AskHelpList />
+      </>
+    </ZIndexContext.Provider>
   );
 });

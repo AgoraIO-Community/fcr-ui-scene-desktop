@@ -25,6 +25,3 @@
 #app {
   background: linear-gradient(108.16deg, #3c495f 0%, #353740 97.33%) !important;
 }
-.fcr-bg-2 {
-  backdrop-filter: blur(25px);
-}

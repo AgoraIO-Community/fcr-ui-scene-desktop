@@ -7,7 +7,7 @@ import { ConfirmDialogProps } from '@components/dialog/confirm-dialog';
 import { AgoraViewportBoundaries } from 'agora-common-libs';
 import { ClassDialogProps } from '@components/dialog/class-dialog';
 import { v4 as uuidv4 } from 'uuid';
-import { ClassroomState } from 'agora-edu-core';
+import { ClassroomState, EduRoleTypeEnum } from 'agora-edu-core';
 import { AgoraExtensionRoomEvent } from '@onlineclass/extension/events';
 
 @Log.attach({ proxyMethods: false })
@@ -106,7 +106,8 @@ export class LayoutUIStore extends EduUIStoreBase {
       this._isPointingBar ||
       this._hasPopoverShowed ||
       (this.layout === Layout.Grid && this.getters.cameraUIStreams.length > 1) ||
-      this.noAvailabelStream
+      this.noAvailabelStream ||
+      this.getters.localUser?.userRole === EduRoleTypeEnum.invisible
     );
   }
   get classroomViewportClassName() {

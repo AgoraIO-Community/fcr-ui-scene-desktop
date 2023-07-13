@@ -2,7 +2,6 @@
   @apply fcr-bg-2 fcr-rounded-16 fcr-shadow-dialog;
   width: 500px;
   position: relative;
-  backdrop-filter: blur(25px);
   padding: 10px;
 }
 

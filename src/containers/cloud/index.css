@@ -23,7 +23,6 @@
   padding: 0 15px;
   height: 50px;
   position: relative;
-  backdrop-filter: blur(25px);
 }
 
 .fcr-cloud-personal-tab-footer-upload {
@@ -144,10 +143,9 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 .fcr-cloud-personal-tab-upload-list-header {
-  @apply fcr-text-1 fcr-rounded-12;
-  background: #99bbfe;
+  @apply fcr-text-1 fcr-rounded-12 fcr-bg-brand-6;
+
   height: 36px;
-  backdrop-filter: blur(25px);
   line-height: 36px;
   font-size: 12px;
   display: flex;
@@ -158,8 +156,7 @@
   border-bottom-right-radius: 0;
 }
 .fcr-cloud-personal-tab-upload-list-header-collapsed {
-  @apply fcr-rounded-full;
-  background: #d9d9d9;
+  @apply fcr-rounded-full fcr-bg-white;
   width: 20px;
   height: 20px;
   position: absolute;
@@ -173,7 +170,6 @@
 .fcr-cloud-personal-tab-upload-list-content {
   @apply fcr-bg-2;
   flex: 1;
-  backdrop-filter: blur(25px);
 }
 .fcr-cloud-personal-tab-upload-list-item {
   display: flex;

@@ -9,7 +9,6 @@
   min-height: 490px;
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(25px);
 }
 .fcr-participants-container .fcr-table {
   flex: 1;
