@@ -118,13 +118,13 @@ export class BreakoutUIStore extends EduUIStoreBase {
   get groups() {
     const list: { id: string; text: string; children: { id: string; text: string }[] }[] = [];
 
-    const { users } = this.userData;
-
     const unknownName = 'The user didn‘t enter the group';
 
-    const teacherList = this.classroomStore.userStore.teacherList;
+    const users = this.mainRoomUsers;
 
-    const assistantList = this.classroomStore.userStore.assistantList;
+    const teacherList = this.mainRoomTeachers;
+
+    const assistantList = this.mainRoomAssistants;
 
     this.groupDetails.forEach((group, groupUuid) => {
       const students = new Map<string, { id: string; text: string; notJoined?: boolean }>();
@@ -169,7 +169,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   get students() {
     const list: { userUuid: string; userName: string; groupUuid: string | undefined }[] = [];
 
-    this.userData.studentList.forEach((user) => {
+    this.mainRoomStudents.forEach((user) => {
       const groupUuid = this.getUserGroupUuid(user.userUuid);
 
       list.push({
@@ -199,12 +199,36 @@ export class BreakoutUIStore extends EduUIStoreBase {
 
   @computed
   get numberToBeAssigned() {
-    return this.userData.studentList.size;
+    return this.mainRoomStudents.size;
+  }
+  @computed
+  get mainRoomUsers() {
+    if (this.classroomStore.connectionStore.classroomState !== ClassroomState.Connected) {
+      return new Map();
+    }
+    return this.classroomStore.userStore.mainRoomDataStore.users;
+  }
+  @computed
+  get mainRoomStudents() {
+    if (this.classroomStore.connectionStore.classroomState !== ClassroomState.Connected) {
+      return new Map();
+    }
+    return this.classroomStore.userStore.mainRoomDataStore.studentList;
+  }
+  @computed
+  get mainRoomTeachers() {
+    if (this.classroomStore.connectionStore.classroomState !== ClassroomState.Connected) {
+      return new Map();
+    }
+    return this.classroomStore.userStore.mainRoomDataStore.teacherList;
   }
 
   @computed
-  get userData() {
-    return this.classroomStore.userStore.mainRoomDataStore;
+  get mainRoomAssistants() {
+    if (this.classroomStore.connectionStore.classroomState !== ClassroomState.Connected) {
+      return new Map();
+    }
+    return this.classroomStore.userStore.mainRoomDataStore.assistantList;
   }
 
   /**
@@ -213,7 +237,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   @computed
   get ungroupedList() {
     this._localGroups.values();
-    const { studentList } = this.userData;
+    const studentList = this.mainRoomStudents;
     const ungrouped: { id: string; text: string }[] = [];
 
     studentList.forEach((student, studentUuid) => {
@@ -656,7 +680,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   @bound
   getGroupUserCount(groupUuid: string) {
     return this.groupDetails.get(groupUuid)?.users.reduce((prev, { userUuid }) => {
-      if (this.userData.studentList.has(userUuid)) prev += 1;
+      if (this.mainRoomStudents.has(userUuid)) prev += 1;
       return prev;
     }, 0);
   }
