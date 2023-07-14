@@ -27,9 +27,14 @@ enum GroupMethod {
 @Log.attach()
 export class BreakoutUIStore extends EduUIStoreBase {
   /**
-   * 学生最大15人
+   * 每个分组学生最大15人
    */
   static readonly MAX_USER_COUNT = 15;
+
+  /**
+   * 总分组数
+   */
+  static readonly MAX_GROUP_COUNT = 20;
   /**
    * 当前分组序号
    */
@@ -410,6 +415,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
    */
   @action.bound
   addGroup() {
+    if (this.groupDetails.size >= BreakoutUIStore.MAX_GROUP_COUNT) {
+      this.addToast({
+        text: `The number of groups cannot exceed ${BreakoutUIStore.MAX_GROUP_COUNT}`,
+      });
+      return;
+    }
     const newGroup = { groupUuid: uuidv4(), groupName: this._generateGroupName() };
 
     if (this._isGroupExisted(newGroup)) {
@@ -732,15 +743,10 @@ export class BreakoutUIStore extends EduUIStoreBase {
       message = message.trim().replaceAll('\n', '');
 
       if (!message) {
-        //   this.shareUIStore.addToast(
-        //     transI18n('breakout_room.broadcast_message_cannot_be_empty'),
-        //     'warning',
-        //   );
         return;
       }
 
       this.classroomStore.groupStore.broadcastMessage(message);
-      // this.shareUIStore.addToast(transI18n('breakout_room.broadcast_message_success'));
     } catch (e) {
       // this.shareUIStore.addGenericErrorDialog(e as AGError);
     }

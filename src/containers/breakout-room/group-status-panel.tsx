@@ -10,8 +10,9 @@ import { Rnd } from 'react-rnd';
 
 export const GroupStatusPanel = observer(() => {
   const {
+    getters: { isBreakoutMinimized },
     layoutUIStore: { showStatusBar, addDialog },
-    breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo },
+    breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo, breakoutDialogVisible },
   } = useStore();
 
   const panelRef = useRef<{ closePopover: () => void }>(null);
@@ -38,7 +39,7 @@ export const GroupStatusPanel = observer(() => {
     }
   };
 
-  return isTeacher && groupState ? (
+  return isTeacher && groupState && (!breakoutDialogVisible || isBreakoutMinimized) ? (
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}

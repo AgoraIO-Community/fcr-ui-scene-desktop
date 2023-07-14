@@ -244,7 +244,7 @@ export const GroupedList = observer(
                     <PopoverWithTooltip
                       toolTipProps={{ placement: 'top', content: 'Move to' }}
                       popoverProps={{
-                        overlayOffset: 18,
+                        overlayOffset: 20,
                         placement: 'rightTop',
                         content: <SearchPanel groupId={groupId} onChange={handleUsersChange} />,
                         overlayClassName: 'fcr-breakout-room__search__overlay',

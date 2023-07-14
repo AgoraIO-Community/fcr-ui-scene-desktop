@@ -11,6 +11,7 @@ import { CreatePanel } from './create-panel';
 import { BreakoutRoomGrouping } from './grouping';
 import { Toast } from '@components/toast';
 import { GroupState } from 'agora-edu-core';
+import { BroadcastMessagePanel } from './broadcast-panel';
 
 export const BreakoutWizard: FC<{ onChange: () => void }> = observer(({ onChange }) => {
   const {
@@ -32,6 +33,7 @@ export const WizardGrouping: FC = observer(() => {
   } = useStore();
   const [checked, setChecked] = useState(true);
   const [createVisible, setCreateVisible] = useState(false);
+  const [broadcastVisible, setBroadcastVisible] = useState(false);
   const panelRef = useRef<{ closePopover: () => void }>(null);
   const handleMinimize = () => {
     eduToolApi.setMinimizedState({
@@ -51,6 +53,13 @@ export const WizardGrouping: FC = observer(() => {
   };
   const handleCreateClose = () => {
     setCreateVisible(false);
+    if (panelRef.current) {
+      panelRef.current.closePopover();
+    }
+  };
+
+  const handleBroadcastClose = () => {
+    setBroadcastVisible(false);
     if (panelRef.current) {
       panelRef.current.closePopover();
     }
@@ -108,7 +117,36 @@ export const WizardGrouping: FC = observer(() => {
       <div className="fcr-breakout-room-dialog__foot-actions">
         {groupState === GroupState.OPEN ? (
           <React.Fragment>
-            <Button size="XS" onClick={handleStop} styleType="danger">
+            <PopoverWithTooltip
+              ref={panelRef}
+              toolTipProps={{
+                placement: 'top',
+                content: 'Broadcast a message to all breakout rooms',
+              }}
+              popoverProps={{
+                showArrow: true,
+                overlayOffset: 8,
+                placement: 'top',
+                content: <BroadcastMessagePanel onClose={handleBroadcastClose} />,
+                overlayClassName: 'fcr-breakout-room__create__overlay',
+                onVisibleChange: setBroadcastVisible,
+              }}>
+              <Button size="XS" type="secondary">
+                Broadcast Message to All
+                <SvgImg
+                  type={SvgIconEnum.FCR_DROPDOWN}
+                  style={{
+                    transform: `rotate(${broadcastVisible ? '0deg' : '180deg'})`,
+                    transition: '.3s all',
+                  }}
+                />
+              </Button>
+            </PopoverWithTooltip>
+            <Button
+              size="XS"
+              onClick={handleStop}
+              styleType="danger"
+              preIcon={SvgIconEnum.FCR_CLOSE}>
               Stop
             </Button>
           </React.Fragment>
