@@ -121,7 +121,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
    */
   @computed
   get groups() {
-    const list: { id: string; text: string; children: { id: string; text: string }[] }[] = [];
+    const list: {
+      id: string;
+      text: string;
+      sort: number;
+      children: { id: string; text: string }[];
+    }[] = [];
 
     const unknownName = 'The user didn‘t enter the group';
 
@@ -147,10 +152,15 @@ export class BreakoutUIStore extends EduUIStoreBase {
       const tree = {
         id: groupUuid,
         text: group.groupName,
+        sort: group.sort || 0,
         children: [...students.values()],
       };
 
       list.push(tree);
+    });
+
+    list.sort(({ sort: sort1 }, { sort: sort2 }) => {
+      return sort1 - sort2;
     });
 
     return list;
@@ -410,6 +420,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
     }
   }
 
+  getLastOrder() {
+    const last = this.groups.findLast(() => true);
+
+    return last?.sort ?? 0;
+  }
+
   /**
    * 新增组
    */
@@ -432,12 +448,14 @@ export class BreakoutUIStore extends EduUIStoreBase {
         {
           groupName: newGroup.groupName,
           users: [],
+          sort: this.getLastOrder() + 1,
         },
       ]);
     } else {
       this._localGroups.set(newGroup.groupUuid, {
         groupName: newGroup.groupName,
         users: [],
+        sort: this.getLastOrder() + 1,
       });
     }
 
@@ -595,6 +613,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
         groupDetails.push({
           groupName: group.groupName,
           users: group.users,
+          sort: group.sort,
         });
       });
 
@@ -652,6 +671,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
         const groupDetail = {
           groupName: this._generateGroupName(),
           users: [],
+          sort: this.getLastOrder(),
         };
 
         this._localGroups.set(`${uuidv4()}`, groupDetail);
@@ -662,6 +682,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
         const groupDetail = {
           groupName: this._generateGroupName(),
           users: [],
+          sort: this.getLastOrder(),
         };
 
         const groupId = `${uuidv4()}`;

@@ -7,19 +7,19 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { Popover } from '@components/popover';
 import { Button } from '@components/button';
 import { useEffect, useState } from 'react';
-import { ClassState } from 'agora-edu-core';
+import { ClassState, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 
 export const Leave = observer(() => {
   const {
     actionBarUIStore: { setShowLeaveOption },
-    breakoutUIStore: { currentSubRoomInfo, leaveSubRoom },
+    breakoutUIStore: { currentSubRoomInfo },
   } = useStore();
 
   return currentSubRoomInfo ? (
     <ToolTip content="Leave">
       <ActionBarItem
         classNames="fcr-leave-subroom-action"
-        onClick={leaveSubRoom}
+        onClick={() => setShowLeaveOption(true, 2)}
         icon={{
           type: SvgIconEnum.FCR_QUIT2,
           size: 36,
@@ -30,7 +30,7 @@ export const Leave = observer(() => {
     <ToolTip content="Leave">
       <ActionBarItem
         classNames="fcr-leave-room-action"
-        onClick={() => setShowLeaveOption(true)}
+        onClick={() => setShowLeaveOption(true, 1)}
         icon={{
           type: SvgIconEnum.FCR_QUIT2,
           size: 36,
@@ -41,7 +41,7 @@ export const Leave = observer(() => {
 });
 export const LeaveCheck = observer(() => {
   const {
-    actionBarUIStore: { setShowLeaveOption },
+    actionBarUIStore: { setShowLeaveOption, leaveFlag },
     layoutUIStore: { setHasPopoverShowed },
   } = useStore();
   const [popoverVisible, setPopoverVisible] = useState(false);
@@ -54,7 +54,7 @@ export const LeaveCheck = observer(() => {
   const afterVisibleChange = (visible: boolean) => {
     setHasPopoverShowed(visible);
     if (!visible) {
-      setShowLeaveOption(false);
+      setShowLeaveOption(false, 1);
     }
   };
   return (
@@ -65,7 +65,13 @@ export const LeaveCheck = observer(() => {
       afterVisibleChange={afterVisibleChange}
       onVisibleChange={hanldleVisibleChange}
       overlayInnerStyle={{ width: 289 }}
-      content={<LeavePopoverContent></LeavePopoverContent>}>
+      content={
+        leaveFlag === 1 ? (
+          <LeavePopoverContent></LeavePopoverContent>
+        ) : (
+          <LeaveBreakoutPopoverContent></LeaveBreakoutPopoverContent>
+        )
+      }>
       <div className="fcr-action-bar-cancel-leave">
         <Button onClick={() => setPopoverVisible(false)} size="M" styleType="gray">
           Cancel
@@ -110,6 +116,40 @@ const LeavePopoverContent = observer(() => {
             End the Classroom
           </Button>
         )}
+      </div>
+    </div>
+  );
+});
+
+const LeaveBreakoutPopoverContent = observer(() => {
+  const {
+    actionBarUIStore: { setShowLeaveOption },
+    breakoutUIStore: { leaveSubRoom },
+  } = useStore();
+  const { role } = EduClassroomConfig.shared.sessionInfo;
+
+  const handleOk = () => {
+    setShowLeaveOption(false, 2);
+    leaveSubRoom();
+  };
+
+  return (
+    <div className="fcr-action-bar-leave-popover">
+      {role === EduRoleTypeEnum.teacher || role === EduRoleTypeEnum.assistant ? (
+        <div className="fcr-action-bar-leave-popover-text">
+          Are you sure you want to leave the group？
+        </div>
+      ) : (
+        <div className="fcr-action-bar-leave-popover-text">
+          {
+            "Re-entry into the group is only possible with the teacher's invitation.Are you sure you want to leave the group？"
+          }
+        </div>
+      )}
+      <div className="fcr-action-bar-leave-popover-btns">
+        <Button type={'primary'} block onClick={handleOk} size="M">
+          Leave the Group
+        </Button>
       </div>
     </div>
   );

@@ -141,6 +141,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
     return this.getters.isHost;
   }
   @observable showLeaveOption = false;
+  @observable leaveFlag = 1;
 
   shareScreenStateKeeperMap: Map<string, ShareStreamStateKeeper> = new Map();
   @computed
@@ -165,8 +166,9 @@ export class ActionBarUIStore extends EduUIStoreBase {
     this.getters.eduTool.sendWidgetPrivateChat(chatroomWidgetId, userId);
   }
   @action.bound
-  setShowLeaveOption(show: boolean) {
+  setShowLeaveOption(show: boolean, flag: number /* 1 leave clasroom, 2 leave group  */) {
     this.showLeaveOption = show;
+    this.leaveFlag = flag;
   }
   @bound
   startRecording() {
