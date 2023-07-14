@@ -149,6 +149,7 @@ export class StreamUIStore extends EduUIStoreBase {
       if (renderableVideoDom) {
         const needMirror = stream.videoSourceType !== AgoraRteVideoSourceType.ScreenShare;
         setupRemoteVideo(stream, renderableVideoDom.dom, needMirror, renderableVideoDom.renderMode);
+        this._videoDoms.delete(stream.streamUuid);
       }
     });
     // 更新已订阅列表
