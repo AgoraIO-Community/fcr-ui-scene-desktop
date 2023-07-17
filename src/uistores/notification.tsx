@@ -69,7 +69,6 @@ export class NotiticationUIStore extends EduUIStoreBase {
       ToastApi.open({
         persist: true,
         duration: 15000,
-
         toastProps: {
           icon: SvgIconEnum.FCR_HOST,
           type: 'warn',
@@ -284,6 +283,23 @@ export class NotiticationUIStore extends EduUIStoreBase {
                 });
               }),
             );
+          }
+        },
+      ),
+    );
+    this._disposers.push(
+      reaction(
+        () => this.getters.isBreakoutStarted,
+        () => {
+          if (!this.getters.isBreakoutStarted) {
+            setTimeout(() => {
+              ToastApi.open({
+                toastProps: {
+                  type: 'normal',
+                  content: `The teacher has closed all rooms`,
+                },
+              });
+            }, 100);
           }
         },
       ),

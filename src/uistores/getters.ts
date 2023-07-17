@@ -156,6 +156,10 @@ export class Getters {
     );
   }
 
+  get isBreakoutStarted() {
+    return !!this.classroomUIStore.breakoutUIStore.groupState;
+  }
+
   get isBreakoutMinimized() {
     return this._classroomUIStore.eduToolApi.isWidgetMinimized('breakout');
   }
