@@ -269,6 +269,9 @@ export class Board {
 
     this._disposers.forEach((d) => d());
     this._disposers = [];
+    runInAction(() => {
+      this.grantedUsers = new Set();
+    });
   }
 
   @bound

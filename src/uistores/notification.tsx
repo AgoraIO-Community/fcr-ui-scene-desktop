@@ -203,7 +203,8 @@ export class NotiticationUIStore extends EduUIStoreBase {
 
     if (
       event === AgoraEduClassroomEvent.LeaveSubRoom ||
-      event === AgoraEduClassroomEvent.JoinSubRoom
+      event === AgoraEduClassroomEvent.JoinSubRoom ||
+      event === AgoraEduClassroomEvent.MoveToOtherGroup
     ) {
       ToastApi.destroyAll();
     }
