@@ -7,6 +7,7 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
+import { useI18n } from 'agora-common-libs';
 
 export const GroupStatusPanel = observer(() => {
   const {
@@ -14,6 +15,7 @@ export const GroupStatusPanel = observer(() => {
     layoutUIStore: { showStatusBar, addDialog },
     breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo, breakoutDialogVisible },
   } = useStore();
+  const transI18n = useI18n();
 
   const panelRef = useRef<{ closePopover: () => void }>(null);
   const [visible, setVisible] = useState(false);
@@ -22,13 +24,12 @@ export const GroupStatusPanel = observer(() => {
 
   const handleStop = () => {
     addDialog('confirm', {
-      title: 'Stop discussion?',
-      content:
-        'Do you want to close all breakout rooms? After closing all breakout rooms, all the students will be returned to the main classroom.',
+      title: transI18n('fcr_group_stop_discussion'),
+      content: transI18n('fcr_group_tips_title_close_group'),
       onOk: () => {
         stopGroup();
       },
-      okText: 'Stop',
+      okText: transI18n('fcr_group_button_stop'),
     });
   };
 
@@ -62,7 +63,7 @@ export const GroupStatusPanel = observer(() => {
               onVisibleChange: setVisible,
             }}>
             <Button size="XS" type="secondary">
-              Broadcast Message to All
+              {transI18n('fcr_group_label_broadcast_message')}
               <SvgImg
                 type={SvgIconEnum.FCR_DROPDOWN}
                 style={{
@@ -73,7 +74,7 @@ export const GroupStatusPanel = observer(() => {
             </Button>
           </PopoverWithTooltip>
           <Button size="XS" preIcon={SvgIconEnum.FCR_CLOSE} styleType="danger" onClick={handleStop}>
-            Stop
+            {transI18n('fcr_group_button_stop')}
           </Button>
         </div>
       </div>

@@ -11,9 +11,10 @@ export const ToolBox = observer(() => {
   const {
     layoutUIStore: { setHasPopoverShowed },
   } = useStore();
+  const transI18n = useI18n();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
-  const transI18n = useI18n();
+
   return (
     <>
       <ToolTip
@@ -54,8 +55,8 @@ export const ToolBox = observer(() => {
   );
 });
 const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) => {
-  const transI18n = useI18n();
   const { getters } = useStore();
+  const transI18n = useI18n();
   const isWidgetActive = (widgetId: string) => {
     if (widgetId === 'breakout') {
       return getters.isBreakoutActive;
@@ -67,7 +68,11 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
       <div className="fcr-toolbox-popover-title">{transI18n('fcr_room_button_toolbox')}</div>
       <div className="fcr-toolbox-popover-item-wrapper">
         {[
-          // { label: 'Timer', id: 'timer', icon: SvgIconEnum.FCR_V2_TIMER },
+          // {
+          //   label: transI18n('fcr_tool_box_count_down'),
+          //   id: 'timer',
+          //   icon: SvgIconEnum.FCR_V2_TIMER,
+          // },
           { label: transI18n('fcr_tool_box_poll'), id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
           {
             label: transI18n('fcr_tool_box_breakout_room'),

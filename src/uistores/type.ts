@@ -49,10 +49,7 @@ export enum DeviceSwitchDialogId {
   StartVideo = 'start-video',
   Unmute = 'unmute',
 }
-export enum CloudTabsType {
-  Public = 'Public',
-  Personal = 'Personal',
-}
+
 //cloud
 export const h5Type = 'ah5';
 export const linkType = 'alf';

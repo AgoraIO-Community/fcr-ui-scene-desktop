@@ -12,6 +12,7 @@ import { BreakoutRoomGrouping } from './grouping';
 import { Toast } from '@components/toast';
 import { GroupState } from 'agora-edu-core';
 import { BroadcastMessagePanel } from './broadcast-panel';
+import { useI18n } from 'agora-common-libs';
 
 export const BreakoutWizard: FC<{ onChange: () => void }> = observer(({ onChange }) => {
   const {
@@ -34,6 +35,7 @@ export const WizardGrouping: FC = observer(() => {
   const [checked, setChecked] = useState(true);
   const [createVisible, setCreateVisible] = useState(false);
   const [broadcastVisible, setBroadcastVisible] = useState(false);
+  const transI18n = useI18n();
   const panelRef = useRef<{ closePopover: () => void }>(null);
   const handleMinimize = () => {
     eduToolApi.setMinimizedState({
@@ -41,7 +43,7 @@ export const WizardGrouping: FC = observer(() => {
       widgetId: 'breakout',
       minimizeProperties: {
         minimizedIcon: SvgIconEnum.FCR_V2_BREAKROOM,
-        minimizedTooltip: 'Breakout room',
+        minimizedTooltip: transI18n('fcr_group_breakout_room'),
       },
     });
   };
@@ -70,17 +72,18 @@ export const WizardGrouping: FC = observer(() => {
 
   const handleStop = () => {
     addDialog('confirm', {
-      title: 'Stop discussion?',
-      content:
-        'Do you want to close all breakout rooms? After closing all breakout rooms, all the students will be returned to the main classroom.',
+      title: transI18n('fcr_group_stop_discussion'),
+      content: transI18n('fcr_group_tips_title_close_group'),
       onOk: () => {
         stopGroup();
       },
-      okText: 'Stop',
+      okText: transI18n('fcr_group_button_stop'),
     });
   };
 
-  const groupStateLabel = groupState ? 'In Progress' : 'Not Started';
+  const groupStateLabel = groupState
+    ? transI18n('fcr_group_in_progress')
+    : transI18n('fcr_group_not_status');
 
   return (
     <div className="fcr-breakout-room-dialog">
@@ -88,13 +91,13 @@ export const WizardGrouping: FC = observer(() => {
       <div className="fcr-breakout-room-dialog__header fcr-breakout-room__drag-handle">
         {/* title */}
         <div>
-          Breakout Rooms{' '}
+          {transI18n('fcr_group_breakout_room')}{' '}
           <span className="fcr-breakout-room-dialog__header-tag">{groupStateLabel}</span>
         </div>
         {/* actions */}
         <div className="fcr-breakout-room-dialog__actions fcr-breakout-room__drag-cancel">
           <ul>
-            <ToolTip content="Minimization">
+            <ToolTip content={transI18n('fcr_group_minimization')}>
               <li>
                 <SvgImg
                   type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER}
@@ -103,7 +106,7 @@ export const WizardGrouping: FC = observer(() => {
                 />
               </li>
             </ToolTip>
-            <ToolTip content="Close">
+            <ToolTip content={transI18n('fcr_group_close')}>
               <li>
                 <SvgImg type={SvgIconEnum.FCR_CLOSE} size={14} onClick={handleClose} />
               </li>
@@ -121,7 +124,7 @@ export const WizardGrouping: FC = observer(() => {
               ref={panelRef}
               toolTipProps={{
                 placement: 'top',
-                content: 'Broadcast a message to all breakout rooms',
+                content: transI18n('fcr_group_tips_broadcast_message'),
               }}
               popoverProps={{
                 showArrow: true,
@@ -132,7 +135,7 @@ export const WizardGrouping: FC = observer(() => {
                 onVisibleChange: setBroadcastVisible,
               }}>
               <Button size="XS" type="secondary">
-                Broadcast Message to All
+                {transI18n('fcr_group_label_broadcast_message')}
                 <SvgImg
                   type={SvgIconEnum.FCR_DROPDOWN}
                   style={{
@@ -147,19 +150,19 @@ export const WizardGrouping: FC = observer(() => {
               onClick={handleStop}
               styleType="danger"
               preIcon={SvgIconEnum.FCR_CLOSE}>
-              Stop
+              {transI18n('fcr_group_button_stop')}
             </Button>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <Radio
-              label="Copy classroom content to group."
+              label={transI18n('fcr_group_copy_content_to_group')}
               checked={checked}
               onClick={toggleCheck}
             />
             <PopoverWithTooltip
               ref={panelRef}
-              toolTipProps={{ placement: 'top', content: 'Move to' }}
+              toolTipProps={{ placement: 'top', content: transI18n('fcr_group_button_move_to') }}
               popoverProps={{
                 showArrow: true,
                 overlayOffset: 8,
@@ -169,7 +172,7 @@ export const WizardGrouping: FC = observer(() => {
                 onVisibleChange: setCreateVisible,
               }}>
               <Button size="XS" type="secondary">
-                Recreate
+                {transI18n('fcr_group_recreate')}
                 <SvgImg
                   type={SvgIconEnum.FCR_DROPDOWN}
                   style={{
@@ -180,7 +183,7 @@ export const WizardGrouping: FC = observer(() => {
               </Button>
             </PopoverWithTooltip>
             <Button size="XS" onClick={handleStart}>
-              Start
+              {transI18n('fcr_group_start')}
             </Button>
           </React.Fragment>
         )}
@@ -206,6 +209,7 @@ export const WizardCreate = observer(() => {
   } = useStore();
   const [type, setType] = useState<1 | 2>(1);
   const [groupNum, setGroupNum] = useState(1);
+  const transI18n = useI18n();
 
   const perGroup = groupNum ? Math.floor(numberToBeAssigned / groupNum) : 0;
 
@@ -226,7 +230,7 @@ export const WizardCreate = observer(() => {
       widgetId: 'breakout',
       minimizeProperties: {
         minimizedIcon: SvgIconEnum.FCR_V2_BREAKROOM,
-        minimizedTooltip: 'Breakout room',
+        minimizedTooltip: transI18n('fcr_group_breakout_room'),
       },
     });
   };
@@ -248,11 +252,13 @@ export const WizardCreate = observer(() => {
       <div className="fcr-breakout-room__widget-dialog-top fcr-breakout-room__drag-handle">
         <div className="fcr-breakout-room__widget-header">
           {/* title */}
-          <span className="fcr-breakout-room__widget-title">Breakout Room</span>
+          <span className="fcr-breakout-room__widget-title">
+            {transI18n('fcr_group_breakout_room')}
+          </span>
           {/* actions */}
           <div className="fcr-breakout-room__widget-actions fcr-breakout-room__drag-cancel">
             <ul>
-              <ToolTip content="Minimization">
+              <ToolTip content={transI18n('fcr_group_minimization')}>
                 <li>
                   <SvgImg
                     type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER}
@@ -261,7 +267,7 @@ export const WizardCreate = observer(() => {
                   />
                 </li>
               </ToolTip>
-              <ToolTip content="Close">
+              <ToolTip content={transI18n('fcr_group_close')}>
                 <li>
                   <SvgImg type={SvgIconEnum.FCR_CLOSE} size={14} onClick={handleClose} />
                 </li>
@@ -270,9 +276,9 @@ export const WizardCreate = observer(() => {
           </div>
         </div>
         <div className="fcr-breakout-room__widget-create-number">
-          <span>Create</span>
+          <span>{transI18n('fcr_group_label_create')}</span>
           <InputNumber size="small" min={1} onChange={handleChangeGroupNum} value={groupNum} />
-          <span>breakout rooms</span>
+          <span>{transI18n('fcr_group_label_breakout_rooms')}</span>
         </div>
       </div>
       <div className="fcr-breakout-room__widget-dialog-bottom">
@@ -282,15 +288,18 @@ export const WizardCreate = observer(() => {
         <Radio label="Assign manually" checked={type === 2} onChange={handleChangeType(2)} />
         {type === 2 ? (
           <p className="fcr-breakout-room__widget-dialog-info">
-            To be assigned {numberToBeAssigned} persons
-            {numberToBeAssigned > 0 && `, per group ${perGroup}-${perGroup + 1} persons`}
+            {transI18n('fcr_group_tips_persons_per_group1', { reason1: numberToBeAssigned })}
+            {numberToBeAssigned > 0 &&
+              transI18n('fcr_group_tips_persons_per_group2', {
+                reason1: `${perGroup}-${perGroup + 1}`,
+              })}
           </p>
         ) : (
           <p className="fcr-breakout-room__widget-dialog-info" />
         )}
         <div className="fcr-breakout-room__widget-dialog-buttons">
           <Button size="XS" onClick={handleCreate}>
-            Create
+            {transI18n('fcr_group_label_create')}
           </Button>
         </div>
       </div>

@@ -66,12 +66,12 @@ export class WidgetUIStore extends EduUIStoreBase {
     const WidgetClass = this._registeredWidgets[widgetName];
 
     if (!WidgetClass) {
-      this.logger.info(`Widget [${widgetName}] is active but not registered`);
+      this.logger.info(`Widget [${widgetId}] is active but not registered`);
       return;
     }
 
     if (this._widgetInstances[widgetId]) {
-      this.logger.info(`Widget [${widgetName}] is already active`);
+      this.logger.info(`Widget [${widgetId}] is already created, do not create again`);
       return;
     }
 
@@ -98,8 +98,15 @@ export class WidgetUIStore extends EduUIStoreBase {
         (defaults?.userProperties ?? {});
 
       this._callWidgetCreate(widget, props, userProps);
+      this.logger.info(
+        `Create widget [${instanceId}] with props: ${JSON.stringify(
+          props,
+        )} userProps: ${JSON.stringify(userProps)}`,
+      );
 
       this._widgetInstances[widgetId] = widget;
+
+      this.logger.info('Current created widgets:', Object.keys(this._widgetInstances));
     } else {
       this.logger.info('Widget controller not ready for creating widget');
     }
@@ -109,8 +116,10 @@ export class WidgetUIStore extends EduUIStoreBase {
   destroyWidget(widgetId: string) {
     const widget = this._widgetInstances[widgetId];
     if (widget) {
+      this.logger.info(`Widget [${widgetId}] is going to be destroyed`);
       this._callWidgetDestroy(widget);
       delete this._widgetInstances[widgetId];
+      this.logger.info(`Widget [${widgetId}] is destroyed`);
     }
   }
 

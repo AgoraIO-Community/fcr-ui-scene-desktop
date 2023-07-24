@@ -3,6 +3,7 @@ import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToastApi } from '@components/toast';
 import { ToolTip } from '@components/tooltip';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 import { AGServiceErrorCode, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { AGError } from 'agora-rte-sdk';
 import { observer } from 'mobx-react';
@@ -14,6 +15,7 @@ export const GroupInfoPanel = observer(() => {
     breakoutUIStore: { currentSubRoomInfo, teacherGroupUuid },
     classroomStore,
   } = useStore();
+  const transI18n = useI18n();
 
   const isTeacher = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
 
@@ -24,8 +26,8 @@ export const GroupInfoPanel = observer(() => {
 
     if (!teachers.size && !assistants.size) {
       addDialog('confirm', {
-        title: 'Request help',
-        content: 'Teacher is not in this classroom',
+        title: transI18n('fcr_group_help_title'),
+        content: transI18n('fcr_group_teacher_not_in_classroom'),
         cancelButtonVisible: false,
       });
       return;
@@ -33,7 +35,7 @@ export const GroupInfoPanel = observer(() => {
     if (teacherGroupUuid === currentSubRoom) {
       ToastApi.open({
         toastProps: {
-          content: 'The teacher is already in the group',
+          content: transI18n('fcr_group_teacher_exist_hint'),
           type: 'normal',
         },
       });
@@ -44,8 +46,8 @@ export const GroupInfoPanel = observer(() => {
     const assistantUuids = Array.from(assistants.keys());
 
     addDialog('confirm', {
-      title: 'Request help',
-      content: 'You can invite the teacher to this group for assistance.',
+      title: transI18n('fcr_group_help_title'),
+      content: transI18n('fcr_group_help_content'),
       onOk: () => {
         updateGroupUsers(
           [
@@ -58,8 +60,8 @@ export const GroupInfoPanel = observer(() => {
         ).catch((e) => {
           if (AGError.isOf(e, AGServiceErrorCode.SERV_USER_BEING_INVITED)) {
             addDialog('confirm', {
-              title: 'Request help',
-              content: 'The teacher is helping other group, Please wait for minutes.',
+              title: transI18n('fcr_group_help_title'),
+              content: transI18n('fcr_group_teacher_is_helping_others_msg'),
               cancelButtonVisible: false,
             });
           } else {
@@ -67,8 +69,8 @@ export const GroupInfoPanel = observer(() => {
           }
         });
       },
-      okText: 'Invite',
-      cancelText: 'Cancel',
+      okText: transI18n('fcr_group_invite'),
+      cancelText: transI18n('fcr_group_cancel'),
     });
   };
 
@@ -82,7 +84,7 @@ export const GroupInfoPanel = observer(() => {
         style={{ opacity: showStatusBar ? 1 : 0 }}>
         <span style={{ marginLeft: 9 }}>{currentSubRoomInfo.groupName}</span>
         <div className="fcr-divider" style={{ marginRight: 1 }} />
-        <ToolTip content="Request for Help">
+        <ToolTip content={transI18n('fcr_group_help_title')}>
           <Button onClick={handleHelp}>
             <SvgImg type={SvgIconEnum.FCR_QUESTION} size={24} />
           </Button>

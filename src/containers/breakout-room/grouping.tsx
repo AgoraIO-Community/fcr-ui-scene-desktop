@@ -12,6 +12,7 @@ import { DndProvider, useDrop, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { observer } from 'mobx-react';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 
 type GroupItem = {
   id: string;
@@ -27,6 +28,7 @@ export const BreakoutRoomGrouping = observer(() => {
   const {
     breakoutUIStore: { addGroup, ungroupedCount, numberToBeAssigned, groupState },
   } = useStore();
+  const transI18n = useI18n();
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -34,11 +36,12 @@ export const BreakoutRoomGrouping = observer(() => {
         {/* column header */}
         <div className="fcr-breakout-room__grouping-column-header">
           <div className="fcr-breakout-room__grouping-column--ungroupped">
-            <span>Ungrouped</span>&nbsp;({ungroupedCount})
+            <span>{transI18n('fcr_group_ungrouped')}</span>&nbsp;({ungroupedCount})
           </div>
           <div className="fcr-breakout-room__grouping-column--grouped">
             <div>
-              <span>Grouped</span>&nbsp;({numberToBeAssigned - ungroupedCount})
+              <span>{transI18n('fcr_group_grouped')}</span>&nbsp;(
+              {numberToBeAssigned - ungroupedCount})
             </div>
             {!groupState && (
               <div>
@@ -47,7 +50,7 @@ export const BreakoutRoomGrouping = observer(() => {
                   preIcon={SvgIconEnum.FCR_V2_PHONE_MORE1}
                   type={'secondary'}
                   onClick={addGroup}>
-                  Add Room
+                  {transI18n('fcr_group_button_add_room')}
                 </Button>
               </div>
             )}
@@ -131,6 +134,7 @@ export const GroupedList = observer(
         helpRequestList,
       },
     } = useStore();
+    const transI18n = useI18n();
     const [expanded, setExpanded] = useState(true);
 
     const [editing, setEditing] = useState(false);
@@ -169,8 +173,8 @@ export const GroupedList = observer(
 
     const handleDelete = () => {
       addDialog('confirm', {
-        title: 'Delete Group',
-        content: `Are you sure you want to delete the ${groupName} group`,
+        title: transI18n('fcr_group_delete_room_title'),
+        content: transI18n('fcr_group_delete_room_confirm', { reason1: groupName }),
         onOk: () => {
           removeGroup(groupId);
         },
@@ -218,7 +222,7 @@ export const GroupedList = observer(
               size={20}
             />
             {haveRequest && (
-              <ToolTip content="Someone in the group is asking for help">
+              <ToolTip content={transI18n('fcr_group_tips_ask_help')}>
                 <Button size="XXS" shape="rounded" type="secondary">
                   <SvgImg type={SvgIconEnum.FCR_STUDENT_RASIEHAND} />
                 </Button>
@@ -230,19 +234,22 @@ export const GroupedList = observer(
                   {groupName} ({list.length})
                 </span>
                 <div className="fcr-breakout-room__grouping-grouped-group-actions">
-                  <ToolTip content="Delete">
+                  <ToolTip content={transI18n('fcr_group_button_delete')}>
                     <Button size="XXS" shape="circle" styleType="danger">
                       <SvgImg type={SvgIconEnum.FCR_DELETE3} size={24} onClick={handleDelete} />
                     </Button>
                   </ToolTip>
-                  <ToolTip content="Rename">
+                  <ToolTip content={transI18n('fcr_group_button_rename')}>
                     <Button size="XXS" shape="circle" type="secondary" onClick={handleRename}>
                       <SvgImg type={SvgIconEnum.FCR_RENAME} size={24} />
                     </Button>
                   </ToolTip>
                   {!groupState ? (
                     <PopoverWithTooltip
-                      toolTipProps={{ placement: 'top', content: 'Move to' }}
+                      toolTipProps={{
+                        placement: 'top',
+                        content: transI18n('fcr_group_button_move_to'),
+                      }}
                       popoverProps={{
                         overlayOffset: 20,
                         placement: 'rightTop',
@@ -254,7 +261,7 @@ export const GroupedList = observer(
                         shape="circle"
                         type="secondary"
                         preIcon={SvgIconEnum.FCR_MOVETO}>
-                        Assign
+                        {transI18n('fcr_group_button_assign')}
                       </Button>
                     </PopoverWithTooltip>
                   ) : (
@@ -264,7 +271,7 @@ export const GroupedList = observer(
                       type="secondary"
                       preIcon={SvgIconEnum.FCR_MOVETO}
                       onClick={handleJoin}>
-                      Join
+                      {transI18n('fcr_group_button_join')}
                     </Button>
                   )}
                 </div>
@@ -358,6 +365,7 @@ const NamePlate: FC<{ nickname: string; tag?: string; userId: string; groupId?: 
   const {
     breakoutUIStore: { moveUserToGroup },
   } = useStore();
+  const transI18n = useI18n();
 
   const handleChange = (toGroupId: string) => {
     if (groupId) {
@@ -368,14 +376,14 @@ const NamePlate: FC<{ nickname: string; tag?: string; userId: string; groupId?: 
   return (
     <div className="fcr-breakout-room__grouping-name-plate">
       <SvgImg type={SvgIconEnum.FCR_MOVE} colors={{ iconPrimary: 'currentColor' }} />
-      <Avatar size={24} textSize={12} nickName="Friday" />
+      <Avatar size={24} textSize={12} nickName={nickname} />
       <div className="fcr-breakout-room__grouping-name-plate-name">
         {tag && <div className="fcr-breakout-room__grouping-name-plate-name-tag">{tag}</div>}
         <div>{nickname}</div>
       </div>
       {groupId && (
         <PopoverWithTooltip
-          toolTipProps={{ placement: 'top', content: 'Move to' }}
+          toolTipProps={{ placement: 'top', content: transI18n('fcr_group_button_move_to') }}
           popoverProps={{
             placement: 'rightTop',
             content: <GroupPanel groupId={groupId} onChange={handleChange} />,

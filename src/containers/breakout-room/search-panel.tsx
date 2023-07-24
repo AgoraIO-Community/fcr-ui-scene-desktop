@@ -2,6 +2,7 @@ import { Checkbox } from '@components/checkbox';
 import { Input } from '@components/input';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { FC, useState } from 'react';
 
@@ -10,6 +11,7 @@ export const SearchPanel: FC<{ groupId: string; onChange: (users: string[]) => v
     const {
       breakoutUIStore: { students, groupDetails },
     } = useStore();
+    const transI18n = useI18n();
 
     const [inputVal, setInputVal] = useState('');
 
@@ -37,7 +39,7 @@ export const SearchPanel: FC<{ groupId: string; onChange: (users: string[]) => v
     return (
       <div className="fcr-breakout-room__search">
         <Input
-          placeholder="search"
+          placeholder={transI18n('fcr_group_search')}
           iconPrefix={SvgIconEnum.FCR_V2_SEARCH}
           value={inputVal}
           onChange={setInputVal}
@@ -58,7 +60,9 @@ export const SearchPanel: FC<{ groupId: string; onChange: (users: string[]) => v
         ) : (
           <div className="fcr-breakout-room__search-placeholder">
             <SvgImg type={SvgIconEnum.FCR_HEAD} size={64} />
-            <div className="fcr-breakout-room__search-placeholder-label">No data</div>
+            <div className="fcr-breakout-room__search-placeholder-label">
+              {transI18n('fcr_group_no_data')}
+            </div>
           </div>
         )}
       </div>

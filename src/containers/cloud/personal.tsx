@@ -18,13 +18,16 @@ import { ToolTip } from '@components/tooltip';
 import { ClickableIcon } from '@components/svg-img/clickable-icon';
 import { convertableTypes } from '@onlineclass/uistores/type';
 import { CloudDriveCourseResource } from '@onlineclass/uistores/cloud/struct';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { Logger } from 'agora-rte-sdk';
+import { useI18n } from 'agora-common-libs';
+
 export const PersonalResource = observer(() => {
   const [uploadListVisible, setUploadListVisible] = useState(false);
   const [tableRowHover, setTableRowHover] = useState('');
   const { columns, selectedResources } = usePersonalTableColumns({ tableRowHover });
+  const transI18n = useI18n();
   const reloadRef = useRef<HTMLDivElement>(null);
   const {
     classroomStore: {
@@ -71,13 +74,12 @@ export const PersonalResource = observer(() => {
   }, [personalResourcesTotalNum]);
   const deleteResource = (resourceUuids: string[]) => {
     addDialog('confirm', {
-      title: 'Delete',
-      content: 'Are you sure to delete this file?',
+      title: transI18n('fcr_cloud_tips_delete_confirm_title'),
+      content: transI18n('fcr_cloud_tips_delete_confirm_content'),
       okButtonProps: {
         styleType: 'danger',
       },
-      okText: 'Delete',
-
+      okText: transI18n('fcr_cloud_tips_delete_confirm_ok_text'),
       onOk: () => {
         removePersonalResources(resourceUuids);
       },
@@ -101,7 +103,7 @@ export const PersonalResource = observer(() => {
           onChange={setSearchPersonalResourcesKeyword}
           size="small"
           iconPrefix={SvgIconEnum.FCR_V2_SEARCH}
-          placeholder="search"></Input>
+          placeholder={transI18n('fcr_cloud_search')}></Input>
       </div>
       <div className="fcr-cloud-personal-tab-table">
         <Table
@@ -109,7 +111,7 @@ export const PersonalResource = observer(() => {
             <TableEmpty style={{ paddingTop: 70 }}>
               {noPersonalResources && (
                 <div className="fcr-cloud-personal-tab-table-empty">
-                  You can upload document to private network disk
+                  {transI18n('fcr_cloud_tips_upload_private_disk')}
                   <UploadButton></UploadButton>
                 </div>
               )}
@@ -145,7 +147,7 @@ export const PersonalResource = observer(() => {
               }}
               size="XS"
               styleType="danger">
-              Delete
+              {transI18n('fcr_cloud_button_delete')}
             </Button>
           ) : (
             <UploadButton></UploadButton>
@@ -178,8 +180,8 @@ export const PersonalResource = observer(() => {
           unmountOnExit>
           <div className="fcr-cloud-personal-tab-upload-list">
             <div className="fcr-cloud-personal-tab-upload-list-header">
-              （{uploadingFilesNum}/{uploadingProgresses.length}）Please do not close the webpage
-              during the uploading process.
+              （{uploadingFilesNum}/{uploadingProgresses.length}）
+              {transI18n('fcr_cloud_tips_close_during_uploading')}
               <div
                 className="fcr-cloud-personal-tab-upload-list-header-collapsed"
                 onClick={() => {
@@ -207,7 +209,7 @@ export const PersonalResource = observer(() => {
                     </div>
                     <div className="fcr-cloud-personal-tab-upload-list-item-status">
                       {progress.status === CloudDriveResourceUploadStatus.Success && (
-                        <div>Done</div>
+                        <div>{transI18n('fcr_cloud_upload_status_done')}</div>
                       )}
                       {progress.status === CloudDriveResourceUploadStatus.Pending && (
                         <Progress percent={progress.currentProgress}></Progress>
@@ -215,14 +217,14 @@ export const PersonalResource = observer(() => {
                       {progress.status === CloudDriveResourceUploadStatus.Failed && (
                         <>
                           <div className="fcr-cloud-personal-tab-upload-list-item-status-failed">
-                            Failed
+                            {transI18n('fcr_cloud_upload_status_failed')}
                           </div>
                           <Button
                             size="XXS"
                             onClick={() => {
                               retryUpload(progress.resourceUuid);
                             }}>
-                            Update again
+                            {transI18n('fcr_cloud_button_retry')}
                           </Button>
                         </>
                       )}
@@ -315,6 +317,7 @@ const OnlineCoursewareUploadContent = observer(
   }) => {
     const [coursewareLink, setCoursewareLink] = useState('');
     const [coursewareName, setCoursewareName] = useState('');
+    const transI18n = useI18n();
     return (
       <div
         className="fcr-cloud-personal-tab-footer-upload"
@@ -324,29 +327,31 @@ const OnlineCoursewareUploadContent = observer(
         <div onClick={onClose} className="fcr-cloud-personal-tab-footer-upload-close">
           <SvgImg type={SvgIconEnum.FCR_CLOSE} size={10}></SvgImg>
         </div>
-        <div className="fcr-cloud-personal-tab-footer-upload-title">Upload Courseware</div>
+        <div className="fcr-cloud-personal-tab-footer-upload-title">
+          {transI18n('fcr_online_courseware_button_upload_online_file')}
+        </div>
         <div className="fcr-cloud-personal-tab-footer-upload-item-wrapper">
           <div className="fcr-cloud-personal-tab-footer-upload-item">
-            <div>Courseware Link</div>
+            <div>{transI18n('fcr_online_courseware_label_link')}</div>
             <TextArea
               value={coursewareLink}
               onChange={setCoursewareLink}
-              placeholder="Please input link."></TextArea>
+              placeholder={transI18n('fcr_online_courseware_placeholder_link')}></TextArea>
           </div>
 
           <div className="fcr-cloud-personal-tab-footer-upload-item">
-            <div>Courseware Name</div>
+            <div>{transI18n('fcr_online_courseware_label_file_name')}</div>
             <Input
               shape="rounded"
               value={coursewareName}
               onChange={setCoursewareName}
-              placeholder="Please input name."></Input>
+              placeholder={transI18n('fcr_online_courseware_placeholder_name')}></Input>
           </div>
         </div>
 
         <div className="fcr-cloud-personal-tab-footer-upload-actions">
           <Button onClick={onClose} size="XS" styleType="gray" shape="rounded">
-            Cancel
+            {transI18n('fcr_online_courseware_button_close')}
           </Button>
           <Button
             disabled={!coursewareLink || !coursewareName}
@@ -358,7 +363,7 @@ const OnlineCoursewareUploadContent = observer(
             }}
             size="XS"
             shape="rounded">
-            Upload
+            {transI18n('fcr_online_courseware_button_upload')}
           </Button>
         </div>
       </div>
@@ -381,6 +386,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
   } = useStore();
   const [renameResource, setRenameResource] = useState<string>('');
   const [selectedResources, setSelectedResources] = useState<string[]>([]);
+  const transI18n = useI18n();
   const selectedAll = useMemo(() => {
     return (
       selectedResources.length > 0 && selectedResources.length === personalResourcesList.length
@@ -391,12 +397,12 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
   }, [selectedResources, selectedAll]);
   const deleteResource = (resourceUuid: string) => {
     addDialog('confirm', {
-      title: 'Delete',
-      content: 'Are you sure to delete this file?',
+      title: transI18n('fcr_cloud_tips_delete_confirm_title'),
+      content: transI18n('fcr_cloud_tips_delete_confirm_content'),
       okButtonProps: {
         styleType: 'danger',
       },
-      okText: 'Delete',
+      okText: transI18n('fcr_cloud_tips_delete_confirm_ok_text'),
       onOk: () => {
         removePersonalResources([resourceUuid]);
       },
@@ -419,7 +425,10 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
               }
             }}
             size="small"></Checkbox>
-          <span> File Name ({personalResourcesTotalNum})</span>
+          <span>
+            {' '}
+            {transI18n('fcr_cloud_file_name')} ({personalResourcesTotalNum})
+          </span>
         </div>
       ),
       align: 'left',
@@ -479,7 +488,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
 
         return renaming ? null : hovered ? (
           <div className="fcr-cloud-personal-tab-table-row-actions">
-            <ToolTip content={'Delete the file'} placement="bottom">
+            <ToolTip content={transI18n('fcr_cloud_button_tooltip_delete')} placement="bottom">
               <Button
                 onClick={() => {
                   deleteResource(resourceUuid);
@@ -489,7 +498,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
                 shape="rounded"
                 preIcon={SvgIconEnum.FCR_DELETE3}></Button>
             </ToolTip>
-            <ToolTip content={'Rename'} placement="bottom">
+            <ToolTip content={transI18n('fcr_cloud_button_tooltip_rename')} placement="bottom">
               <Button
                 onClick={() => {
                   setRenameResource(record.resourceUuid);
@@ -507,7 +516,11 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
     },
     {
       key: 'update-time',
-      title: <div className="fcr-cloud-personal-tab-table-header-update-time">Updated at</div>,
+      title: (
+        <div className="fcr-cloud-personal-tab-table-header-update-time">
+          {transI18n('fcr_cloud_upload_at')}
+        </div>
+      ),
       dataIndex: 'resource.updateTime',
       width: 130,
       align: 'right',
@@ -522,7 +535,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
         return renaming || hovered ? null : isConverting ? (
           <div className="fcr-cloud-personal-tab-table-convert-progress">
             <SvgImg type={SvgIconEnum.FCR_LOADING} size={16}></SvgImg>
-            Converting &nbsp;
+            {transI18n('fcr_cloud_button_label_converting')} &nbsp;
             {(record as CloudDriveCourseResource).convertedPercentage}%
           </div>
         ) : (

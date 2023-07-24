@@ -1,4 +1,4 @@
-import { Log, bound } from 'agora-common-libs';
+import { Log, bound, transI18n } from 'agora-common-libs';
 import { EduUIStoreBase } from './base';
 import { action, computed, observable, reaction, runInAction, when } from 'mobx';
 import {
@@ -14,9 +14,8 @@ import {
 } from 'agora-edu-core';
 import difference from 'lodash/difference';
 import range from 'lodash/range';
-import uuidv4 from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { AGRtcConnectionType, AGRtcState, Scheduler } from 'agora-rte-sdk';
-import uuid from 'uuid';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 enum GroupMethod {
@@ -128,7 +127,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
       children: { id: string; text: string }[];
     }[] = [];
 
-    const unknownName = 'The user didn‘t enter the group';
+    const unknownName = transI18n('fcr_group_unknown_username');
 
     const users = this.mainRoomUsers;
 
@@ -399,7 +398,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   @action.bound
   renameGroupName(groupUuid: string, groupName: string) {
     if (this._isGroupExisted({ groupUuid, groupName })) {
-      this.addToast({ text: 'The group name already exists' });
+      this.addToast({ text: transI18n('fcr_group_name_already_exists') });
       return;
     }
 
@@ -433,7 +432,9 @@ export class BreakoutUIStore extends EduUIStoreBase {
   addGroup() {
     if (this.groupDetails.size >= BreakoutUIStore.MAX_GROUP_COUNT) {
       this.addToast({
-        text: `The number of groups cannot exceed ${BreakoutUIStore.MAX_GROUP_COUNT}`,
+        text: transI18n('fcr_group_tips_group_number_exceeds', {
+          reason1: BreakoutUIStore.MAX_GROUP_COUNT,
+        }),
       });
       return;
     }
@@ -459,12 +460,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
       });
     }
 
-    this.addToast({ text: 'New group is added' });
+    this.addToast({ text: transI18n('fcr_group_tips_group_added') });
   }
 
   @action.bound
   addToast(message: { text: string }) {
-    const id = uuid();
+    const id = uuidv4();
     Scheduler.shared.addDelayTask(() => {
       runInAction(() => {
         this._toasts = this._toasts.filter((item) => id !== item.id);
@@ -506,7 +507,11 @@ export class BreakoutUIStore extends EduUIStoreBase {
       }, 0);
       // check students number
       if (studentsCount >= BreakoutUIStore.MAX_USER_COUNT) {
-        this.addToast({ text: `Group is full of ${BreakoutUIStore.MAX_USER_COUNT}` });
+        this.addToast({
+          text: transI18n('fcr_group_tips_group_is_full', {
+            reason1: BreakoutUIStore.MAX_USER_COUNT,
+          }),
+        });
         return;
       }
     }
@@ -598,13 +603,13 @@ export class BreakoutUIStore extends EduUIStoreBase {
     const groupDetails: GroupDetail[] = [];
 
     if (!this._localGroups.size) {
-      this.addToast({ text: 'Please create a group first' });
+      this.addToast({ text: transI18n('fcr_group_tips_no_groups_to_start') });
       return;
     }
 
     const lockName = 'start-group';
     if (this._requestLock.has(lockName)) {
-      this.addToast({ text: 'Rooms are initializing, please wait...' });
+      this.addToast({ text: transI18n('fcr_group_tips_initializing') });
       return;
     }
     try {
@@ -635,7 +640,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   async stopGroup() {
     const lockName = 'stop-group';
     if (this._requestLock.has(lockName)) {
-      this.addToast({ text: 'Stopping group, please wait...' });
+      this.addToast({ text: transI18n('fcr_group_tips_stopping') });
       return;
     }
     try {
@@ -723,12 +728,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
   @bound
   async joinSubRoom(groupUuid: string) {
     if (groupUuid === this.classroomStore.groupStore.currentSubRoom) {
-      this.addToast({ text: 'You are already in this group' });
+      this.addToast({ text: transI18n('fcr_group_tips_already_in_group') });
       return;
     }
     const lockName = 'join-sub-room';
     if (this._requestLock.has(lockName)) {
-      this.addToast({ text: 'Joining group, please wait...' });
+      this.addToast({ text: transI18n('fcr_group_tips_joining') });
       return;
     }
     try {
@@ -789,7 +794,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   async leaveSubRoom() {
     const lockName = 'leave-sub-room';
     if (this._requestLock.has(lockName)) {
-      this.addToast({ text: 'Leaving group, please wait...' });
+      this.addToast({ text: transI18n('fcr_group_tips_leaving') });
       return;
     }
     try {
@@ -812,7 +817,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   private _generateGroupName() {
     const nextSeq = (this._groupSeq += 1);
 
-    return `Group ${nextSeq.toString().padStart(2, '0')}`;
+    return `${transI18n('fcr_group_label_default_name')} ${nextSeq.toString().padStart(2, '0')}`;
   }
 
   @action
@@ -1021,13 +1026,13 @@ export class BreakoutUIStore extends EduUIStoreBase {
           });
         });
       } else {
-        const title = isTeacher ? 'Request help' : 'Join group';
+        const title = isTeacher ? transI18n('fcr_group_help_title') : transI18n('fcr_group_join');
         const content = isTeacher
-          ? `${inviter} in Room ${groupName} asked for help`
-          : `Teacher is inviting you to join ${groupName}`;
-        const ok = isTeacher ? 'Join' : 'Join';
-        const cancel = isTeacher ? 'Later' : 'Later';
-        const dialogId = uuid();
+          ? transI18n('fcr_group_confirm_ask_for_help', { reason1: inviter, reason2: groupName })
+          : transI18n('fcr_group_invitation', { reason1: groupName });
+        const ok = transI18n('fcr_group_button_join');
+        const cancel = transI18n('fcr_group_button_later');
+        const dialogId = uuidv4();
         this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
           id: dialogId,
           title,

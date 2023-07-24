@@ -1,6 +1,7 @@
 import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { FC } from 'react';
 
@@ -27,6 +28,7 @@ export const AskForHelpListItem: FC<{ item: AskHelpRequest }> = ({ item }) => {
   const {
     breakoutUIStore: { acceptInvite, rejectInvite },
   } = useStore();
+  const transI18n = useI18n();
 
   const handleOk = () => {
     acceptInvite(item.groupUuid);
@@ -48,19 +50,21 @@ export const AskForHelpListItem: FC<{ item: AskHelpRequest }> = ({ item }) => {
       </div>
       <div className="fcr-breakout-room__ask-for-help__list-item-label">
         <p>
-          From{' '}
+          {transI18n('fcr_group_from')}{' '}
           <span className="fcr-breakout-room__ask-for-help__list-item-emph-1">
             {item.groupName}
           </span>
         </p>
-        <p className="fcr-breakout-room__ask-for-help__list-item-emph-2">Ask for Help</p>
+        <p className="fcr-breakout-room__ask-for-help__list-item-emph-2">
+          {transI18n('fcr_group_ask_for_help')}
+        </p>
       </div>
       <div className="fcr-breakout-room__askhelp-buttons">
         <Button size="XS" styleType="gray" onClick={handleCancel}>
-          Not now
+          {transI18n('fcr_group_not_now')}
         </Button>
         <Button size="XS" onClick={handleOk}>
-          Go to
+          {transI18n('fcr_group_go_to')}
         </Button>
       </div>
     </div>

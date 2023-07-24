@@ -3,6 +3,7 @@ import { InputNumber } from '@components/input-number';
 import { Radio } from '@components/radio';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 import { FC, useState } from 'react';
 
 export const CreatePanel: FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -11,6 +12,7 @@ export const CreatePanel: FC<{ onClose: () => void }> = ({ onClose }) => {
   } = useStore();
   const [groupNum, setGroupNum] = useState(1);
   const [type, setType] = useState<1 | 2>(1);
+  const transI18n = useI18n();
 
   const handleChangeType = (type: 1 | 2) => {
     return () => {
@@ -38,9 +40,9 @@ export const CreatePanel: FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
       <div className="fcr-breakout-room__create-panel-create-number">
-        <span>Create</span>
+        <span>{transI18n('fcr_group_label_create')}</span>
         <InputNumber size="small" min={1} onChange={handleChangeGroupNum} value={groupNum} />
-        <span>breakout rooms</span>
+        <span>{transI18n('fcr_group_label_breakout_rooms')}</span>
       </div>
       {/* divider */}
       <div className="fcr-breakout-room__create-panel-divider" />
@@ -50,10 +52,10 @@ export const CreatePanel: FC<{ onClose: () => void }> = ({ onClose }) => {
       <Radio label="Assign manually" checked={type === 2} onChange={handleChangeType(2)} />
       <div className="fcr-breakout-room__create-panel-buttons">
         <Button size="XS" styleType="gray" onClick={onClose}>
-          No
+          {transI18n('fcr_group_create_group_no')}
         </Button>
         <Button size="XS" onClick={handleRecreate}>
-          Yes
+          {transI18n('fcr_group_create_group_yes')}
         </Button>
       </div>
     </div>

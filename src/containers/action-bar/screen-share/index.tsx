@@ -55,11 +55,10 @@ export const ScreenShare = observer(() => {
   );
 });
 const ScreenSharingTooltipContent = observer(() => {
-  const transI18n = useI18n();
-
   const {
     actionBarUIStore: { stopLocalScreenShare },
   } = useStore();
+  const transI18n = useI18n();
   return (
     <div className="fcr-action-bar-screen-share-tooltip">
       <span>{transI18n('fcr_room_tips_stop_screenshare')}</span>
@@ -71,10 +70,10 @@ const ScreenSharingTooltipContent = observer(() => {
 });
 
 const ScreenShareStatusBar = observer(() => {
-  const transI18n = useI18n();
   const {
     actionBarUIStore: { stopLocalScreenShare },
   } = useStore();
+  const transI18n = useI18n();
   const portal = document.querySelector('.fcr-classroom-viewport');
   return portal
     ? createPortal(

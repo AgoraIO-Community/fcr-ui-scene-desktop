@@ -8,6 +8,7 @@ import './index.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import dayjs from 'dayjs';
 import { Logger } from 'agora-rte-sdk';
+import { useI18n } from 'agora-common-libs';
 
 export const PublicResource = observer(() => {
   const {
@@ -21,6 +22,7 @@ export const PublicResource = observer(() => {
       setCloudDialogVisible,
     },
   } = useStore();
+  const transI18n = useI18n();
   return (
     <div className="fcr-cloud-public-tab-content">
       <div className="fcr-cloud-public-tab-search">
@@ -29,7 +31,7 @@ export const PublicResource = observer(() => {
           onChange={setSearchPublicResourcesKeyword}
           size="small"
           iconPrefix={SvgIconEnum.FCR_V2_SEARCH}
-          placeholder="search"></Input>
+          placeholder={transI18n('fcr_cloud_search')}></Input>
       </div>
       <div className="fcr-cloud-public-tab-table">
         <Table
@@ -38,7 +40,11 @@ export const PublicResource = observer(() => {
           columns={[
             {
               key: 'file-name',
-              title: <div className="fcr-cloud-public-tab-table-header-filename">File Name</div>,
+              title: (
+                <div className="fcr-cloud-public-tab-table-header-filename">
+                  {transI18n('fcr_cloud_file_name')}
+                </div>
+              ),
               dataIndex: 'resourceName',
               align: 'left',
 
@@ -62,7 +68,7 @@ export const PublicResource = observer(() => {
             },
             {
               key: 'size',
-              title: 'Size',
+              title: transI18n('fcr_cloud_size'),
               dataIndex: 'size',
               width: 65,
               align: 'left',
@@ -73,7 +79,9 @@ export const PublicResource = observer(() => {
             {
               key: 'update-time',
               title: (
-                <div className="fcr-cloud-public-tab-table-header-update-time">Updated at</div>
+                <div className="fcr-cloud-public-tab-table-header-update-time">
+                  {transI18n('fcr_cloud_upload_at')}
+                </div>
               ),
               dataIndex: 'updateTime',
               width: 130,

@@ -12,6 +12,7 @@ import {
 import { bound } from 'agora-rte-sdk';
 import { reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
+import { transI18n } from 'agora-common-libs';
 
 export class NotiticationUIStore extends EduUIStoreBase {
   private _prevClassState: ClassState = ClassState.beforeClass;
@@ -28,11 +29,11 @@ export class NotiticationUIStore extends EduUIStoreBase {
           LeaveReason.kickOut,
           new Promise((resolve, reject) => {
             this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-              title: 'Leave Classroom',
-              content: 'You have been removed from the classroom by the teacher',
+              title: transI18n('fcr_user_tips_kick_out_notice'),
+              content: transI18n('fcr_user_tips_local_kick_out'),
               closable: false,
               onOk: resolve,
-              okText: 'OK',
+              okText: transI18n('fcr_user_tips_local_kick_out_ok'),
               okButtonProps: { styleType: 'danger' },
               cancelButtonVisible: false,
             });
@@ -43,13 +44,13 @@ export class NotiticationUIStore extends EduUIStoreBase {
 
     if (event === AgoraEduClassroomEvent.TeacherTurnOffMyMic) {
       ToastApi.open({
-        toastProps: { type: 'info', content: 'You are muted' },
+        toastProps: { type: 'info', content: transI18n('fcr_user_tips_muted') },
       });
     }
 
     if (event === AgoraEduClassroomEvent.TeacherTurnOffMyCam) {
       ToastApi.open({
-        toastProps: { type: 'info', content: 'The teacher has turned off your camera' },
+        toastProps: { type: 'info', content: transI18n('fcr_user_tips_banned_video') },
       });
     }
     if (event === AgoraEduClassroomEvent.TeacherGrantPermission) {
@@ -59,7 +60,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
         toastProps: {
           type: 'warn',
           icon: SvgIconEnum.FCR_HOST,
-          content: 'The teacher invites you to the whiteboard',
+          content: transI18n('fcr_board_granted'),
           closable: true,
         },
       });
@@ -72,7 +73,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
         toastProps: {
           icon: SvgIconEnum.FCR_HOST,
           type: 'warn',
-          content: 'The teacher cancelled your whiteboard permission',
+          content: transI18n('fcr_board_ungranted'),
           closable: true,
         },
       });
@@ -81,8 +82,8 @@ export class NotiticationUIStore extends EduUIStoreBase {
     // capture screen permission denied received
     if (event === AgoraEduClassroomEvent.CaptureScreenPermissionDenied) {
       this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-        title: 'Notice',
-        content: 'Before using screen sharing, please first enable screen recording permissions.',
+        title: transI18n('fcr_user_tips_capture_screen_permission_title'),
+        content: transI18n('fcr_user_tips_capture_screen_permission_content'),
         okButtonProps: {
           styleType: 'danger',
         },
@@ -110,7 +111,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'normal',
-                content: `Teacher ${teachers.join(',')} has joined group`,
+                content: transI18n('fcr_group_enter_group', {
+                  reason1: transI18n('fcr_role_teacher'),
+                  reason2: teachers.join(','),
+                }),
               },
             });
           }
@@ -121,7 +125,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'normal',
-                content: `Assistant ${assistants.join(',')} has joined group`,
+                content: transI18n('fcr_group_enter_group', {
+                  reason1: transI18n('fcr_role_assistant'),
+                  reason2: assistants.join(','),
+                }),
               },
             });
           }
@@ -132,7 +139,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'normal',
-                content: `Student ${students.join(',')} has joined group`,
+                content: transI18n('fcr_group_enter_group', {
+                  reason1: transI18n('fcr_role_student'),
+                  reason2: students.join(','),
+                }),
               },
             });
           }
@@ -158,7 +168,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'warn',
-                content: `Teacher ${teachers.join(',')} has left group`,
+                content: transI18n('fcr_group_exit_group', {
+                  reason1: transI18n('fcr_role_teacher'),
+                  reason2: teachers.join(','),
+                }),
               },
             });
           }
@@ -169,7 +182,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'warn',
-                content: `Assistant ${assistants.join(',')} has left group`,
+                content: transI18n('fcr_group_exit_group', {
+                  reason1: transI18n('fcr_role_assistant'),
+                  reason2: assistants.join(','),
+                }),
               },
             });
           }
@@ -180,7 +196,10 @@ export class NotiticationUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'warn',
-                content: `Student ${students.join(',')} has left group`,
+                content: transI18n('fcr_group_exit_group', {
+                  reason1: transI18n('fcr_role_student'),
+                  reason2: students.join(','),
+                }),
               },
             });
           }
@@ -193,8 +212,8 @@ export class NotiticationUIStore extends EduUIStoreBase {
       const { role } = EduClassroomConfig.shared.sessionInfo;
       if (role === EduRoleTypeEnum.student && inviting) {
         this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-          title: 'Request help',
-          content: 'The teacher is currently helping others. Please try again later.',
+          title: transI18n('fcr_group_help_title'),
+          content: transI18n('fcr_group_help_teacher_busy_msg'),
           cancelButtonVisible: false,
         });
       }
@@ -221,11 +240,11 @@ export class NotiticationUIStore extends EduUIStoreBase {
   private _getStateErrorReason(reason?: string): string {
     switch (reason) {
       case 'REMOTE_LOGIN':
-        return 'Kick out by other client';
+        return transI18n('fcr_user_tips_local_kick_out');
       case 'BANNED_BY_SERVER':
-        return 'Prohibited';
+        return transI18n('fcr_user_tips_local_prohibited');
       default:
-        return reason ?? 'Unknown error occured.';
+        return reason ?? transI18n('fcr_unknown_error_occurred');
     }
   }
   onDestroy(): void {
@@ -244,11 +263,11 @@ export class NotiticationUIStore extends EduUIStoreBase {
               LeaveReason.leave,
               new Promise((resolve) => {
                 this.getters.classroomUIStore.layoutUIStore.addDialog('class-info', {
-                  title: 'The class has ended',
-                  content: 'Please click the button to leave the classroom.',
+                  title: transI18n('fcr_room_label_class_ended_title'),
+                  content: transI18n('fcr_room_label_class_ended_content'),
                   actions: [
                     {
-                      text: 'Leave',
+                      text: transI18n('fcr_room_button_leave'),
                       styleType: 'danger',
                       onClick: resolve,
                     },
@@ -270,14 +289,14 @@ export class NotiticationUIStore extends EduUIStoreBase {
               LeaveReason.leave,
               new Promise((resolve) => {
                 this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-                  title: 'Leave Classroom',
+                  title: transI18n('fcr_user_tips_kick_out_notice'),
                   content: this._getStateErrorReason(
                     this.classroomStore.connectionStore.classroomStateErrorReason,
                   ),
                   closable: false,
 
                   onOk: resolve,
-                  okText: 'Leave the Room',
+                  okText: transI18n('fcr_room_button_join_error_leave'),
                   okButtonProps: { styleType: 'danger' },
                   cancelButtonVisible: false,
                 });
@@ -296,7 +315,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
               ToastApi.open({
                 toastProps: {
                   type: 'normal',
-                  content: `The teacher has closed all rooms`,
+                  content: transI18n('fcr_group_close_group'),
                 },
               });
             }, 100);

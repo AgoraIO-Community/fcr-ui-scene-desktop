@@ -1,9 +1,4 @@
-import {
-  AgoraRteScene,
-  AgoraRteVideoSourceType,
-  AgoraStream,
-  AGRtcConnectionType,
-} from 'agora-rte-sdk';
+import { AgoraRteVideoSourceType, AGRtcConnectionType } from 'agora-rte-sdk';
 
 export type RemoteStreamMuteStatus = {
   muteVideo?: boolean;

@@ -3,19 +3,26 @@ import { FC, createContext, useState } from 'react';
 import { GlobalDialog } from '@components/dialog/global-dialog';
 import { observer } from 'mobx-react';
 import { CloudDialogHeader } from './dialog-header';
-import { CloudTabsType } from '@onlineclass/uistores/type';
 import { PersonalResource } from './personal';
 import { PublicResource } from './public';
+import { useI18n } from 'agora-common-libs';
+
 export const CloudTabsValueContext = createContext<{
-  currentTab: CloudTabsType;
-  setCurrentTab: (tab: CloudTabsType) => void;
-}>({ currentTab: CloudTabsType.Public, setCurrentTab: () => {} });
-export const cloudTabsItems = [
-  { label: CloudTabsType.Public, key: CloudTabsType.Public },
-  { label: CloudTabsType.Personal, key: CloudTabsType.Personal },
-];
+  currentTab: string;
+  setCurrentTab: (tab: string) => void;
+}>({ currentTab: '', setCurrentTab: () => {} });
+
 export const CloudDialog: FC = observer(() => {
-  const [currentTab, setCurrentTab] = useState<CloudTabsType>(CloudTabsType.Public);
+  const transI18n = useI18n();
+
+  const cloudTabsItems = [
+    { label: transI18n('fcr_cloud_public_resource'), key: transI18n('fcr_cloud_public_resource') },
+    {
+      label: transI18n('fcr_cloud_private_resource'),
+      key: transI18n('fcr_cloud_private_resource'),
+    },
+  ];
+  const [currentTab, setCurrentTab] = useState<string>(cloudTabsItems[0].key);
 
   const {
     cloudUIStore: { cloudDialogVisible, setCloudDialogVisible },
@@ -32,8 +39,10 @@ export const CloudDialog: FC = observer(() => {
         onClose={() => {
           setCloudDialogVisible(false);
         }}>
-        {currentTab === CloudTabsType.Public && <PublicResource></PublicResource>}
-        {currentTab === CloudTabsType.Personal && <PersonalResource></PersonalResource>}
+        {currentTab === transI18n('fcr_cloud_public_resource') && <PublicResource></PublicResource>}
+        {currentTab === transI18n('fcr_cloud_private_resource') && (
+          <PersonalResource></PersonalResource>
+        )}
       </GlobalDialog>
     </CloudTabsValueContext.Provider>
   );

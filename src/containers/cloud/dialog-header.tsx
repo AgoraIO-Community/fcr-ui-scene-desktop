@@ -1,6 +1,5 @@
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { Tabs } from '@components/tabs';
-import { CloudTabsType } from '@onlineclass/uistores/type';
 import { observer } from 'mobx-react';
 import { useContext, useState } from 'react';
 import './dialog-header.css';
@@ -8,20 +7,31 @@ import { Popover } from '@components/popover';
 import classnames from 'classnames';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { CloudTabsValueContext, cloudTabsItems } from '.';
+import { CloudTabsValueContext } from '.';
+import { useI18n } from 'agora-common-libs';
 
 export const CloudDialogHeader = observer(() => {
   const { currentTab, setCurrentTab } = useContext(CloudTabsValueContext);
   const colors = themeVal('colors');
   const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
+  const transI18n = useI18n();
   const iconColor = tooltipVisible ? colors['brand']['6'] : undefined;
+
+  const cloudTabsItems = [
+    { label: transI18n('fcr_cloud_public_resource'), key: transI18n('fcr_cloud_public_resource') },
+    {
+      label: transI18n('fcr_cloud_private_resource'),
+      key: transI18n('fcr_cloud_private_resource'),
+    },
+  ];
+
   return (
     <div className="fcr-cloud-dialog-header">
-      <div>Cloud</div>
+      <div>{transI18n('fcr_cloud_label_Cloud')}</div>
       <div>
         <Tabs
           onChange={(key) => {
-            setCurrentTab(key as CloudTabsType);
+            setCurrentTab(key);
           }}
           activeKey={currentTab}
           items={cloudTabsItems}></Tabs>
@@ -56,10 +66,11 @@ const TipsContent = () => {
   const {
     cloudUIStore: { cloudHelpTips },
   } = useStore();
+  const transI18n = useI18n();
   return (
     <div className="fcr-cloud-dialog-header-tips-content">
       <div className="fcr-cloud-dialog-header-tips-content-desc">
-        Supported file formats in the room
+        {transI18n('fcr_cloud_tips_supported_formats')}
       </div>
       <div className="fcr-cloud-dialog-header-tips-content-file-type-wrapper">
         {cloudHelpTips.map((tips) => {
@@ -73,7 +84,7 @@ const TipsContent = () => {
                   {tips.desc}
                 </div>
                 <div className="fcr-cloud-dialog-header-tips-content-file-type-item-desc-format">
-                  Format: {tips.supportType.join(' ')}
+                  {transI18n('fcr_cloud_label_format')}: {tips.supportType.join(' ')}
                 </div>
               </div>
             </div>

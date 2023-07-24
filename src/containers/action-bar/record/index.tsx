@@ -8,29 +8,28 @@ import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { useI18n } from 'agora-common-libs';
 
 export const Record = observer(() => {
-  const transI18n = useI18n();
   const {
     statusBarUIStore: { isRecordStoped },
     layoutUIStore: { addDialog },
     actionBarUIStore: { startRecording, stopRecording },
   } = useStore();
+  const transI18n = useI18n();
   const colors = themeVal('colors');
   const handleRecord = () => {
     if (isRecordStoped) {
       addDialog('confirm', {
-        title: 'Recording',
-        content: 'Are you sure you want to start recording?',
-        cancelText: 'Cancel',
-        okText: 'Record',
+        title: transI18n('fcr_record_recording'),
+        content: transI18n('fcr_record_start'),
+        cancelText: transI18n('fcr_record_start_confirm_cancel'),
+        okText: transI18n('fcr_record_start_confirm_ok'),
         onOk: startRecording,
       });
     } else {
       addDialog('confirm', {
-        title: 'Recording',
-        content:
-          'Are you sure you want to stop recording？\nThe recording file will be generated after the course ends and displayed on the course details page.',
-        cancelText: 'Cancel',
-        okText: 'Stop',
+        title: transI18n('fcr_record_recording'),
+        content: transI18n('fcr_record_stop'),
+        cancelText: transI18n('fcr_record_start_confirm_cancel'),
+        okText: transI18n('fcr_record_stop_confirm_ok'),
         onOk: stopRecording,
       });
     }
@@ -40,7 +39,7 @@ export const Record = observer(() => {
   const tooltip = isRecordStoped
     ? transI18n('fcr_room_tips_start_record')
     : transI18n('fcr_room_tips_stop_record');
-  const text = isRecordStoped ? transI18n('fcr_room_button_record') : 'Recording';
+  const text = isRecordStoped ? transI18n('fcr_record_record') : transI18n('fcr_record_recording');
 
   return (
     <ToolTip content={tooltip}>

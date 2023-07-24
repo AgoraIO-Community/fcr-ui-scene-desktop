@@ -15,7 +15,7 @@ import {
   CloudDriveLinkResource,
   CloudDriveMediaResource,
 } from './struct';
-import { Lodash, bound } from 'agora-common-libs';
+import { Lodash, bound, transI18n } from 'agora-common-libs';
 import {
   conversionOption,
   createCloudResource,
@@ -318,10 +318,8 @@ export class CloudUIStore extends EduUIStoreBase {
     return new Promise((resolve, reject) => {
       if (!this.getters.isBoardWidgetActive) {
         this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-          title: 'Open the whiteboard',
-          content:
-            'This file requires opening the whiteboard to be used. Would you like to continue opening this file?',
-
+          title: transI18n('fcr_cloud_tips_open_whiteboard_title'),
+          content: transI18n('fcr_cloud_tips_open_whiteboard_content'),
           onOk: async () => {
             this.getters.boardApi.enable();
             await when(() => this.getters.boardApi.mounted);
@@ -344,7 +342,7 @@ export class CloudUIStore extends EduUIStoreBase {
       ToastApi.open({
         toastProps: {
           type: 'error',
-          content: `unsupported file type ${ext}`,
+          content: transI18n('fcr_cloud_unsupported_file_type', { reason1: ext }),
         },
       });
       throw AGErrorWrapper(
@@ -424,7 +422,7 @@ export class CloudUIStore extends EduUIStoreBase {
       ToastApi.open({
         toastProps: {
           type: 'error',
-          content: `fail to convert resource`,
+          content: transI18n('fcr_cloud_fail_to_convert'),
         },
       });
       throw AGErrorWrapper(

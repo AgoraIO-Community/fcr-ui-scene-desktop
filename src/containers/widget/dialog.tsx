@@ -3,7 +3,11 @@ import { observer } from 'mobx-react';
 import { CSSProperties, PropsWithChildren, forwardRef, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import classNames from 'classnames';
-import { AgoraOnlineclassSDKDialogWidget, AgoraOnlineclassSDKWidgetBase } from 'agora-common-libs';
+import {
+  AgoraOnlineclassSDKDialogWidget,
+  AgoraOnlineclassSDKWidgetBase,
+  useI18n,
+} from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './dialog.css';
@@ -46,6 +50,7 @@ export const WidgetDialog = observer(
       },
       participantsUIStore: { isHost },
     } = useStore();
+    const transI18n = useI18n();
     const minimized = isWidgetMinimized(widget.widgetId);
     const [fitted, setFitted] = useState(widget.defaultFullscreen);
     const [rndStyle, setRndStyle] = useState<CSSProperties>({ display: 'block' });
@@ -290,7 +295,7 @@ export const WidgetDialog = observer(
               <div className={`fcr-widget-dialog-title-actions`}>
                 <ul>
                   {widget?.refreshable && (
-                    <ToolTip content="Refresh">
+                    <ToolTip content={transI18n('fcr_widget_refresh')}>
                       <li
                         className="fcr-widget-dialog-title-action-refresh"
                         ref={refreshRef}
@@ -309,7 +314,7 @@ export const WidgetDialog = observer(
                     </ToolTip>
                   )}
                   {widget?.minimizable && (
-                    <ToolTip content="Minimization">
+                    <ToolTip content={transI18n('fcr_widget_minimization')}>
                       <li
                         className="fcr-widget-dialog-title-action-minimize"
                         onClick={() => handleMinimize()}>
@@ -321,7 +326,11 @@ export const WidgetDialog = observer(
                     <ToolTip
                       overlayInnerStyle={{ whiteSpace: 'nowrap' }}
                       placement={'top'}
-                      content={fitted ? 'Exit Adaptation' : 'Adapt to Viewport'}>
+                      content={
+                        fitted
+                          ? transI18n('fcr_widget_exit_adaptation')
+                          : transI18n('fcr_widget_adapt_to_viewport')
+                      }>
                       <li
                         className="fcr-widget-dialog-title-action-fullscreen"
                         onClick={handleFitToContainer}>
@@ -338,7 +347,7 @@ export const WidgetDialog = observer(
                   )}
 
                   {canClose && widget.closeable && (
-                    <ToolTip content="Close">
+                    <ToolTip content={transI18n('fcr_widget_close')}>
                       <li className="fcr-widget-dialog-title-action-close" onClick={handleClose}>
                         <SvgImg type={SvgIconEnum.FCR_CLOSE} size={12} />
                       </li>
