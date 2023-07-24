@@ -113,13 +113,10 @@ export class StatusBarUIStore extends EduUIStoreBase {
     }
 
     if (hasPublishedScreenStream || hasPublishedCameraStream || hasPublishedMicStream) {
-      return Math.min(
-        downlinkNetworkQuality || AGNetworkQuality.unknown,
-        uplinkNetworkQuality || AGNetworkQuality.unknown,
-      ) as AGNetworkQuality;
+      return Math.min(downlinkNetworkQuality, uplinkNetworkQuality) as AGNetworkQuality;
     }
 
-    return downlinkNetworkQuality || AGNetworkQuality.unknown;
+    return downlinkNetworkQuality;
   }
 
   /**
