@@ -5,8 +5,10 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { MicrophoneSelect, SpeakerSelect } from '../device-pretest/device-select';
 import { Checkbox } from '@components/checkbox';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
+import { useI18n } from 'agora-common-libs';
 
 export const AudioSettings = observer(() => {
+  const transI18n = useI18n();
   const { deviceSettingUIStore } = useStore();
   const {
     localRecordingTestVolume,
@@ -23,7 +25,7 @@ export const AudioSettings = observer(() => {
     <div className="fcr-device-settings__audio">
       <div className="fcr-device-settings__microphone">
         <div className="fcr-device-settings__label">
-          <span>Microphone</span>
+          <span>{transI18n('fcr_device_label_microphone')}</span>
         </div>
         <MicrophoneSelect />
         <div className="fcr-pretest__settings__volume">
@@ -33,7 +35,7 @@ export const AudioSettings = observer(() => {
       </div>
       <div className="fcr-device-settings__speaker">
         <div className="fcr-device-settings__label">
-          <span>Speaker</span>
+          <span>{transI18n('fcr_device_label_speaker')}</span>
         </div>
         <SpeakerSelect />
         <div className="fcr-pretest__settings__volume">
@@ -41,7 +43,11 @@ export const AudioSettings = observer(() => {
           <VolumeIndicator value={localPlaybackTestVolume} barCount={15} />
         </div>
 
-        <Checkbox size="small" label={'AI noise reduction'} onChange={toggleAiDenoiser} />
+        <Checkbox
+          size="small"
+          label={transI18n('fcr_device_label_noise_cancellation')}
+          onChange={toggleAiDenoiser}
+        />
       </div>
     </div>
   );

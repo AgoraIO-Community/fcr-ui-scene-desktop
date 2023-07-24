@@ -1,5 +1,6 @@
 import { ToastApi } from '@components/toast';
 import { useStore } from './use-store';
+import { useI18n } from 'agora-common-libs';
 
 export const useAuthorization = (userUuid: string) => {
   const {
@@ -7,8 +8,11 @@ export const useAuthorization = (userUuid: string) => {
     boardApi: { grantedUsers, grantPrivilege },
     statusBarUIStore: { isHost },
   } = useStore();
+  const transI18n = useI18n();
   const granted = grantedUsers.has(userUuid);
-  const tooltip = granted ? 'UnAuthorization' : 'Authorization';
+  const tooltip = granted
+    ? transI18n('fcr_user_button_unauthorization')
+    : transI18n('fcr_user_button_authorization');
   const toggleAuthorization = () => {
     if (isHost) {
       if (!isBoardWidgetActive)
@@ -18,7 +22,7 @@ export const useAuthorization = (userUuid: string) => {
           toastProps: {
             closable: true,
             type: 'error',
-            content: 'Please open the whiteboard first and then authorize the access',
+            content: transI18n('fcr_room_tips_authorize_open_whiteboard'),
           },
         });
       grantPrivilege(userUuid, !granted);

@@ -9,8 +9,11 @@ import { MirrorToggle } from './mirror-toggle';
 import { LocalVideoPlayer } from '../video-player';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { DeviceTabKeysContext } from '.';
+import { useI18n } from 'agora-common-libs';
+import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
 const colors = themeVal('colors');
 export const VideoPortal = observer(() => {
+  const transI18n = useI18n();
   const { setDevicePretestFinished, deviceSettingUIStore } = useStore();
   const pretestDeviceStateRef = useRef({ cameraEnable: false, micEnable: false });
   const cameraIconProps = useMemo<
@@ -31,7 +34,7 @@ export const VideoPortal = observer(() => {
       ? {
           status: 'active' as const,
           icon: SvgIconEnum.FCR_CAMERA,
-          tooltip: 'Stop video',
+          tooltip: transI18n('fcr_device_tips_stop_video'),
         }
       : {
           status: 'inactive' as const,
@@ -41,7 +44,7 @@ export const VideoPortal = observer(() => {
               iconSecondary: colors?.['notsb-inverse'],
             },
           },
-          tooltip: 'Start video',
+          tooltip: transI18n('fcr_device_tips_start_video'),
         };
   }, [
     deviceSettingUIStore.isPreviewCameraDeviceEnabled,
@@ -64,7 +67,7 @@ export const VideoPortal = observer(() => {
       ? {
           status: 'active' as const,
           icon: SvgIconEnum.FCR_MUTE,
-          tooltip: 'Mute',
+          tooltip: transI18n('fcr_device_tips_mute'),
         }
       : {
           status: 'inactive' as const,
@@ -74,7 +77,7 @@ export const VideoPortal = observer(() => {
               iconSecondary: colors?.['notsb-inverse'],
             },
           },
-          tooltip: 'Unmute',
+          tooltip: transI18n('fcr_device_tips_unmute'),
         };
   }, [
     deviceSettingUIStore.isPreviewAudioRecordingDeviceEnabled,
@@ -88,12 +91,12 @@ export const VideoPortal = observer(() => {
       ? {
           status: 'active' as const,
           icon: SvgIconEnum.FCR_V2_LOUDER_MIN,
-          tooltip: 'Disable speaker',
+          tooltip: transI18n('fcr_device_tips_disable_speaker'),
         }
       : {
           status: 'inactive' as const,
           icon: SvgIconEnum.FCR_V2_QUITE,
-          tooltip: 'Enable speaker',
+          tooltip: transI18n('fcr_device_tips_enable_speaker'),
         };
   }, [deviceSettingUIStore.isAudioPlaybackDeviceEnabled]);
   const activeTab = useContext(DeviceTabKeysContext);
@@ -126,9 +129,9 @@ export const VideoPortal = observer(() => {
   return (
     <div className="fcr-pretest__video-portal">
       <div className="fcr-pretest__video-portal__header">
-        <span>Are you ready to join?</span>
+        <span>{transI18n('fcr_device_label_device_join')}</span>
         <Button size="S" onClick={setDevicePretestFinished}>
-          Join
+          {transI18n('fcr_device_button_join')}
         </Button>
       </div>
       <div className="fcr-pretest__video-portal__video">
@@ -155,6 +158,7 @@ export const VideoPortal = observer(() => {
   );
 });
 const VideoOffTips = observer(() => {
+  const transI18n = useI18n();
   const activeTab = useContext(DeviceTabKeysContext);
   const {
     deviceSettingUIStore: { isPreviewCameraDeviceEnabled, isBeautyFilterEnabled, activeBeautyType },
@@ -170,8 +174,8 @@ const VideoOffTips = observer(() => {
       }}
       className="fcr-pretest__video-portal__tips">
       {activeTab === 'virtual-background'
-        ? 'Before using and previewing background effects, please start the camera.'
-        : 'Before using and previewing beauty filter effects, please start the camera.'}
+        ? transI18n('fcr_device_tips_background')
+        : transI18n('fcr_device_tips_beauty_filter')}
     </div>
   ) : null;
 });

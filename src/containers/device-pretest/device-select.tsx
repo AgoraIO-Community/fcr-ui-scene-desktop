@@ -8,6 +8,7 @@ import { observer } from 'mobx-react';
 import { useMemo, useRef, useEffect } from 'react';
 import pretestAudio from '@res/pretest-audio.mp3';
 import { Scheduler } from 'agora-rte-sdk';
+import { useI18n } from 'agora-common-libs';
 
 export const CameraSelect = observer(() => {
   const { deviceSettingUIStore } = useStore();
@@ -41,6 +42,7 @@ export const MicrophoneSelect = observer(() => {
 });
 
 export const SpeakerSelect = observer(() => {
+  const transI18n = useI18n();
   const { deviceSettingUIStore } = useStore();
   const {
     playbackDevicesList,
@@ -99,7 +101,7 @@ export const SpeakerSelect = observer(() => {
         size="S"
         shape="rounded"
         onClick={handleTest}>
-        Test
+        {transI18n('fcr_device_button_test')}
       </Button>
     </div>
   );

@@ -9,11 +9,14 @@ import { InfoToolTip } from '@components/tooltip/info';
 import { Button } from '@components/button';
 import { createPortal } from 'react-dom';
 import { Rnd } from 'react-rnd';
+import { useI18n } from 'agora-common-libs';
 
 export const ScreenShare = observer(() => {
   const {
     actionBarUIStore: { isLocalScreenSharing, startLocalScreenShare },
   } = useStore();
+  const transI18n = useI18n();
+
   const colors = themeVal('colors');
   const handleScreenShare = () => {
     if (!isLocalScreenSharing) {
@@ -35,7 +38,7 @@ export const ScreenShare = observer(() => {
           isLocalScreenSharing ? (
             <ScreenSharingTooltipContent></ScreenSharingTooltipContent>
           ) : (
-            'ScreenShare'
+            transI18n('fcr_room_button_screenshare')
           )
         }>
         <ActionBarItem
@@ -44,26 +47,31 @@ export const ScreenShare = observer(() => {
             type: icon,
             colors: { iconPrimary: colorByStatus },
           }}
-          text={<span style={{ color: colorByStatus }}>ScreenShare</span>}></ActionBarItem>
+          text={
+            <span style={{ color: colorByStatus }}>{transI18n('fcr_room_button_screenshare')}</span>
+          }></ActionBarItem>
       </ScreenShareToolTip>
     </>
   );
 });
 const ScreenSharingTooltipContent = observer(() => {
+  const transI18n = useI18n();
+
   const {
     actionBarUIStore: { stopLocalScreenShare },
   } = useStore();
   return (
     <div className="fcr-action-bar-screen-share-tooltip">
-      <span>Click to Stop Sharing</span>
+      <span>{transI18n('fcr_room_tips_stop_screenshare')}</span>
       <Button onClick={stopLocalScreenShare} size="XS" shape="rounded" styleType="danger">
-        Stop Sharing
+        {transI18n('fcr_share_button_stop')}
       </Button>
     </div>
   );
 });
 
 const ScreenShareStatusBar = observer(() => {
+  const transI18n = useI18n();
   const {
     actionBarUIStore: { stopLocalScreenShare },
   } = useStore();
@@ -80,9 +88,9 @@ const ScreenShareStatusBar = observer(() => {
           style={{ zIndex: 101 }}
           bounds=".fcr-classroom-viewport">
           <div className="fcr-screen-share-status-bar">
-            <span>Screen Sharing...</span>
+            <span>{transI18n('fcr_share_label_sharing')}...</span>
             <Button onClick={stopLocalScreenShare} size="XXS" shape="rounded" styleType="danger">
-              Stop Sharing
+              {transI18n('fcr_share_button_stop')}
             </Button>
           </div>
         </Rnd>,

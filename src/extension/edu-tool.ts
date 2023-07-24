@@ -5,7 +5,7 @@ import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
 import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
-import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs/*';
+import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs';
 
 @Log.attach({ proxyMethods: false })
 export class EduTool {

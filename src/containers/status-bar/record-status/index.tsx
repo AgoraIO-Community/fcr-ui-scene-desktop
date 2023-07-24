@@ -6,6 +6,7 @@ import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
 import classnames from 'classnames';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
+import { useI18n } from 'agora-common-libs';
 
 export const RecordStatus = observer(() => {
   const {
@@ -15,21 +16,22 @@ export const RecordStatus = observer(() => {
     },
     statusBarUIStore: { isRecording, isRecordStoped, isRecordStarting, isHost },
   } = useStore();
+  const transI18n = useI18n();
   const colors = themeVal('colors');
   const handleRecordStatus = () => {
     recordOnHold ? resumeRecording() : pauseRecording();
   };
   const text = isRecordStarting
-    ? 'Preparing for recording, please wait...'
+    ? transI18n('fcr_record_waiting')
     : recordOnHold
     ? 'Paused'
-    : 'Recording';
+    : transI18n('fcr_record_recording');
 
   const recordActive = isRecording && !recordOnHold;
   return !isRecordStoped ? (
     <StatusBarItemWrapper>
       <div className="fcr-status-bar-record">
-        <ToolTip content={'Record'}>
+        <ToolTip content={transI18n('fcr_room_button_record')}>
           <div className="fcr-status-bar-record-status">
             <SvgImg
               className={classnames({ 'fcr-status-bar-record-starting': recordActive })}
@@ -43,7 +45,8 @@ export const RecordStatus = observer(() => {
         </ToolTip>
 
         {isHost && isRecording && (
-          <ToolTip content={recordOnHold ? 'Click to start' : 'Click to pause'}>
+          <ToolTip
+            content={recordOnHold ? transI18n('fcr_room_tips_start_record') : 'Click to pause'}>
             <div className="fcr-status-bar-record-action fcr-divider" onClick={handleRecordStatus}>
               <SvgImg
                 size={20}

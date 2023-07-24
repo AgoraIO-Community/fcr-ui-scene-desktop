@@ -8,8 +8,10 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { StatusBarItemWrapper } from '..';
 import { PopoverWithTooltip } from '@components/popover';
 import { useEffect, useRef } from 'react';
+import { useI18n } from 'agora-common-libs';
 
 export const LayoutSwitchPopover = observer(() => {
+  const transI18n = useI18n();
   const {
     layoutUIStore: { gridLayoutDisabled },
     actionBarUIStore: { isScreenSharing },
@@ -17,14 +19,14 @@ export const LayoutSwitchPopover = observer(() => {
   return (
     <div className="fcr-layout-switch">
       <div className="fcr-layout-switch-speaker-view">
-        <div className="fcr-layout-switch-title">Speaker View</div>
+        <div className="fcr-layout-switch-title">{transI18n('fcr_layout_label_speaker_view')}</div>
         <div className="fcr-layout-switch-view-wrap">
           <LayoutCard layout={Layout.ListOnTop}></LayoutCard>
           <LayoutCard layout={Layout.ListOnRight}></LayoutCard>
         </div>
       </div>
       <div className="fcr-layout-switch-grid">
-        <div className="fcr-layout-switch-title">Grid</div>
+        <div className="fcr-layout-switch-title">{transI18n('fcr_layout_label_grid')}</div>
         {gridLayoutDisabled && (
           <div className="fcr-layout-switch-desc">
             {isScreenSharing
@@ -39,29 +41,32 @@ export const LayoutSwitchPopover = observer(() => {
     </div>
   );
 });
-export const layoutMap = {
-  [Layout.ListOnTop]: {
-    label: 'List on top',
-    bigIcon: SvgIconEnum.FCR_LIST_ON_TOP_BIG,
-    smallIcon: SvgIconEnum.FCR_TOPWINDOWS,
-  },
-  [Layout.ListOnRight]: {
-    label: 'List on right',
-    bigIcon: SvgIconEnum.FCR_LIST_ON_RIGHT_BIG,
-    smallIcon: SvgIconEnum.FCR_RIGHTWINDOWS,
-  },
-  [Layout.Grid]: {
-    label: 'Grid',
-    bigIcon: SvgIconEnum.FCR_GRID_BIG,
-    smallIcon: SvgIconEnum.FCR_FOURWINDOWS,
-  },
+export const useLayoutMap = () => {
+  const transI18n = useI18n();
+  return {
+    [Layout.ListOnTop]: {
+      label: transI18n('fcr_layout_option_list_on_top'),
+      bigIcon: SvgIconEnum.FCR_LIST_ON_TOP_BIG,
+      smallIcon: SvgIconEnum.FCR_TOPWINDOWS,
+    },
+    [Layout.ListOnRight]: {
+      label: transI18n('fcr_layout_option_list_on_right'),
+      bigIcon: SvgIconEnum.FCR_LIST_ON_RIGHT_BIG,
+      smallIcon: SvgIconEnum.FCR_RIGHTWINDOWS,
+    },
+    [Layout.Grid]: {
+      label: transI18n('fcr_layout_label_grid'),
+      bigIcon: SvgIconEnum.FCR_GRID_BIG,
+      smallIcon: SvgIconEnum.FCR_FOURWINDOWS,
+    },
+  };
 };
 
 const LayoutCard = observer(({ layout }: { layout: Layout }) => {
   const {
     layoutUIStore: { layout: currentLayout, setLayout, gridLayoutDisabled },
-    actionBarUIStore: { isScreenSharing },
   } = useStore();
+  const layoutMap = useLayoutMap();
   const disabled = layout === Layout.Grid && gridLayoutDisabled;
   const { label, bigIcon } = layoutMap[layout];
   const active = currentLayout === layout;
@@ -82,6 +87,9 @@ const LayoutCard = observer(({ layout }: { layout: Layout }) => {
   );
 });
 export const LayoutSwitch = observer(() => {
+  const transI18n = useI18n();
+  const layoutMap = useLayoutMap();
+
   const {
     layoutUIStore: { layout: currentLayout, setHasPopoverShowed },
   } = useStore();
@@ -106,10 +114,10 @@ export const LayoutSwitch = observer(() => {
           overlayInnerStyle: { width: 'auto' },
           content: <LayoutSwitchPopover></LayoutSwitchPopover>,
         }}
-        toolTipProps={{ content: 'Switch Layout' }}>
+        toolTipProps={{ content: transI18n('fcr_room_tips_layout') }}>
         <div className="fcr-status-bar-layout">
           <SvgImg type={layoutMap[currentLayout].smallIcon} size={20}></SvgImg>
-          <span>Layout</span>
+          <span>{transI18n('fcr_room_label_layout')}</span>
           <SvgImg
             className="fcr-status-bar-layout-dropdown"
             type={SvgIconEnum.FCR_DROPDOWN}

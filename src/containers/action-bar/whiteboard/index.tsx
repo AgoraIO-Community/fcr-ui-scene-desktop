@@ -2,12 +2,13 @@ import { SvgIconEnum } from '@components/svg-img';
 import { ActionBarItem } from '..';
 import './index.css';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { Logger } from 'agora-common-libs';
+import { Logger, useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { ToolTip } from '@components/tooltip';
 const colors = themeVal('colors');
 export const Whiteboard = observer(() => {
+  const transI18n = useI18n();
   const {
     boardApi,
     actionBarUIStore: { isLocalScreenSharing },
@@ -25,7 +26,12 @@ export const Whiteboard = observer(() => {
   };
 
   return (
-    <ToolTip content={isBoardWidgetActive ? 'Close whiteboard' : 'Open whiteboard'}>
+    <ToolTip
+      content={
+        isBoardWidgetActive
+          ? transI18n('fcr_room_tips_close_whiteboard')
+          : transI18n('fcr_room_tips_open_whiteboard')
+      }>
       <ActionBarItem
         disabled={isLocalScreenSharing}
         icon={{
@@ -37,7 +43,7 @@ export const Whiteboard = observer(() => {
             style={{
               color: isBoardWidgetActive ? colors['red'][6] : colors['text-2'],
             }}>
-            Whiteboard
+            {transI18n('fcr_room_button_whiteboard')}
           </span>
         }
         onClick={handleClick}></ActionBarItem>

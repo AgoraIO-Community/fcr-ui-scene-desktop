@@ -22,6 +22,7 @@ import RewardSVGA from './assets/svga/reward.svga';
 import RewardSound from './assets/audio/reward.mp3';
 import { AGRemoteVideoStreamType, AGRenderMode } from 'agora-rte-sdk';
 import { useAuthorization } from '@onlineclass/utils/hooks/use-authorization';
+import { useI18n } from 'agora-common-libs';
 
 const colors = themeVal('colors');
 export const StreamWindow: FC = observer(() => {
@@ -63,6 +64,7 @@ export const StreamWindow: FC = observer(() => {
 });
 
 const StreamPlaceHolder: FC = observer(() => {
+  const transI18n = useI18n();
   const streamWindowContext = useContext(StreamWindowContext);
   const stream = streamWindowContext?.stream;
   return (
@@ -76,7 +78,7 @@ const StreamPlaceHolder: FC = observer(() => {
       ) : (
         <div className={'fcr-stream-window-placeholder-text'}>
           <span>{stream?.fromUser.userName}</span>
-          {stream?.isLocal && <span>&nbsp;(you)</span>}
+          {stream?.isLocal && <span>&nbsp;({transI18n('fcr_chat_you')})</span>}
         </div>
       )}
     </div>
@@ -177,7 +179,7 @@ const UserInteract = observer(() => {
 const MuteIcon = observer(({ size, visible }: { size: 'large' | 'small'; visible: boolean }) => {
   const streamWindowContext = useContext(StreamWindowContext);
 
-  const { handleMicrophoneClick, micEnabled } = useDeviceSwitch({
+  const { handleMicrophoneClick, micTooltip } = useDeviceSwitch({
     stream: streamWindowContext?.stream,
     isLocal: !!streamWindowContext?.stream.isLocal,
   });
@@ -188,7 +190,7 @@ const MuteIcon = observer(({ size, visible }: { size: 'large' | 'small'; visible
       className={classnames(
         `fcr-stream-window-mute-icon fcr-stream-window-mute-icon-${size} fcr-bg-brand-6`,
       )}>
-      <span> {micEnabled ? 'Mute' : 'Unmute'}</span>
+      <span> {micTooltip}</span>
     </div>
   ) : null;
 });
@@ -224,7 +226,7 @@ const StreamActions = observer(() => {
   const streamWindowMouseContext = useContext(StreamWindowMouseContext);
   const size = streamWindowContext?.labelSize;
   const stream = streamWindowContext?.stream;
-
+  const transI18n = useI18n();
   const {
     actionBarUIStore: { openChatDialog, setPrivateChat },
     participantsUIStore: { sendReward },
@@ -298,7 +300,7 @@ const StreamActions = observer(() => {
       key: 'reward',
 
       icon: <SvgImg size={20} type={SvgIconEnum.FCR_REWARD}></SvgImg>,
-      label: 'Reward',
+      label: transI18n('fcr_user_button_reward'),
       onClick: () => {
         if (userUuid) sendReward(userUuid);
       },
@@ -310,7 +312,9 @@ const StreamActions = observer(() => {
       icon: (
         <SvgImg size={20} type={pinned ? SvgIconEnum.FCR_REMOVE_PIN : SvgIconEnum.FCR_PIN}></SvgImg>
       ),
-      label: pinned ? 'Remove Pin' : 'Add Pin',
+      label: pinned
+        ? transI18n('fcr_user_button_remove_pin')
+        : transI18n('fcr_user_button_add_pin'),
       onClick: async () => {
         pinned ? removePin() : addPin(streamUuid);
       },
@@ -320,7 +324,7 @@ const StreamActions = observer(() => {
       key: 'privateChat',
 
       icon: <SvgImg size={20} type={SvgIconEnum.FCR_CHAT2}></SvgImg>,
-      label: 'Private Chat',
+      label: transI18n('fcr_user_button_private_chat'),
       onClick: async () => {
         setPrivateChat(userUuid);
         openChatDialog();
@@ -336,7 +340,7 @@ const StreamActions = observer(() => {
           colors={{ iconPrimary: colors['red'][6] }}
           type={SvgIconEnum.FCR_ONELEAVE}></SvgImg>
       ),
-      label: 'Remove',
+      label: transI18n('fcr_user_button_remove'),
       onClick: async () => {
         await kickOutOnceOrBan(userUuid, false);
       },
@@ -430,6 +434,7 @@ const StreamActionPopover = observer(
 );
 
 const StreamWindowUserLabel = observer(() => {
+  const transI18n = useI18n();
   const streamWindowContext = useContext(StreamWindowContext);
   const stream = streamWindowContext?.stream;
   const streamWindowMouseContext = useContext(StreamWindowMouseContext);
@@ -449,7 +454,7 @@ const StreamWindowUserLabel = observer(() => {
                 size={streamWindowContext?.audioIconSize}></AudioRecordinDeviceIcon>
             )}
 
-          <span>Host</span>
+          <span>{transI18n('fcr_role_teacher')}</span>
         </div>
       )}
       {streamWindowContext?.showNameOnBottomLeft && (

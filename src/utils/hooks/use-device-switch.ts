@@ -8,6 +8,7 @@ import {
   CustomMessageDeviceState,
   CustomMessageDeviceType,
 } from '@onlineclass/uistores/type';
+import { useI18n } from 'agora-common-libs';
 const colors = themeVal('colors');
 export const checkCameraEnabled = (stream?: EduStreamUI) => {
   return stream?.isVideoDeviceEnabled && stream.isVideoStreamPublished;
@@ -35,7 +36,7 @@ export const useDeviceSwitch = ({
       roomStore: { sendCustomPeerMessage },
     },
   } = useStore();
-
+  const transI18n = useI18n();
   const micEnabled = isLocal ? isAudioRecordingDeviceEnabled : checkMicEnabled(stream);
 
   const cameraEnabled = isLocal ? isCameraDeviceEnabled : checkCameraEnabled(stream);
@@ -75,8 +76,12 @@ export const useDeviceSwitch = ({
       }
     }
   };
-  const localCameraTooltip = cameraEnabled ? 'Stop video' : 'Start video';
-  const remoteCameraTooltip = cameraEnabled ? 'Stop video' : 'Request to start video';
+  const localCameraTooltip = cameraEnabled
+    ? transI18n('fcr_device_tips_stop_video')
+    : transI18n('fcr_device_tips_start_video');
+  const remoteCameraTooltip = cameraEnabled
+    ? transI18n('fcr_device_tips_stop_video')
+    : transI18n('fcr_participants_tips_start_video');
   const cameraTooltip = isLocal ? localCameraTooltip : remoteCameraTooltip;
   const handleCameraClick = () => {
     if (isLocal) {
@@ -105,8 +110,12 @@ export const useDeviceSwitch = ({
       }
     }
   };
-  const localMicTooltip = micEnabled ? 'Mute' : 'Unmute';
-  const remoteMicTooltip = micEnabled ? 'Mute' : 'Request to unmute';
+  const localMicTooltip = micEnabled
+    ? transI18n('fcr_device_tips_mute')
+    : transI18n('fcr_device_tips_unmute');
+  const remoteMicTooltip = micEnabled
+    ? transI18n('fcr_device_tips_unmute')
+    : transI18n('fcr_participants_tips_mute');
   const micTooltip = isLocal ? localMicTooltip : remoteMicTooltip;
   const handleMicrophoneClick = () => {
     if (isLocal) {

@@ -3,10 +3,7 @@ import { observer } from 'mobx-react';
 import { CSSProperties, PropsWithChildren, forwardRef, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import classNames from 'classnames';
-import {
-  AgoraOnlineclassSDKDialogWidget,
-  AgoraOnlineclassSDKWidgetBase,
-} from 'agora-common-libs/*';
+import { AgoraOnlineclassSDKDialogWidget, AgoraOnlineclassSDKWidgetBase } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './dialog.css';

@@ -22,7 +22,6 @@ type TabKeyType = keyof typeof tabContents;
 export const DeviceTabKeysContext = createContext<TabKeyType>('basic-settings');
 export const DevicePretest = observer(() => {
   const transI18n = useI18n();
-  const { deviceSettingUIStore } = useStore();
 
   const [activeTab, setActiveTab] = useState<TabKeyType>('basic-settings');
   const handleActiveTab = (tabKey: string) => {
@@ -30,9 +29,9 @@ export const DevicePretest = observer(() => {
   };
 
   const tabItems = [
-    { label: 'Basic Settings', key: 'basic-settings' },
-    { label: 'Background', key: 'virtual-background' },
-    { label: 'Beauty Filter', key: 'beauty-filter' },
+    { label: transI18n('fcr_device_option_basic_setting'), key: 'basic-settings' },
+    { label: transI18n('fcr_device_option_background'), key: 'virtual-background' },
+    { label: transI18n('fcr_device_option_beauty_filter'), key: 'beauty-filter' },
   ];
   const onClose = () => {
     EduEventCenter.shared.emitClasroomEvents(AgoraEduClassroomEvent.Destroyed, LeaveReason.leave);

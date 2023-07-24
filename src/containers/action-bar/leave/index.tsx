@@ -8,8 +8,10 @@ import { Popover } from '@components/popover';
 import { Button } from '@components/button';
 import { useEffect, useState } from 'react';
 import { ClassState, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
+import { useI18n } from 'agora-common-libs';
 
 export const Leave = observer(() => {
+  const transI18n = useI18n();
   const {
     actionBarUIStore: { setShowLeaveOption },
     breakoutUIStore: { currentSubRoomInfo },
@@ -27,7 +29,7 @@ export const Leave = observer(() => {
         text={'Leave breakout room'}></ActionBarItem>
     </ToolTip>
   ) : (
-    <ToolTip content="Leave">
+    <ToolTip content={transI18n('fcr_room_button_leave')}>
       <ActionBarItem
         classNames="fcr-leave-room-action"
         onClick={() => setShowLeaveOption(true, 1)}
@@ -35,11 +37,13 @@ export const Leave = observer(() => {
           type: SvgIconEnum.FCR_QUIT2,
           size: 36,
         }}
-        text={'Leave'}></ActionBarItem>
+        text={transI18n('fcr_room_button_leave')}></ActionBarItem>
     </ToolTip>
   );
 });
 export const LeaveCheck = observer(() => {
+  const transI18n = useI18n();
+
   const {
     actionBarUIStore: { setShowLeaveOption, leaveFlag },
     layoutUIStore: { setHasPopoverShowed },
@@ -74,13 +78,15 @@ export const LeaveCheck = observer(() => {
       }>
       <div className="fcr-action-bar-cancel-leave">
         <Button onClick={() => setPopoverVisible(false)} size="M" styleType="gray">
-          Cancel
+          {transI18n('fcr_user_tips_button_cancel')}
         </Button>
       </div>
     </Popover>
   );
 });
 const LeavePopoverContent = observer(() => {
+  const transI18n = useI18n();
+
   const {
     actionBarUIStore: { showEndClassButton, leaveClassroom },
     layoutUIStore: { addDialog },
@@ -91,17 +97,17 @@ const LeavePopoverContent = observer(() => {
   return (
     <div className="fcr-action-bar-leave-popover">
       <div className="fcr-action-bar-leave-popover-text">
-        Are you sure you want to end your classroom？
+        {transI18n('fcr_room_tips_leave_content')}
       </div>
       <div className="fcr-action-bar-leave-popover-btns">
         <Button type={'primary'} block onClick={leaveClassroom} size="M" styleType="danger">
-          Leave the Classroom
+          {transI18n('fcr_room_label_class_ended_content')}
         </Button>
         {showEndClassButton && (
           <Button
             onClick={async () => {
               addDialog('confirm', {
-                title: 'End the Classroom',
+                title: transI18n('fcr_room_button_leave_end'),
                 content: 'Are you sure you want to end the classroom?',
                 onOk: async () => {
                   await updateClassState(ClassState.close);
@@ -113,7 +119,7 @@ const LeavePopoverContent = observer(() => {
             type={'secondary'}
             size="M"
             styleType="danger">
-            End the Classroom
+            {transI18n('fcr_room_button_leave_end')}
           </Button>
         )}
       </div>

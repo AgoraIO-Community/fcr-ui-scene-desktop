@@ -7,6 +7,9 @@
   display: flex;
   flex-direction: column;
 }
+.fcr-device-settings__dialog-title {
+  padding-left: 20px;
+}
 .fcr-device-settings__header {
   @apply fcr-bg-brand-6 fcr-rounded-16 fcr-border-brand-6 fcr-font-title;
   height: 32px;

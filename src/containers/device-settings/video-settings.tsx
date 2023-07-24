@@ -8,6 +8,7 @@ import { BeautyFilter } from '../device-pretest/beauty-filter';
 import { CameraSelect } from '../device-pretest/device-select';
 import { observer } from 'mobx-react';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 
 const tabContents = {
   'virtual-background': <VirtualBackground />,
@@ -25,6 +26,7 @@ export const VideoSettings = observer(() => {
       stopCameraPreview,
     },
   } = useStore();
+  const transI18n = useI18n();
   const [activeTab, setActiveTab] = useState<TabKeyType>('virtual-background');
   const handleActiveTab = (tabKey: string) => {
     setActiveTab(tabKey as TabKeyType);
@@ -34,8 +36,8 @@ export const VideoSettings = observer(() => {
     return stopCameraPreview;
   }, []);
   const tabItems = [
-    { label: 'Background', key: 'virtual-background' },
-    { label: 'Beauty Filter', key: 'beauty-filter' },
+    { label: transI18n('fcr_device_option_background'), key: 'virtual-background' },
+    { label: transI18n('fcr_device_option_beauty_filter'), key: 'beauty-filter' },
   ];
   const beautySliderVisible =
     activeTab === 'beauty-filter' && isBeautyFilterEnabled && activeBeautyType;

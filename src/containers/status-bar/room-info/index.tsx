@@ -12,7 +12,9 @@ import { isNumber } from 'lodash';
 import './index.css';
 import { formatRoomID } from '@onlineclass/utils';
 import { useNetwork } from '@onlineclass/utils/hooks/use-network';
+import { useI18n } from 'agora-common-libs';
 export const StatusBarInfo: FC = () => {
+  const transI18n = useI18n();
   const ref = useRef<HTMLSpanElement | null>(null);
   const {
     statusBarUIStore: { roomUuid },
@@ -27,7 +29,7 @@ export const StatusBarInfo: FC = () => {
         ToastApi.open({
           toastProps: {
             type: 'info',
-            content: 'Room ID copied to clipboard',
+            content: transI18n('fcr_invite_tips_copy_room_id'),
           },
         });
       });
@@ -58,7 +60,7 @@ export const StatusBarInfo: FC = () => {
           </div>
         </DoubleDeckPopoverWithTooltip>
         <div className={classnames('fcr-status-bar-info-id', 'fcr-divider')}>
-          <span>ID:</span>
+          <span>{transI18n('fcr_room_label_room_id')}:</span>
           <span ref={ref} data-clipboard-text={roomUuid}>
             {isNumber(roomUuid) ? formatRoomID(roomUuid) : roomUuid}
           </span>
@@ -77,7 +79,7 @@ export const StatusBarInfo: FC = () => {
             },
             content: <Share></Share>,
           }}
-          toolTipProps={{ content: 'Sharing conference chain' }}>
+          toolTipProps={{ content: transI18n('fcr_invite_label_title') }}>
           <div className="fcr-status-bar-info-share">
             <SvgImg type={SvgIconEnum.FCR_SHARE} size={20}></SvgImg>
           </div>

@@ -8,24 +8,28 @@ import { getConfig } from '@onlineclass/utils/launch-options-holder';
 import { ClickableIcon } from '@components/svg-img/clickable-icon';
 import { formatRoomID } from '@onlineclass/utils';
 import { isNumber } from 'lodash';
+import { useI18n } from 'agora-common-libs';
 export const Share = () => {
-  const { roomUuid } = EduClassroomConfig.shared.sessionInfo;
+  const transI18n = useI18n();
+  const { roomUuid, roomName } = EduClassroomConfig.shared.sessionInfo;
 
   const { shareUrl } = getConfig();
 
   return (
     <div className="fcr-share">
-      <div className="fcr-share-title">Share Link or ID</div>
-      <div className="fcr-share-room-name">Tracy’s Room</div>
+      <div className="fcr-share-title">{transI18n('fcr_invite_label_title')}</div>
+      <div className="fcr-share-room-name">{roomName}</div>
       <div className="fcr-share-room-id">
-        <span>Room ID</span>
+        <span>{transI18n('fcr_invite_label_room_id')}</span>
         <span data-clipboard-text={shareUrl}>
           {isNumber(roomUuid) ? formatRoomID(roomUuid) : roomUuid}
         </span>
         <CopyToClipboard
           text={roomUuid}
           onCopy={() =>
-            ToastApi.open({ toastProps: { type: 'info', content: 'Room ID copied to clipboard' } })
+            ToastApi.open({
+              toastProps: { type: 'info', content: transI18n('fcr_invite_tips_copy_room_id') },
+            })
           }>
           <div className="fcr-share-room-id-copy" data-clipboard-text={shareUrl}>
             <SvgImg size={20} type={SvgIconEnum.FCR_COPY}></SvgImg>
@@ -33,18 +37,18 @@ export const Share = () => {
         </CopyToClipboard>
       </div>
       <div className="fcr-share-room-link">
-        <span>Link</span>
+        <span>{transI18n('fcr_invite_label_invite_link')}</span>
         <span>{shareUrl as string}</span>
       </div>
       <CopyToClipboard
         text={shareUrl as string}
         onCopy={() =>
           ToastApi.open({
-            toastProps: { type: 'info', content: 'Invitation link copied to clipboard' },
+            toastProps: { type: 'info', content: transI18n('fcr_invite_tips_copy_invite') },
           })
         }>
         <Button size="XS" block shape="rounded" preIcon={SvgIconEnum.FCR_LINK}>
-          Copy Link
+          {transI18n('fcr_invite_button_copy_link')}
         </Button>
       </CopyToClipboard>
     </div>

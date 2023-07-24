@@ -1,9 +1,11 @@
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useI18n } from 'agora-common-libs';
 import classNames from 'classnames';
 import { observer } from 'mobx-react';
 
 export const BeautyFilter = observer(() => {
+  const transI18n = useI18n();
   const { deviceSettingUIStore } = useStore();
 
   const {
@@ -20,19 +22,19 @@ export const BeautyFilter = observer(() => {
     {
       type: 'smooth' as const,
       icon: SvgIconEnum.FCR_SMOOTH,
-      label: 'Smooth',
+      label: transI18n('fcr_device_option_beauty_filter_smoothing'),
       enabled: isBeautyFilterEnabled && !!beautySmoothValue,
     },
     {
       type: 'brightening' as const,
       icon: SvgIconEnum.FCR_BEAUTY_RETOUCH,
-      label: 'Brightening',
+      label: transI18n('fcr_device_option_beauty_filter_retouch'),
       enabled: isBeautyFilterEnabled && !!beautyBrighteningValue,
     },
     {
       type: 'blush' as const,
       icon: SvgIconEnum.FCR_BEAUTY_BLUSH,
-      label: 'Blush',
+      label: transI18n('fcr_device_option_beauty_filter_blush'),
       enabled: isBeautyFilterEnabled && !!beautyBlushValue,
     },
   ];
@@ -53,7 +55,9 @@ export const BeautyFilter = observer(() => {
               colors={{ iconPrimary: 'currentColor' }}
             />
           </div>
-          <span className="fcr-pretest-beauty-filter__list-item-label">None</span>
+          <span className="fcr-pretest-beauty-filter__list-item-label">
+            {transI18n('fcr_device_option_beauty_filter_none')}
+          </span>
         </li>
 
         {beautyTypeList.map(({ type, icon, label, enabled }, index) => {

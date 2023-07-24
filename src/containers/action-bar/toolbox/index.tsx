@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { ActionBarItemWithPopover } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
-import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs';
+import { AgoraOnlineclassSDKMinimizableWidget, useI18n } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 export const ToolBox = observer(() => {
@@ -13,7 +13,7 @@ export const ToolBox = observer(() => {
   } = useStore();
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [popoverVisible, setPopoverVisible] = useState(false);
-
+  const transI18n = useI18n();
   return (
     <>
       <ToolTip
@@ -25,7 +25,7 @@ export const ToolBox = observer(() => {
           }
           setTooltipVisible(visible);
         }}
-        content="ToolBox">
+        content={transI18n('fcr_room_button_toolbox')}>
         <div>
           <ActionBarItemWithPopover
             popoverProps={{
@@ -47,13 +47,14 @@ export const ToolBox = observer(() => {
               ),
             }}
             icon={SvgIconEnum.FCR_WHITEBOARD_TOOLBOX}
-            text={'ToolBox'}></ActionBarItemWithPopover>
+            text={transI18n('fcr_room_button_toolbox')}></ActionBarItemWithPopover>
         </div>
       </ToolTip>
     </>
   );
 });
 const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) => {
+  const transI18n = useI18n();
   const { getters } = useStore();
   const isWidgetActive = (widgetId: string) => {
     if (widgetId === 'breakout') {
@@ -63,12 +64,16 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
   };
   return (
     <div className="fcr-toolbox-popover-content">
-      <div className="fcr-toolbox-popover-title">ToolBox</div>
+      <div className="fcr-toolbox-popover-title">{transI18n('fcr_room_button_toolbox')}</div>
       <div className="fcr-toolbox-popover-item-wrapper">
         {[
           // { label: 'Timer', id: 'timer', icon: SvgIconEnum.FCR_V2_TIMER },
-          { label: 'Poll', id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
-          { label: 'Breakout Room', id: 'breakout', icon: SvgIconEnum.FCR_V2_BREAKROOM },
+          { label: transI18n('fcr_tool_box_poll'), id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
+          {
+            label: transI18n('fcr_tool_box_breakout_room'),
+            id: 'breakout',
+            icon: SvgIconEnum.FCR_V2_BREAKROOM,
+          },
         ].map(({ id, icon, label }) => (
           <ToolBoxItem
             key={id}

@@ -5,7 +5,9 @@ import { StatusBarItemWrapper } from '..';
 import fscreen from 'fscreen';
 
 import './index.css';
+import { useI18n } from 'agora-common-libs';
 export const FullscreenButton = () => {
+  const transI18n = useI18n();
   const [fullscreen, setFullscreen] = useState(false);
   const toggleFullscreen = () => {
     if (fullscreen) {
@@ -26,7 +28,13 @@ export const FullscreenButton = () => {
     () => fscreen.removeEventListener('fullscreenchange', handleFullscreenChanged);
   }, []);
   return (
-    <ToolTip placement="bottomRight" content={fullscreen ? 'Exit full-screen' : 'Full-screen'}>
+    <ToolTip
+      placement="bottomRight"
+      content={
+        fullscreen
+          ? transI18n('fcr_room_tips_exit_full_screen')
+          : transI18n('fcr_room_tips_full_screen')
+      }>
       <StatusBarItemWrapper>
         <div onClick={toggleFullscreen} className="fcr-status-bar-fullscreen">
           <SvgImg

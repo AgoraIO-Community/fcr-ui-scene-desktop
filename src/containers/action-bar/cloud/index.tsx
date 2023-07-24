@@ -5,8 +5,10 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { ToolTip } from '@components/tooltip';
+import { useI18n } from 'agora-common-libs';
 const colors = themeVal('colors');
 export const Cloud = observer(() => {
+  const transI18n = useI18n();
   const {
     cloudUIStore: { setCloudDialogVisible },
   } = useStore();
@@ -16,7 +18,7 @@ export const Cloud = observer(() => {
   };
 
   return (
-    <ToolTip content={'Open Cloud'}>
+    <ToolTip content={transI18n('fcr_room_tips_open_cloud')}>
       <ActionBarItem
         icon={{
           type: SvgIconEnum.FCR_WHITEBOARD_CLOUD,
@@ -26,7 +28,7 @@ export const Cloud = observer(() => {
             style={{
               color: colors['text-2'],
             }}>
-            Cloud
+            {transI18n('fcr_room_button_cloud')}
           </span>
         }
         onClick={handleClick}></ActionBarItem>
