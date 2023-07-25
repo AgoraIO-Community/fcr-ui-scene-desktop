@@ -27,7 +27,7 @@ export const CloudDialogHeader = observer(() => {
 
   return (
     <div className="fcr-cloud-dialog-header">
-      <div>{transI18n('fcr_cloud_label_Cloud')}</div>
+      <div>{transI18n('fcr_cloud_label_cloud')}</div>
       <div>
         <Tabs
           onChange={(key) => {

@@ -7,6 +7,7 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { useEffect, useState } from 'react';
 import { DialogToolTip } from '@components/tooltip/dialog';
 import classnames from 'classnames';
+import { useI18n } from 'agora-common-libs';
 export const RaiseHands = observer(() => {
   return <StudentRaiseHands></StudentRaiseHands>;
 });
@@ -16,6 +17,7 @@ const StudentRaiseHands = observer(() => {
   const {
     actionBarUIStore: { isHandsUp, lowerHand, raiseHand },
   } = useStore();
+  const transI18n = useI18n();
   useEffect(() => {
     setDialogTooltipVisible(isHandsUp);
   }, [isHandsUp]);
@@ -32,14 +34,14 @@ const StudentRaiseHands = observer(() => {
           setTooltipVisible(visible);
         }
       }}
-      content={'RaiseHands'}>
+      content={transI18n('fcr_participants_label_raise_hand')}>
       <DialogToolTip
         overlayClassName="fcr-action-bar-raise-hand-dialog"
         onClose={() => setDialogTooltipVisible(false)}
         visible={dialogTooltipVisible}
         content={
           <span className="fcr-action-bar-raise-hand-content" onClick={() => lowerHand()}>
-            <span>🙋</span> Lower hand
+            <span>🙋</span> {transI18n('fcr_participants_tips_lower_hand')}
           </span>
         }>
         <ActionBarItem
@@ -48,7 +50,7 @@ const StudentRaiseHands = observer(() => {
             isHandsUp ? lowerHand() : raiseHand();
           }}
           icon={SvgIconEnum.FCR_STUDENT_RASIEHAND}
-          text={'RaiseHands'}></ActionBarItem>
+          text={transI18n('fcr_participants_label_raise_hand')}></ActionBarItem>
       </DialogToolTip>
     </ToolTip>
   );

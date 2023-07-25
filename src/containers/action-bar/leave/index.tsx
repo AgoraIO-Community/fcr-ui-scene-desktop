@@ -18,7 +18,7 @@ export const Leave = observer(() => {
   } = useStore();
 
   return currentSubRoomInfo ? (
-    <ToolTip content="Leave">
+    <ToolTip content={transI18n('fcr_room_tips_leave')}>
       <ActionBarItem
         classNames="fcr-leave-subroom-action"
         onClick={() => setShowLeaveOption(true, 2)}
@@ -26,7 +26,7 @@ export const Leave = observer(() => {
           type: SvgIconEnum.FCR_QUIT2,
           size: 36,
         }}
-        text={'Leave breakout room'}></ActionBarItem>
+        text={transI18n('fcr_room_button_join_error_leave')}></ActionBarItem>
     </ToolTip>
   ) : (
     <ToolTip content={transI18n('fcr_room_button_leave')}>
@@ -108,7 +108,7 @@ const LeavePopoverContent = observer(() => {
             onClick={async () => {
               addDialog('confirm', {
                 title: transI18n('fcr_room_button_leave_end'),
-                content: 'Are you sure you want to end the classroom?',
+                content: transI18n('fcr_room_tips_leave_content'),
                 onOk: async () => {
                   await updateClassState(ClassState.close);
                   leaveClassroom();
@@ -132,6 +132,7 @@ const LeaveBreakoutPopoverContent = observer(() => {
     actionBarUIStore: { setShowLeaveOption },
     breakoutUIStore: { leaveSubRoom },
   } = useStore();
+  const transI18n = useI18n();
   const { role } = EduClassroomConfig.shared.sessionInfo;
 
   const handleOk = () => {
@@ -143,18 +144,16 @@ const LeaveBreakoutPopoverContent = observer(() => {
     <div className="fcr-action-bar-leave-popover">
       {role === EduRoleTypeEnum.teacher || role === EduRoleTypeEnum.assistant ? (
         <div className="fcr-action-bar-leave-popover-text">
-          Are you sure you want to leave the group？
+          {transI18n('fcr_group_tips_leave_content')}
         </div>
       ) : (
         <div className="fcr-action-bar-leave-popover-text">
-          {
-            "Re-entry into the group is only possible with the teacher's invitation.Are you sure you want to leave the group？"
-          }
+          {transI18n('fcr_group_tips_student_leave_content')}
         </div>
       )}
       <div className="fcr-action-bar-leave-popover-btns">
         <Button type={'primary'} block onClick={handleOk} size="M">
-          Leave the Group
+          {transI18n('fcr_group_button_leave_group')}
         </Button>
       </div>
     </div>

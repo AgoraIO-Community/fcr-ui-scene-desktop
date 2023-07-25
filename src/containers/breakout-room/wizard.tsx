@@ -1,6 +1,6 @@
 import { Button } from '@components/button';
 import { InputNumber } from '@components/input-number';
-import { PopoverWithTooltip } from '@components/popover';
+import { Popover, PopoverWithTooltip } from '@components/popover';
 import { Radio } from '@components/radio';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
@@ -160,17 +160,14 @@ export const WizardGrouping: FC = observer(() => {
               checked={checked}
               onClick={toggleCheck}
             />
-            <PopoverWithTooltip
-              ref={panelRef}
-              toolTipProps={{ placement: 'top', content: transI18n('fcr_group_button_move_to') }}
-              popoverProps={{
-                showArrow: true,
-                overlayOffset: 8,
-                placement: 'top',
-                content: <CreatePanel onClose={handleCreateClose} />,
-                overlayClassName: 'fcr-breakout-room__create__overlay',
-                onVisibleChange: setCreateVisible,
-              }}>
+            <Popover
+              trigger='click'
+              showArrow
+              overlayOffset={8}
+              placement="top"
+              content={<CreatePanel onClose={handleCreateClose} />}
+              overlayClassName="fcr-breakout-room__create__overlay"
+              onVisibleChange={setCreateVisible}>
               <Button size="XS" type="secondary">
                 {transI18n('fcr_group_recreate')}
                 <SvgImg
@@ -181,7 +178,7 @@ export const WizardGrouping: FC = observer(() => {
                   }}
                 />
               </Button>
-            </PopoverWithTooltip>
+            </Popover>
             <Button size="XS" onClick={handleStart}>
               {transI18n('fcr_group_start')}
             </Button>
@@ -282,10 +279,18 @@ export const WizardCreate = observer(() => {
         </div>
       </div>
       <div className="fcr-breakout-room__widget-dialog-bottom">
-        <Radio label="Assign automatically" checked={type === 1} onChange={handleChangeType(1)} />
+        <Radio
+          label={transI18n('fcr_group_assign_automatically')}
+          checked={type === 1}
+          onChange={handleChangeType(1)}
+        />
         {/* divider */}
         <div className="fcr-breakout-room__widget-dialog-divider" />
-        <Radio label="Assign manually" checked={type === 2} onChange={handleChangeType(2)} />
+        <Radio
+          label={transI18n('fcr_group_assign_manually')}
+          checked={type === 2}
+          onChange={handleChangeType(2)}
+        />
         {type === 2 ? (
           <p className="fcr-breakout-room__widget-dialog-info">
             {transI18n('fcr_group_tips_persons_per_group1', { reason1: numberToBeAssigned })}

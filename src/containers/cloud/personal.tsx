@@ -249,7 +249,7 @@ const UploadButton = observer(() => {
     },
   } = useStore();
   const [extraPopoverVisible, setExtraPopoverVisible] = useState(false);
-
+  const transI18n = useI18n();
   const fileRef = useRef<HTMLInputElement>(null);
   const handleUpload = async (evt: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(evt.target.files || []);
@@ -301,7 +301,7 @@ const UploadButton = observer(() => {
           overlayOffset: 15,
           overlayInnerStyle: { width: 270 },
         }}>
-        Upload
+        {transI18n('fcr_online_courseware_button_upload')}
       </Button>
     </>
   );
@@ -477,7 +477,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
     },
     {
       key: 'size',
-      title: 'Size',
+      title: transI18n('fcr_cloud_size'),
       dataIndex: 'resource.size',
       width: 65,
       align: 'left',

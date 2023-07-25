@@ -46,7 +46,11 @@ export const RecordStatus = observer(() => {
 
         {isHost && isRecording && (
           <ToolTip
-            content={recordOnHold ? transI18n('fcr_room_tips_start_record') : 'Click to pause'}>
+            content={
+              recordOnHold
+                ? transI18n('fcr_room_tips_start_record')
+                : transI18n('fcr_record_tips_click_pause')
+            }>
             <div className="fcr-status-bar-record-action fcr-divider" onClick={handleRecordStatus}>
               <SvgImg
                 size={20}

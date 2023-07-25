@@ -51,7 +51,7 @@ export const MicrophoneDevice: FC = observer(() => {
     stream: localStream,
     isLocal: true,
   });
-  const text = noAudioRecordingDevice ? 'No device' : micTooltip;
+  const text = noAudioRecordingDevice ? transI18n('fcr_device_tips_no_device') : micTooltip;
 
   return (
     <ToolTip visible={tootipVisible} onVisibleChange={handleTooltipVisibleChanged} content={text}>
@@ -117,7 +117,7 @@ export const CameraDevice: FC = observer(() => {
     : cameraEnabled
     ? SvgIconEnum.FCR_CAMERA
     : SvgIconEnum.FCR_CAMERAOFF;
-  const text = noCameraDevice ? 'No device' : cameraTooltip;
+  const text = noCameraDevice ? transI18n('fcr_device_tips_no_device') : cameraTooltip;
   const color = !cameraEnabled || noCameraDevice ? { iconSecondary: colors['red']['6'] } : {};
   return (
     <ToolTip onVisibleChange={handleTooltipVisibleChanged} visible={tootipVisible} content={text}>
@@ -199,7 +199,11 @@ const VideoDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
           <div className="fcr-device-popover-content-device-options">
             {cameraDevicesList.length === 0 && (
               <div>
-                <Radio name="No device" styleType="transparent" checked label={'No device'}></Radio>
+                <Radio
+                  name="No device"
+                  styleType="transparent"
+                  checked
+                  label={transI18n('fcr_device_tips_no_device')}></Radio>
               </div>
             )}
             {cameraDevicesList.map((device) => {
@@ -252,7 +256,11 @@ const AudioDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
           <div className="fcr-device-popover-content-device-options">
             {recordingDevicesList.length === 0 && (
               <div>
-                <Radio name="No device" styleType="transparent" checked label={'No device'}></Radio>
+                <Radio
+                  name="No device"
+                  styleType="transparent"
+                  checked
+                  label={transI18n('fcr_device_tips_no_device')}></Radio>
               </div>
             )}
             {recordingDevicesList.map((device) => {
@@ -276,7 +284,11 @@ const AudioDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
           <div className="fcr-device-popover-content-device-options">
             {playbackDevicesList.length === 0 && (
               <div>
-                <Radio name="No device" styleType="transparent" checked label={'No device'}></Radio>
+                <Radio
+                  name="No device"
+                  styleType="transparent"
+                  checked
+                  label={transI18n('fcr_device_tips_no_device')}></Radio>
               </div>
             )}
             {playbackDevicesList.map((device) => {

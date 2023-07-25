@@ -12,6 +12,7 @@ import { useI18n } from 'agora-common-libs';
 
 export const CameraSelect = observer(() => {
   const { deviceSettingUIStore } = useStore();
+  const transI18n = useI18n();
   const { cameraDevicesList, setCameraDevice, cameraDeviceId } = deviceSettingUIStore;
 
   return (
@@ -19,7 +20,7 @@ export const CameraSelect = observer(() => {
       options={cameraDevicesList}
       onChange={setCameraDevice}
       value={cameraDeviceId}
-      placeholder={'No device'}
+      placeholder={transI18n('fcr_device_tips_no_device')}
       disabled={cameraDevicesList.length === 0}
     />
   );
@@ -27,6 +28,7 @@ export const CameraSelect = observer(() => {
 
 export const MicrophoneSelect = observer(() => {
   const { deviceSettingUIStore } = useStore();
+  const transI18n = useI18n();
   const { recordingDevicesList, setAudioRecordingDevice, audioRecordingDeviceId } =
     deviceSettingUIStore;
 
@@ -35,7 +37,7 @@ export const MicrophoneSelect = observer(() => {
       options={recordingDevicesList}
       onChange={setAudioRecordingDevice}
       value={audioRecordingDeviceId}
-      placeholder={'No device'}
+      placeholder={transI18n('fcr_device_tips_no_device')}
       disabled={recordingDevicesList.length === 0}
     />
   );
@@ -92,7 +94,7 @@ export const SpeakerSelect = observer(() => {
         options={playbackDevicesList}
         onChange={setAudioPlaybackDevice}
         value={audioPlaybackDeviceId}
-        placeholder={'No device'}
+        placeholder={transI18n('fcr_device_tips_no_device')}
         disabled={playbackDevicesList.length === 0}
       />
       <Button

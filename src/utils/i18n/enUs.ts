@@ -23,6 +23,9 @@ export const enUs = {
   fcr_device_tips_beauty_filter:
     'Before using and previewing beauty filter effects，please start the camera',
   fcr_device_button_join: 'Join',
+  fcr_device_label_video: 'Video',
+  fcr_device_label_voice: 'Voice',
+  fcr_device_label_effect_preview: 'Effect Preview',
   fcr_device_button_test: 'Test',
   fcr_room_label_room_id: 'Room ID',
   fcr_room_label_room_name: '{reason1}',
@@ -87,12 +90,16 @@ export const enUs = {
   fcr_layout_label_grid: 'Grid View',
   fcr_layout_option_list_on_top: 'List on top',
   fcr_layout_option_list_on_right: 'List on right',
+  fcr_layout_cannot_switch_while_screen_sharing:
+    'You cannot switch to grid view when screen sharing',
+  fcr_layout_cannot_switch_while_board_openning:
+    'You cannot switch to grid view when opening the whiteboard',
   fcr_role_teacher: 'Host',
   fcr_role_assistant: 'Assistant',
   fcr_role_student: 'Student',
   fcr_role_audience: 'Audience',
   fcr_user_button_add_pin: 'Add Pin',
-  fcr_user_button_remove_pin: 'remove_pin',
+  fcr_user_button_remove_pin: 'Remove Pin',
   fcr_user_button_unmute: 'Request to unmute',
   fcr_user_button_mute: 'Mute',
   fcr_user_button_start_video: 'Request to start video',
@@ -311,6 +318,7 @@ export const enUs = {
   fcr_group_start: 'Start',
   fcr_group_tips_persons_per_group1: 'To be assigned {reason1} persons',
   fcr_group_tips_persons_per_group2: ', per group {reason1} persons`}',
+  fcr_group_in_group_discussion: 'In Group Discussion',
 
   fcr_popup_quiz: 'Popup quiz answerer',
   fcr_popup_quiz_post: 'Submit the answer',
@@ -339,7 +347,7 @@ export const enUs = {
 
   fcr_cloud_file_name: 'File Name',
   fcr_cloud_search: 'Search',
-  fcr_cloud_label_Cloud: 'Cloud',
+  fcr_cloud_label_cloud: 'Cloud',
   fcr_cloud_public_resource: 'Public',
   fcr_cloud_private_resource: 'Personal',
   fcr_cloud_total_item: '{reason1} items',
@@ -375,7 +383,7 @@ export const enUs = {
   fcr_device_tips_mirror_turo_on_camera:
     'Before using and previewing mirror effects, please start the camera',
   fcr_record_label_paused: 'Paused',
-  fcr_record_tips_click_pause: "'Click to pause'",
+  fcr_record_tips_click_pause: 'Click to pause',
   fcr_record_label_recording: 'Recording',
   fcr_invite_button_copy_link: 'Copy Link',
   fcr_room_tips_leave_content: 'Are you sure you want to leave your classroom?',

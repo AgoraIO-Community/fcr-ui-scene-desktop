@@ -4,9 +4,9 @@ import classnames from 'classnames';
 import './index.css';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { EduRoleTypeEnum } from 'agora-edu-core';
-import { Layout } from '@onlineclass/uistores/type';
 import { usePinStream } from '@onlineclass/utils/hooks/use-pin-stream';
 import { ToolTip } from '@components/tooltip';
+import { useI18n } from 'agora-common-libs';
 const interactLabelGroupSizeMap = {
   'status-bar': 'normal',
   'list-view': 'small',
@@ -27,6 +27,7 @@ export const InteractLabelGroup = observer(
       streamUIStore: { isUserGranted, pinnedStream, pinDisabled },
       actionBarUIStore: { isHandsUpByUserUuid },
     } = useStore();
+    const transI18n = useI18n();
     const currentUser = users.get(userUuid);
     const reward = rewards.get(userUuid);
     const isGranted = isUserGranted(userUuid);
@@ -70,7 +71,7 @@ export const InteractLabelGroup = observer(
             onClick={removePin}
             className="fcr-stream-window-student-interact-item fcr-stream-window-student-interact-item-remove-pin fcr-bg-2">
             <SvgImg type={SvgIconEnum.FCR_REMOVE_PIN}></SvgImg>
-            Remove Pin
+            {transI18n('fcr_user_button_remove_pin')}
           </div>
         )}
       </div>

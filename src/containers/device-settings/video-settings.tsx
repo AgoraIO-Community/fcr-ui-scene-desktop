@@ -44,7 +44,7 @@ export const VideoSettings = observer(() => {
   return (
     <div className="fcr-device-settings__video">
       <div className="fcr-device-settings__video-preview-title">
-        <span>Effect Preview</span>
+        <span>{transI18n('fcr_device_label_effect_preview')}</span>
         <MirrorToggle placement="setting" />
       </div>
       <div className="fcr-device-settings__video-preview">

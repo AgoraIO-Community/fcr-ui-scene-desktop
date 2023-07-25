@@ -27,7 +27,7 @@ export const MirrorToggle = observer(({ placement }: { placement: 'setting' | 'p
       tooltip={
         isCameraDeviceEnabled
           ? transI18n('fcr_device_tips_mirror')
-          : 'Mirror, please turn on the camera first'
+          : transI18n('fcr_device_tips_mirror_turo_on_camera')
       }
       onClick={deviceSettingUIStore.toggleLocalMirror}
       {...mirrorIconProps}

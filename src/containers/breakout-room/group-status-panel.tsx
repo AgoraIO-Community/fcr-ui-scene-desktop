@@ -1,11 +1,11 @@
 import { Button } from '@components/button';
-import { PopoverWithTooltip } from '@components/popover';
+import { Popover } from '@components/popover';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { BroadcastMessagePanel } from './broadcast-panel';
 import { observer } from 'mobx-react';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { useI18n } from 'agora-common-libs';
 
@@ -17,7 +17,6 @@ export const GroupStatusPanel = observer(() => {
   } = useStore();
   const transI18n = useI18n();
 
-  const panelRef = useRef<{ closePopover: () => void }>(null);
   const [visible, setVisible] = useState(false);
 
   const isTeacher = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
@@ -35,9 +34,6 @@ export const GroupStatusPanel = observer(() => {
 
   const handleClose = () => {
     setVisible(false);
-    if (panelRef.current) {
-      panelRef.current.closePopover();
-    }
   };
 
   return isTeacher && groupState && (!breakoutDialogVisible || isBreakoutMinimized) ? (
@@ -48,20 +44,19 @@ export const GroupStatusPanel = observer(() => {
       <div className="fcr-breakout-room__status-panel" style={{ opacity: showStatusBar ? 1 : 0 }}>
         <SvgImg type={SvgIconEnum.FCR_V2_BREAKROOM} />
         <span className="fcr-breakout-room__status-panel-label">
-          {currentSubRoomInfo ? currentSubRoomInfo.groupName : 'In Group Discussion'}
+          {currentSubRoomInfo
+            ? currentSubRoomInfo.groupName
+            : transI18n('fcr_group_in_group_discussion')}
         </span>
         <div className="fcr-divider" />
         <div className="fcr-breakout-room__status-panel-buttons">
-          <PopoverWithTooltip
-            ref={panelRef}
-            toolTipProps={{ placement: 'top', content: 'Move to' }}
-            popoverProps={{
-              overlayOffset: 8,
-              placement: 'top',
-              content: <BroadcastMessagePanel onClose={handleClose} />,
-              overlayClassName: 'fcr-breakout-room__broadcast__overlay',
-              onVisibleChange: setVisible,
-            }}>
+          <Popover
+            trigger="click"
+            overlayOffset={8}
+            placement="top"
+            content={<BroadcastMessagePanel onClose={handleClose} />}
+            overlayClassName="fcr-breakout-room__broadcast__overlay"
+            onVisibleChange={setVisible}>
             <Button size="XS" type="secondary">
               {transI18n('fcr_group_label_broadcast_message')}
               <SvgImg
@@ -72,7 +67,7 @@ export const GroupStatusPanel = observer(() => {
                 }}
               />
             </Button>
-          </PopoverWithTooltip>
+          </Popover>
           <Button size="XS" preIcon={SvgIconEnum.FCR_CLOSE} styleType="danger" onClick={handleStop}>
             {transI18n('fcr_group_button_stop')}
           </Button>

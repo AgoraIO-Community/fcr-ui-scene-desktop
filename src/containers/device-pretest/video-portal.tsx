@@ -10,7 +10,7 @@ import { LocalVideoPlayer } from '../video-player';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { DeviceTabKeysContext } from '.';
 import { useI18n } from 'agora-common-libs';
-import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
+
 const colors = themeVal('colors');
 export const VideoPortal = observer(() => {
   const transI18n = useI18n();
@@ -26,7 +26,7 @@ export const VideoPortal = observer(() => {
       return {
         status: 'disabled' as const,
         icon: SvgIconEnum.FCR_CAMERACRASH,
-        tooltip: 'No device',
+        tooltip: transI18n('fcr_device_tips_no_device'),
       };
     }
 
@@ -59,7 +59,7 @@ export const VideoPortal = observer(() => {
       return {
         status: 'disabled' as const,
         icon: SvgIconEnum.FCR_MUTECRASH,
-        tooltip: 'No device',
+        tooltip: transI18n('fcr_device_tips_no_device'),
       };
     }
 

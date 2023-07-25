@@ -5,6 +5,7 @@ import { AudioSettings } from './audio-settings';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { VideoSettings } from './video-settings';
 import './index.css';
+import { useI18n } from 'agora-common-libs';
 
 const tabContents = {
   audio: <AudioSettings />,
@@ -15,6 +16,7 @@ type TabKeyType = keyof typeof tabContents;
 
 export const DeviceSettings = observer(() => {
   const [activeTab, setActiveTab] = useState<TabKeyType>('video');
+  const transI18n = useI18n();
 
   const cls = classNames('fcr-device-settings');
 
@@ -40,13 +42,13 @@ export const DeviceSettings = observer(() => {
             <div className="fcr-device-settings__surrounding--green">
               <SvgImg type={SvgIconEnum.FCR_MUTE} size={22} />
             </div>
-            Voice
+            {transI18n('fcr_device_label_voice')}
           </li>
           <li className={videoItemCls} onClick={tabClickHandler('video')}>
             <div className="fcr-device-settings__surrounding--purple">
               <SvgImg type={SvgIconEnum.FCR_CAMERA} size={22} />
             </div>
-            Video
+            {transI18n('fcr_device_label_video')}
           </li>
         </ul>
       </div>

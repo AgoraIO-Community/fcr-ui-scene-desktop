@@ -30,8 +30,8 @@ export const LayoutSwitchPopover = observer(() => {
         {gridLayoutDisabled && (
           <div className="fcr-layout-switch-desc">
             {isScreenSharing
-              ? 'You cannot switch to grid view when screen sharing'
-              : 'You cannot switch to grid view when opening the whiteboard'}
+              ? transI18n('fcr_layout_cannot_switch_while_screen_sharing')
+              : transI18n('fcr_layout_cannot_switch_while_board_openning')}
           </div>
         )}
         <div className="fcr-layout-switch-view-wrap">

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import pretestLogo from '@res/images/pretest-logo.png';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './index.css';
@@ -9,7 +9,6 @@ import { VirtualBackground } from './virtual-background';
 import { BasicSettings } from './basic-settings';
 import { BeautyFilter } from './beauty-filter';
 import { VideoPortal } from './video-portal';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { AgoraEduClassroomEvent, EduEventCenter, LeaveReason } from 'agora-edu-core';
 
 const tabContents = {

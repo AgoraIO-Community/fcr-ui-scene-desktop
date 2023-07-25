@@ -3,10 +3,11 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { ToolTip } from '@components/tooltip';
+import { useI18n } from 'agora-common-libs';
 
 export const VirtualBackground = observer(() => {
   const { deviceSettingUIStore } = useStore();
-
+  const transI18n = useI18n();
   const {
     activeBackgroundUrl,
     setVirtualBackground,
@@ -22,7 +23,7 @@ export const VirtualBackground = observer(() => {
   return (
     <div className="fcr-pretest-virtual-background">
       <ul className="fcr-pretest-virtual-background__list">
-        <ToolTip content="None">
+        <ToolTip content={transI18n('fcr_device_option_beauty_filter_none')}>
           <li className={noneButtonCls}>
             <div
               className="fcr-pretest-virtual-background__list-item-inner"
