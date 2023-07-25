@@ -61,6 +61,7 @@
 .fcr-breakout-room-dialog__foot-actions .fcr-radio .fcr-radio-label {
   padding-left: 9px;
   line-height: unset;
+  overflow: unset;
 }
 
 .fcr-breakout-room-dialog__foot-actions {
@@ -500,6 +501,7 @@
 .fcr-breakout-room__create-panel .fcr-radio-label {
   padding-left: 12px;
   line-height: unset;
+  overflow: unset;
 }
 
 .fcr-breakout-room__create-panel-buttons {
@@ -761,8 +763,8 @@
   @apply fcr-text-2;
   font-weight: 400;
   font-size: 12px;
-  padding: 15px 31px 15px 20px;
-  text-align: center;
+  padding: 15px 31px 15px 0;
+  margin-left: 15px;
 }
 
 .fcr-breakout-room__widget-dialog-buttons {
@@ -772,15 +774,6 @@
 
 .fcr-breakout-room__widget-dialog-buttons .fcr-button {
   width: 100%;
-}
-
-.fcr-breakout-room__widget-dialog-bottom .fcr-radio {
-  margin-left: 18px;
-}
-
-.fcr-breakout-room__widget-dialog-bottom .fcr-radio-label {
-  padding-left: 13px;
-  line-height: unset;
 }
 
 .fcr-breakout-room__search__overlay .fcr-tooltip-inner,
@@ -821,4 +814,62 @@
 
 .fcr-breakout-room__grouping--dashed-border::before {
   @apply fcr-border-brand;
+}
+
+.fcr-breakout-room__instructions {
+  @apply fcr-rounded-8 fcr-bg-5-a40;
+  margin: 6px;
+}
+
+.fcr-breakout-room__grouping-column-header .fcr-breakout-room__inner {
+  display: flex;
+  align-items: center;
+  margin: 13px 15px;
+}
+
+.fcr-breakout-room__grouping-column-header .fcr-breakout-room__inner .fcr-input-number {
+  width: 50px;
+  margin: 0 6px;
+}
+
+.fcr-breakout-room__grouping-column-header .fcr-breakout-room__inner .fcr-input-number input {
+  text-align: right;
+}
+
+.fcr-breakout-room__create_type .fcr-radio-label {
+  overflow: unset;
+}
+
+.fcr-breakout-room__inner {
+  width: 100%;
+}
+
+.fcr-breakout-room__instructions .fcr-breakout-room__widget-dialog-divider {
+  margin: 0;
+}
+
+.fcr-breakout-room__instructions-title {
+  @apply fcr-text-2;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 9px 0;
+}
+
+.fcr-breakout-room__instructions-steps {
+  @apply fcr-text-1;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 9px;
+}
+
+.fcr-breakout-room__create_type {
+  @apply fcr-border-1 fcr-border fcr-rounded-4;
+  width: 202px;
+  margin-bottom: 10px;
+  margin: 20px 0 0 15px;
+  padding: 8px 11px;
 }

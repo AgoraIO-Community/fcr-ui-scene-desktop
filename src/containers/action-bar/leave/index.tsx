@@ -101,7 +101,7 @@ const LeavePopoverContent = observer(() => {
       </div>
       <div className="fcr-action-bar-leave-popover-btns">
         <Button type={'primary'} block onClick={leaveClassroom} size="M" styleType="danger">
-          {transI18n('fcr_room_label_class_ended_content')}
+          {transI18n('fcr_room_button_leave')}
         </Button>
         {showEndClassButton && (
           <Button

@@ -319,6 +319,7 @@ export const enUs = {
   fcr_group_tips_persons_per_group1: 'To be assigned {reason1} persons',
   fcr_group_tips_persons_per_group2: ', per group {reason1} persons`}',
   fcr_group_in_group_discussion: 'In Group Discussion',
+  fcr_group_create: 'Create',
 
   fcr_popup_quiz: 'Popup quiz answerer',
   fcr_popup_quiz_post: 'Submit the answer',

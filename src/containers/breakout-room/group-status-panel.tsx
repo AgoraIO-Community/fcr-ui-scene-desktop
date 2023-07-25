@@ -56,7 +56,8 @@ export const GroupStatusPanel = observer(() => {
             placement="top"
             content={<BroadcastMessagePanel onClose={handleClose} />}
             overlayClassName="fcr-breakout-room__broadcast__overlay"
-            onVisibleChange={setVisible}>
+            onVisibleChange={setVisible}
+            visible={visible}>
             <Button size="XS" type="secondary">
               {transI18n('fcr_group_label_broadcast_message')}
               <SvgImg

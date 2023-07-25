@@ -161,13 +161,14 @@ export const WizardGrouping: FC = observer(() => {
               onClick={toggleCheck}
             />
             <Popover
-              trigger='click'
+              trigger="click"
               showArrow
               overlayOffset={8}
               placement="top"
               content={<CreatePanel onClose={handleCreateClose} />}
               overlayClassName="fcr-breakout-room__create__overlay"
-              onVisibleChange={setCreateVisible}>
+              onVisibleChange={setCreateVisible}
+              visible={createVisible}>
               <Button size="XS" type="secondary">
                 {transI18n('fcr_group_recreate')}
                 <SvgImg
@@ -245,68 +246,98 @@ export const WizardCreate = observer(() => {
   };
 
   return (
-    <div className="fcr-breakout-room__widget-dialog">
-      <div className="fcr-breakout-room__widget-dialog-top fcr-breakout-room__drag-handle">
-        <div className="fcr-breakout-room__widget-header">
-          {/* title */}
-          <span className="fcr-breakout-room__widget-title">
-            {transI18n('fcr_group_breakout_room')}
+    <div className="fcr-breakout-room-dialog">
+      {/* header */}
+      <div className="fcr-breakout-room-dialog__header fcr-breakout-room__drag-handle">
+        {/* title */}
+        <div>
+          {transI18n('fcr_group_breakout_room')}{' '}
+          <span className="fcr-breakout-room-dialog__header-tag">
+            {transI18n('fcr_group_not_status')}
           </span>
-          {/* actions */}
-          <div className="fcr-breakout-room__widget-actions fcr-breakout-room__drag-cancel">
-            <ul>
-              <ToolTip content={transI18n('fcr_group_minimization')}>
-                <li>
-                  <SvgImg
-                    type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER}
-                    size={14}
-                    onClick={handleMinimize}
-                  />
-                </li>
-              </ToolTip>
-              <ToolTip content={transI18n('fcr_group_close')}>
-                <li>
-                  <SvgImg type={SvgIconEnum.FCR_CLOSE} size={14} onClick={handleClose} />
-                </li>
-              </ToolTip>
-            </ul>
-          </div>
         </div>
-        <div className="fcr-breakout-room__widget-create-number">
-          <span>{transI18n('fcr_group_label_create')}</span>
-          <InputNumber size="small" min={1} onChange={handleChangeGroupNum} value={groupNum} />
-          <span>{transI18n('fcr_group_label_breakout_rooms')}</span>
+        {/* actions */}
+        <div className="fcr-breakout-room-dialog__actions fcr-breakout-room__drag-cancel">
+          <ul>
+            <ToolTip content={transI18n('fcr_group_minimization')}>
+              <li>
+                <SvgImg
+                  type={SvgIconEnum.FCR_WINDOWPAGE_SMALLER}
+                  size={14}
+                  onClick={handleMinimize}
+                />
+              </li>
+            </ToolTip>
+            <ToolTip content={transI18n('fcr_group_close')}>
+              <li>
+                <SvgImg type={SvgIconEnum.FCR_CLOSE} size={14} onClick={handleClose} />
+              </li>
+            </ToolTip>
+          </ul>
         </div>
       </div>
-      <div className="fcr-breakout-room__widget-dialog-bottom">
-        <Radio
-          label={transI18n('fcr_group_assign_automatically')}
-          checked={type === 1}
-          onChange={handleChangeType(1)}
-        />
-        {/* divider */}
-        <div className="fcr-breakout-room__widget-dialog-divider" />
-        <Radio
-          label={transI18n('fcr_group_assign_manually')}
-          checked={type === 2}
-          onChange={handleChangeType(2)}
-        />
-        {type === 2 ? (
-          <p className="fcr-breakout-room__widget-dialog-info">
-            {transI18n('fcr_group_tips_persons_per_group1', { reason1: numberToBeAssigned })}
-            {numberToBeAssigned > 0 &&
-              transI18n('fcr_group_tips_persons_per_group2', {
-                reason1: `${perGroup}-${perGroup + 1}`,
-              })}
-          </p>
-        ) : (
-          <p className="fcr-breakout-room__widget-dialog-info" />
-        )}
-        <div className="fcr-breakout-room__widget-dialog-buttons">
-          <Button size="XS" onClick={handleCreate}>
-            {transI18n('fcr_group_label_create')}
-          </Button>
+      {/* content */}
+      <div className="fcr-breakout-room__grouping">
+        <div className="fcr-breakout-room__grouping-column-header">
+          <div className="fcr-breakout-room__inner">
+            <span>{transI18n('fcr_group_label_create')}</span>
+            <InputNumber size="small" min={1} onChange={handleChangeGroupNum} value={groupNum} />
+            <span>{transI18n('fcr_group_label_breakout_rooms')}</span>
+          </div>
         </div>
+        <div className="fcr-breakout-room__grouping-column-content">
+          <div className="fcr-breakout-room__inner">
+            <div className="fcr-breakout-room__create_type">
+              <Radio
+                label={transI18n('fcr_group_assign_automatically')}
+                checked={type === 1}
+                onChange={handleChangeType(1)}
+              />
+            </div>
+            <div className="fcr-breakout-room__create_type">
+              <Radio
+                label={transI18n('fcr_group_assign_manually')}
+                checked={type === 2}
+                onChange={handleChangeType(2)}
+              />
+            </div>
+            {type === 2 ? (
+              <p className="fcr-breakout-room__widget-dialog-info">
+                {transI18n('fcr_group_tips_persons_per_group1', { reason1: numberToBeAssigned })}
+                {numberToBeAssigned > 0 &&
+                  transI18n('fcr_group_tips_persons_per_group2', {
+                    reason1: `${perGroup}-${perGroup + 1}`,
+                  })}
+              </p>
+            ) : (
+              <p className="fcr-breakout-room__widget-dialog-info">&nbsp;</p>
+            )}
+
+            <div className="fcr-breakout-room__instructions">
+              <div className="fcr-breakout-room__instructions-title">
+                Instructions for the Use Process
+              </div>
+              {/* divider */}
+              <div className="fcr-breakout-room__widget-dialog-divider" />
+              <div className="fcr-breakout-room__instructions-steps">
+                <div>Create Rooms</div>
+                <SvgImg type={SvgIconEnum.FCR_WIZARD_ARROW} size={42} />
+                <div>Manage Group</div>
+                <SvgImg type={SvgIconEnum.FCR_WIZARD_ARROW} size={42} />
+                <div>End discuss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* bottom actions */}
+      <div className="fcr-breakout-room-dialog__foot-actions">
+        <Button size="XS" styleType="gray" onClick={handleClose}>
+          {transI18n('fcr_group_cancel')}
+        </Button>
+        <Button size="XS" onClick={handleCreate}>
+          {transI18n('fcr_group_create')}
+        </Button>
       </div>
     </div>
   );
