@@ -24,7 +24,7 @@ export const RecordStatus = observer(() => {
   const text = isRecordStarting
     ? transI18n('fcr_record_waiting')
     : recordOnHold
-    ? 'Paused'
+    ? transI18n('fcr_record_label_paused')
     : transI18n('fcr_record_recording');
 
   const recordActive = isRecording && !recordOnHold;

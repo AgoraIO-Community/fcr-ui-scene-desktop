@@ -73,6 +73,7 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
           //   id: 'timer',
           //   icon: SvgIconEnum.FCR_V2_TIMER,
           // },
+          { label: 'timer', id: 'countdown', icon: SvgIconEnum.FCR_V2_VOTE },
           { label: transI18n('fcr_tool_box_poll'), id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
           {
             label: transI18n('fcr_tool_box_breakout_room'),

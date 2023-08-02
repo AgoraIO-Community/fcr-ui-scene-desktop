@@ -18,8 +18,14 @@ export class EduTool {
   @observable
   private _minimizedStateMap = new Map<
     string,
-    | { icon: SvgIconEnum; tooltip?: string }
-    | { icon: SvgIconEnum; tooltip?: string; widgetId?: string; minimizedIcon: SvgIconEnum }[]
+    | { icon: SvgIconEnum; tooltip?: string; extra?: unknown }
+    | {
+        icon: SvgIconEnum;
+        tooltip?: string;
+        widgetId?: string;
+        minimizedIcon: SvgIconEnum;
+        extra?: unknown;
+      }[]
   >();
 
   @computed
@@ -27,21 +33,23 @@ export class EduTool {
     return Array.from(this._minimizedStateMap.entries()).map(([key, value]) => {
       if (value instanceof Array) {
         return value.map((widget) => {
-          const { icon, tooltip, widgetId, minimizedIcon } = widget;
+          const { icon, tooltip, widgetId, minimizedIcon, extra } = widget;
           return {
             key,
             icon,
             tooltip,
             widgetId,
             minimizedIcon,
+            extra,
           };
         });
       } else {
-        const { icon, tooltip } = value;
+        const { icon, tooltip, extra } = value;
         return {
           icon,
           widgetId: key,
           tooltip,
+          extra,
         };
       }
     });
@@ -80,6 +88,7 @@ export class EduTool {
     widgetId: string;
     minimizeProperties: AgoraOnlineclassSDKMinimizableWidget['minimizeProperties'] & {
       minimizedTooltip?: string;
+      extra?: unknown;
     };
   }) {
     const {
@@ -88,6 +97,7 @@ export class EduTool {
       minimizedKey = '',
       minimizedCollapsed,
       minimizedCollapsedIcon,
+      extra,
     } = minimizeProperties;
     if (minimized) {
       if (minimizedCollapsed) {
@@ -107,6 +117,7 @@ export class EduTool {
         this._minimizedStateMap.set(widgetId, {
           icon: minimizedIcon as SvgIconEnum,
           tooltip: minimizedTooltip,
+          extra: extra,
         });
       }
     } else {

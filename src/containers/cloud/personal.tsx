@@ -127,7 +127,7 @@ export const PersonalResource = observer(() => {
             },
           })}
           rowKey={(record) => record.resourceUuid}
-          scroll={{ y: 335 }}
+          scroll={{ y: 357 }}
           data={personalResourcesList}
           columns={columns}></Table>
       </div>
@@ -195,7 +195,7 @@ export const PersonalResource = observer(() => {
             </div>
 
             <div className="fcr-cloud-personal-tab-upload-list-content">
-              {uploadingProgresses.reverse().map((progress) => {
+              {uploadingProgresses.toReversed().map((progress) => {
                 return (
                   <div
                     key={progress.resourceUuid}

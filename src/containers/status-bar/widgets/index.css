@@ -60,3 +60,19 @@
   line-height: 14px;
   padding: 16px 16px 13px 16px;
 }
+
+.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown {
+  @apply fcr-text-1;
+  width: auto;
+  display: flex;
+  font-size: 12px;
+  font-weight: 700;
+  padding-right: 12px;
+  padding-left: 4px;
+}
+.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown-danger {
+  @apply fcr-bg-red-6;
+}
+.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown-danger:hover {
+  @apply fcr-bg-red-7;
+}

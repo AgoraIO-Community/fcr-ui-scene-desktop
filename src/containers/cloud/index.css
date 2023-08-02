@@ -170,6 +170,10 @@
 .fcr-cloud-personal-tab-upload-list-content {
   @apply fcr-bg-2;
   flex: 1;
+  overflow: auto;
+}
+.fcr-cloud-personal-tab-upload-list-content::-webkit-scrollbar {
+  width: 0;
 }
 .fcr-cloud-personal-tab-upload-list-item {
   display: flex;

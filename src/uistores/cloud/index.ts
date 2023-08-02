@@ -26,7 +26,6 @@ import { MimeTypesKind, UploadItem, supportedTypes } from '../type';
 import { CloudDriveResourceInfo } from 'agora-edu-core/lib/stores/domain/common/cloud-drive/type';
 import { ToastApi } from '@components/toast';
 import { AGErrorWrapper } from 'agora-rte-sdk';
-let _lastFetchPersonalResourcesOptions: CloudDrivePagingOption;
 
 export class CloudUIStore extends EduUIStoreBase {
   cloudHelpTips = [
@@ -199,8 +198,6 @@ export class CloudUIStore extends EduUIStoreBase {
         this.personalResourceUuidByPage.set(options.pageNo, resourceUuids);
       });
 
-      _lastFetchPersonalResourcesOptions = options;
-      this.setCurrentPersonalResPage(options.pageNo);
       return data;
     } catch (e) {
       // this.shareUIStore.addGenericErrorDialog(e as AGError);
@@ -413,8 +410,7 @@ export class CloudUIStore extends EduUIStoreBase {
   }
   @bound
   async openCourseware(resource: CloudDriveCourseResource) {
-    if (resource.status == 'Converting' && _lastFetchPersonalResourcesOptions) {
-      this.fetchPersonalResources(_lastFetchPersonalResourcesOptions);
+    if (resource.status == 'Converting') {
       return;
     }
 

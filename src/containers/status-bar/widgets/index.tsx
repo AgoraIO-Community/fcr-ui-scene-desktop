@@ -4,6 +4,8 @@ import { useStore } from '@onlineclass/utils/hooks/use-store';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
 import { Popover } from '@components/popover';
+import classnames from 'classnames';
+import dayjs from 'dayjs';
 export const StatusBarWidgetSlot = observer(() => {
   const { eduToolApi } = useStore();
   const handleClick = (widgetId: string, minimizedCollapsed: boolean) => {
@@ -42,6 +44,30 @@ export const StatusBarWidgetSlot = observer(() => {
                 {item.length}
               </div>
             </Popover>
+          );
+        } else if (item.widgetId === 'countdown') {
+          const { widgetId, tooltip, icon, extra } = item;
+          const countdownExtra = extra as {
+            current: number;
+          };
+          const current = countdownExtra?.current;
+
+          return (
+            <ToolTip key={widgetId} content={tooltip}>
+              <div
+                className={classnames(
+                  'fcr-minimized-widget-icon',
+                  'fcr-minimized-widget-countdown',
+                  {
+                    'fcr-minimized-widget-countdown-danger': current <= 10 && current > 0,
+                  },
+                )}
+                onClick={() => handleClick(widgetId, false)}
+                key={index.toString()}>
+                <SvgImg type={icon} size={20} />
+                {current !== undefined && dayjs.duration(current, 'seconds').format('mm:ss')}
+              </div>
+            </ToolTip>
           );
         } else {
           const { widgetId, tooltip, icon } = item;

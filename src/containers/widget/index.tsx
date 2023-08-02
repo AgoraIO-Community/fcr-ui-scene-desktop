@@ -173,7 +173,7 @@ const WidgetWrapper = observer(
     };
     return (
       <>
-        {widget.widgetId !== 'poll' ? (
+        {widget.widgetId !== 'poll' && widget.widgetId !== 'countdown' ? (
           <div style={{ zIndex }} ref={ref} className="fcr-widget-inner">
             <WidgetDialog ref={zIndexRef} widget={widget}>
               <div ref={renderRef}></div>
@@ -248,9 +248,9 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
         dragHandleClassName={
           (widget as AgoraOnlineclassSDKWidgetBase & AgoraDraggableWidget).dragHandleClassName
         }
-        cancel={
+        cancel={`.${
           (widget as AgoraOnlineclassSDKWidgetBase & AgoraDraggableWidget).dragCancelClassName
-        }>
+        }`}>
         <div ref={refHandle} style={{ ...minimizeStyle }}>
           <div>{children}</div>
         </div>

@@ -107,7 +107,8 @@ export class LayoutUIStore extends EduUIStoreBase {
       this._hasPopoverShowed ||
       (this.layout === Layout.Grid && this.getters.cameraUIStreams.length > 1) ||
       this.noAvailabelStream ||
-      this.getters.localUser?.userRole === EduRoleTypeEnum.invisible
+      this.getters.localUser?.userRole === EduRoleTypeEnum.invisible ||
+      (this.getters.isBoardWidgetActive && !this.getters.isBoardWidgetMinimized)
     );
   }
   get classroomViewportClassName() {
