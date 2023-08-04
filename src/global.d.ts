@@ -1,5 +1,5 @@
-import { enUs } from './utils/i18n/enUs';
-import { zhCn } from './utils/i18n/zhCn';
+import { enUs } from './resources/translations/enUs';
+import { zhCn } from './resources/translations/zhCn';
 
 declare global {
   type I18nResouceTypes = typeof enUs | typeof zhCn;

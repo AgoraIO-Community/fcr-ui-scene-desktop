@@ -42,13 +42,13 @@ export const DeviceSettings = observer(() => {
             <div className="fcr-device-settings__surrounding--green">
               <SvgImg type={SvgIconEnum.FCR_MUTE} size={22} />
             </div>
-            {transI18n('fcr_device_label_voice')}
+            {transI18n('fcr_device_option_voice')}
           </li>
           <li className={videoItemCls} onClick={tabClickHandler('video')}>
             <div className="fcr-device-settings__surrounding--purple">
               <SvgImg type={SvgIconEnum.FCR_CAMERA} size={22} />
             </div>
-            {transI18n('fcr_device_label_video')}
+            {transI18n('fcr_device_option_video')}
           </li>
         </ul>
       </div>

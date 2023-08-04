@@ -221,7 +221,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this.classroomStore.mediaStore.videoCameraDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .map((item) => ({
-        text: item.deviceid === DEVICE_DISABLE ? transI18n('disabled') : item.devicename,
+        text: item.deviceid === DEVICE_DISABLE ? transI18n('fcr_device_label_disabled') : item.devicename,
         value: item.deviceid,
       }));
   }
@@ -238,7 +238,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this.classroomStore.mediaStore.audioRecordingDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .map((item) => ({
-        text: item.deviceid === DEVICE_DISABLE ? transI18n('disabled') : item.devicename,
+        text: item.deviceid === DEVICE_DISABLE ? transI18n('fcr_device_label_disabled') : item.devicename,
         value: item.deviceid,
       }));
   }
@@ -262,7 +262,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
       ? playbackDevicesList
       : [
           {
-            text: transI18n(`media.default`),
+            text: transI18n("fcr_device_label_default_speaker"),
             value: 'default',
           },
         ];

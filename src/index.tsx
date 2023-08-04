@@ -7,7 +7,7 @@ import {
   LaunchOptions,
 } from './type';
 import { App } from './app';
-import { Logger } from 'agora-common-libs';
+import { Logger, changeLanguage, addResourceBundle } from 'agora-common-libs';
 import {
   EduClassroomConfig,
   EduEventCenter,
@@ -18,6 +18,8 @@ import {
 import { initializeBuiltInExtensions } from './utils/rtc-extensions';
 import { setLaunchOptions, setConfig, getConfig } from './utils/launch-options-holder';
 import { ApiBase } from 'agora-rte-sdk';
+import { zhCn } from './resources/translations/zhCn';
+import { enUs } from './resources/translations/enUs';
 
 /**
  * Online class SDK
@@ -56,6 +58,7 @@ export class AgoraOnlineclassSDK {
       duration,
       listener,
       coursewareList,
+      language,
     } = launchOptions;
     if (coursewareList) this.coursewareList = coursewareList;
     Logger.info('[AgoraOnlineclassSDK]launched with options:', launchOptions);
@@ -104,17 +107,28 @@ export class AgoraOnlineclassSDK {
     config.ignoreUrlRegionPrefix = ignoreUrlRegionPrefix;
 
     EduClassroomConfig.setConfig(config);
+
+    changeLanguage(language);
+
     listener && EduEventCenter.shared.onClassroomEvents(listener);
 
     Logger.info(`[AgoraOnlineclassSDK]classroomConfig`, config);
 
     const startTs = Date.now();
+    let isUnmounted = false;
 
-    render(<App skipDevicePretest={!devicePretest} />, dom, () => {
-      Logger.info(`[AgoraOnlineclassSDK]render complete in ${Date.now() - startTs}ms.`);
+    Promise.all([addResourceBundle('zh', zhCn), addResourceBundle('en', enUs)]).then(() => {
+      if (!isUnmounted) {
+        render(<App skipDevicePretest={!devicePretest} />, dom, () => {
+          Logger.info(`[AgoraOnlineclassSDK]render complete in ${Date.now() - startTs}ms.`);
+        });
+      } else {
+        Logger.info('[AgoraOnlineclassSDK]SDK is unmounted before first render.');
+      }
     });
     // return a disposer
     return () => {
+      isUnmounted = true;
       unmountComponentAtNode(dom);
       Logger.info(`[AgoraOnlineclassSDK]unmounted.`);
     };

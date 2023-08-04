@@ -69,8 +69,8 @@ export const GroupInfoPanel = observer(() => {
           }
         });
       },
-      okText: transI18n('fcr_group_invite'),
-      cancelText: transI18n('fcr_group_cancel'),
+      okText: transI18n('fcr_group_button_invite'),
+      cancelText: transI18n('fcr_group_button_cancel'),
     });
   };
 

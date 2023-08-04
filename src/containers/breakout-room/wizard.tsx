@@ -333,10 +333,10 @@ export const WizardCreate = observer(() => {
       {/* bottom actions */}
       <div className="fcr-breakout-room-dialog__foot-actions">
         <Button size="XS" styleType="gray" onClick={handleClose}>
-          {transI18n('fcr_group_cancel')}
+          {transI18n('fcr_group_button_cancel')}
         </Button>
         <Button size="XS" onClick={handleCreate}>
-          {transI18n('fcr_group_create')}
+          {transI18n('fcr_group_button_create')}
         </Button>
       </div>
     </div>

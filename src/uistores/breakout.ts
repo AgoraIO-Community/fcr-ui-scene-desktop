@@ -14,6 +14,7 @@ import {
 } from 'agora-edu-core';
 import difference from 'lodash/difference';
 import range from 'lodash/range';
+import findLast from 'lodash/findLast';
 import { v4 as uuidv4 } from 'uuid';
 import { AGRtcConnectionType, AGRtcState, Scheduler } from 'agora-rte-sdk';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -127,7 +128,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
       children: { id: string; text: string }[];
     }[] = [];
 
-    const unknownName = transI18n('fcr_group_unknown_username');
+    const unknownName = transI18n('fcr_group_tips_unknown_username');
 
     const users = this.mainRoomUsers;
 
@@ -398,7 +399,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   @action.bound
   renameGroupName(groupUuid: string, groupName: string) {
     if (this._isGroupExisted({ groupUuid, groupName })) {
-      this.addToast({ text: transI18n('fcr_group_name_already_exists') });
+      this.addToast({ text: transI18n('fcr_group_tips_name_already_exists') });
       return;
     }
 
@@ -420,7 +421,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   }
 
   getLastOrder() {
-    const last = this.groups.findLast(() => true);
+    const last = findLast(this.groups, () => true);
 
     return last?.sort ?? 0;
   }

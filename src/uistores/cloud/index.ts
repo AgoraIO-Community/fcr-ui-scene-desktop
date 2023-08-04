@@ -315,7 +315,7 @@ export class CloudUIStore extends EduUIStoreBase {
     return new Promise((resolve, reject) => {
       if (!this.getters.isBoardWidgetActive) {
         this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-          title: transI18n('fcr_cloud_tips_open_whiteboard_title'),
+          title: transI18n('fcr_room_tips_open_whiteboard'),
           content: transI18n('fcr_cloud_tips_open_whiteboard_content'),
           onOk: async () => {
             this.getters.boardApi.enable();

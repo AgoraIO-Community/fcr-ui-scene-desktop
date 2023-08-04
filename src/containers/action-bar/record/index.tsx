@@ -18,17 +18,17 @@ export const Record = observer(() => {
   const handleRecord = () => {
     if (isRecordStoped) {
       addDialog('confirm', {
-        title: transI18n('fcr_record_recording'),
+        title: transI18n('fcr_record_label_recording'),
         content: transI18n('fcr_record_start'),
-        cancelText: transI18n('fcr_record_start_confirm_cancel'),
+        cancelText: transI18n('fcr_record_button_confirm_cancel'),
         okText: transI18n('fcr_record_start_confirm_ok'),
         onOk: startRecording,
       });
     } else {
       addDialog('confirm', {
-        title: transI18n('fcr_record_recording'),
+        title: transI18n('fcr_record_label_recording'),
         content: transI18n('fcr_record_stop'),
-        cancelText: transI18n('fcr_record_start_confirm_cancel'),
+        cancelText: transI18n('fcr_record_button_confirm_cancel'),
         okText: transI18n('fcr_record_stop_confirm_ok'),
         onOk: stopRecording,
       });
@@ -39,7 +39,9 @@ export const Record = observer(() => {
   const tooltip = isRecordStoped
     ? transI18n('fcr_room_tips_start_record')
     : transI18n('fcr_room_tips_stop_record');
-  const text = isRecordStoped ? transI18n('fcr_record_record') : transI18n('fcr_record_recording');
+  const text = isRecordStoped
+    ? transI18n('fcr_room_button_record')
+    : transI18n('fcr_room_button_recording');
 
   return (
     <ToolTip content={tooltip}>

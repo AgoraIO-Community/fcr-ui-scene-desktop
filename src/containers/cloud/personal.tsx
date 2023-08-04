@@ -336,7 +336,7 @@ const OnlineCoursewareUploadContent = observer(
             <TextArea
               value={coursewareLink}
               onChange={setCoursewareLink}
-              placeholder={transI18n('fcr_online_courseware_placeholder_link')}></TextArea>
+              placeholder={transI18n('fcr_online_courseware_label_link')}></TextArea>
           </div>
 
           <div className="fcr-cloud-personal-tab-footer-upload-item">
@@ -345,7 +345,7 @@ const OnlineCoursewareUploadContent = observer(
               shape="rounded"
               value={coursewareName}
               onChange={setCoursewareName}
-              placeholder={transI18n('fcr_online_courseware_placeholder_name')}></Input>
+              placeholder={transI18n('fcr_online_courseware_label_file_name')}></Input>
           </div>
         </div>
 
