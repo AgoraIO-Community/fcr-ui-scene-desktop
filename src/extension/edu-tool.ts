@@ -5,14 +5,29 @@ import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
 import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
-import { AgoraOnlineclassSDKMinimizableWidget } from 'agora-common-libs';
+import { AgoraOnlineclassSDKMinimizableWidget, transI18n } from 'agora-common-libs';
+import { CabinetToolItem } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class EduTool {
   logger!: Logger;
   private _controller?: AgoraWidgetController;
   private _disposers: IReactionDisposer[] = [];
-
+  private _stateListener = {
+    onActive: () => {},
+    onInactive: this._handleWidgetDestroy,
+    onPropertiesUpdate: () => {},
+    onUserPropertiesUpdate: () => {},
+    onTrackUpdate: () => {},
+  };
+  @observable
+  private _registeredCabinetToolItems: CabinetToolItem[] = [
+    {
+      name: transI18n('fcr_tool_box_breakout_room'),
+      id: 'breakout',
+      iconType: SvgIconEnum.FCR_V2_BREAKROOM,
+    },
+  ];
   @observable
   private _visibleStateMap = new Map<string, boolean>();
   @observable
@@ -54,6 +69,11 @@ export class EduTool {
       }
     });
   }
+  @computed
+  get registeredCabinetToolItems() {
+    return this._registeredCabinetToolItems;
+  }
+
   isWidgetVisible = computedFn((widgetId: string) => {
     return this._visibleStateMap.has(widgetId);
   });
@@ -152,10 +172,22 @@ export class EduTool {
       this._visibleStateMap.delete(widgetId);
     }
   }
-
   @action.bound
-  private _handleWidgetDestroy({ widgetId }: { widgetId: string }) {
-    this._minimizedStateMap.delete(widgetId);
+  private _deleteMinimizedState(widgetId: string) {
+    if (this._minimizedStateMap.has(widgetId)) {
+      this._minimizedStateMap.delete(widgetId);
+    } else {
+      this._minimizedStateMap.forEach((value, key) => {
+        if (Array.isArray(value)) {
+          const newValue = value.filter((item) => item.widgetId !== widgetId);
+          this._minimizedStateMap.set(key, newValue);
+        }
+      });
+    }
+  }
+  @action.bound
+  private _handleWidgetDestroy(widgetId: string) {
+    this._deleteMinimizedState(widgetId);
     this._visibleStateMap.delete(widgetId);
   }
 
@@ -193,8 +225,31 @@ export class EduTool {
       ...params,
     });
   }
+
+  @action.bound
+  private _handleRegisterCabinetTool(cabinetToolItem: CabinetToolItem) {
+    const existed = this._registeredCabinetToolItems.some(({ id }) => id === cabinetToolItem.id);
+    if (!existed) {
+      this._registeredCabinetToolItems.push(cabinetToolItem);
+    }
+  }
+
+  @action.bound
+  private _handleUnregisterCabinetTool(id: string) {
+    this._registeredCabinetToolItems = this._registeredCabinetToolItems.filter(
+      (item) => id !== item.id,
+    );
+  }
   install(controller: AgoraWidgetController) {
     this._controller = controller;
+    this._controller.addBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.RegisterCabinetTool,
+      onMessage: this._handleRegisterCabinetTool,
+    });
+    this._controller.addBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.UnregisterCabinetTool,
+      onMessage: this._handleUnregisterCabinetTool,
+    });
     controller.addBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.Minimize,
       onMessage: this._handleMinimizedStateChange,
@@ -203,13 +258,20 @@ export class EduTool {
       messageType: AgoraExtensionWidgetEvent.SetVisible,
       onMessage: this._handleVisibleStateChange,
     });
-    controller.addBroadcastListener({
-      messageType: AgoraExtensionWidgetEvent.WidgetDestroyed,
-      onMessage: this._handleWidgetDestroy,
-    });
+    controller.addWidgetStateListener(this._stateListener);
   }
 
   uninstall() {
+    this._controller?.removeWidgetStateListener(this._stateListener);
+
+    this._controller?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.RegisterCabinetTool,
+      onMessage: this._handleRegisterCabinetTool,
+    });
+    this._controller?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.UnregisterCabinetTool,
+      onMessage: this._handleUnregisterCabinetTool,
+    });
     this._controller?.removeBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.Minimize,
       onMessage: this._handleMinimizedStateChange,
@@ -217,10 +279,6 @@ export class EduTool {
     this._controller?.removeBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.SetVisible,
       onMessage: this._handleVisibleStateChange,
-    });
-    this._controller?.removeBroadcastListener({
-      messageType: AgoraExtensionWidgetEvent.WidgetDestroyed,
-      onMessage: this._handleWidgetDestroy,
     });
 
     this._disposers.forEach((d) => d());

@@ -1,5 +1,4 @@
 export const zhCn = {
-
   //****************** 设备检测 Device ******************
   fcr_device_label_device_join: '准备进入教室',
   fcr_device_label_camera: '摄像头',
@@ -80,6 +79,9 @@ export const zhCn = {
   fcr_room_button_setting: '设置',
   fcr_room_button_leave: '离开',
   fcr_room_button_join_error_leave: '离开房间',
+  fcr_room_button_ok: '确定',
+  fcr_room_tips_reward_congratulation_single: '祝贺{reason}获得奖励',
+  fcr_room_tips_reward_congratulation_multiplayer: '祝贺{reason1}等{reason2}位同学获得奖励',
 
   //****************** 邀请Invite ******************
   fcr_invite_label_title: '分享链接和房间号',
@@ -264,7 +266,8 @@ export const zhCn = {
   fcr_savecanvas_tips_canvas_empty: '板书内容为空',
   fcr_savecanvas_tips_save_successfully: '保存成功',
   fcr_savecanvas_tips_save_failed: '保存失败',
-  fcr_savecanvas_tips_save_failed_tips: '请在系统的“设置-隐私-照片”选项中，允许灵动课堂访问你的手机照片',
+  fcr_savecanvas_tips_save_failed_tips:
+    '请在系统的“设置-隐私-照片”选项中，允许灵动课堂访问你的手机照片',
   fcr_savecanvas_tips_saving: '正在导出，请稍后...',
 
   //****************** 在线课件onlinecourseware ******************
@@ -588,4 +591,4 @@ export const zhCn = {
   fcr_layout_cannot_switch_while_screen_sharing: '开启屏幕分享时，不能切换宫格模式',
   fcr_layout_cannot_switch_while_board_openning: '开启白板时，不能切换宫格模式',
   fcr_group_in_group_discussion: '分组讨论中',
-}
+};

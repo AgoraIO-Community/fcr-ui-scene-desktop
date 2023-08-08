@@ -8,7 +8,6 @@ export enum ListViewStreamPageSize {
 }
 @Log.attach({ proxyMethods: false })
 export class PresentationUIStore extends EduUIStoreBase {
-  private _cacheBoardEnableStatus = false;
   @observable boardViewportSize?: { width: number; height: number };
   @observable pageSize = ListViewStreamPageSize.Normal;
   @action.bound

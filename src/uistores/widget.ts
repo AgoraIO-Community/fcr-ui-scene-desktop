@@ -20,7 +20,6 @@ export class WidgetUIStore extends EduUIStoreBase {
   private _registeredWidgets: Record<string, typeof AgoraOnlineclassSDKWidgetBase> = {};
   @observable
   private _widgetInstances: Record<string, AgoraOnlineclassSDKWidgetBase> = {};
-
   private _stateListener = {
     onActive: this._handleWidgetActive,
     onInactive: this._handleWidgetInactive,
@@ -105,7 +104,6 @@ export class WidgetUIStore extends EduUIStoreBase {
       );
 
       this._widgetInstances[widgetId] = widget;
-
       this.logger.info('Current created widgets:', Object.keys(this._widgetInstances));
     } else {
       this.logger.info('Widget controller not ready for creating widget');

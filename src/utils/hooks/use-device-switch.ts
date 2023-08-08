@@ -48,8 +48,8 @@ export const useDeviceSwitch = ({
         enableCamera(true);
       } else {
         addDialog('confirm', {
-          title: 'Notice',
-          content: 'You can raise hand to request the teacher to start video.',
+          title: transI18n('fcr_user_tips_capture_screen_permission_title'),
+          content: transI18n('fcr_user_tips_banned_video_content'),
           cancelButtonVisible: false,
           okButtonProps: {
             styleType: 'danger',
@@ -66,8 +66,8 @@ export const useDeviceSwitch = ({
         enableAudioRecording(true);
       } else {
         addDialog('confirm', {
-          title: 'Notice',
-          content: 'You can raise hand to request the teacher to unmute.',
+          title: transI18n('fcr_user_tips_capture_screen_permission_title'),
+          content: transI18n('fcr_user_tips_muted_content'),
           cancelButtonVisible: false,
           okButtonProps: {
             styleType: 'danger',

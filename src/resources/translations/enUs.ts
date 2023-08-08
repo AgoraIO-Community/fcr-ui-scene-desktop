@@ -1,5 +1,4 @@
 export const enUs = {
-
   //****************** 设备检测 Device ******************
   fcr_device_label_device_join: 'Are you ready to join？',
   fcr_device_label_camera: 'Camera',
@@ -20,8 +19,10 @@ export const enUs = {
   fcr_device_tips_disable_speaker: 'Disable speaker',
   fcr_device_tips_enable_speaker: 'Enable speaker',
   fcr_device_tips_mirror: 'Mirror',
-  fcr_device_tips_background: 'Before using and previewing background effects，please start the camera',
-  fcr_device_tips_beauty_filter: 'Before using and previewing beauty filter effects，please start the camera',
+  fcr_device_tips_background:
+    'Before using and previewing background effects，please start the camera',
+  fcr_device_tips_beauty_filter:
+    'Before using and previewing beauty filter effects，please start the camera',
   fcr_device_button_join: 'Join',
   fcr_device_button_test: 'Test',
   fcr_device_label_setting: 'Setting',
@@ -67,7 +68,8 @@ export const enUs = {
   fcr_room_tips_open_cloud: 'Open Cloud',
   fcr_room_tips_setting: 'Setting',
   fcr_room_tips_leave: 'Leave',
-  fcr_room_tips_authorize_open_whiteboard: 'Please open the whiteboard first and then authorize the access',
+  fcr_room_tips_authorize_open_whiteboard:
+    'Please open the whiteboard first and then authorize the access',
   fcr_room_button_microphone: 'Microphone',
   fcr_room_button_camera: 'Camera',
   fcr_room_button_participants: 'Participants',
@@ -80,7 +82,10 @@ export const enUs = {
   fcr_room_button_setting: 'Setting',
   fcr_room_button_leave: 'Leave',
   fcr_room_button_join_error_leave: 'Leave the room',
-
+  fcr_room_button_ok: 'OK',
+  fcr_room_tips_reward_congratulation_single: 'Congratulations to {reason} for receiving the award',
+  fcr_room_tips_reward_congratulation_multiplayer:
+    'Congratulations to {reason2} students, including {reason1}, for receiving awards',
   //****************** 邀请Invite ******************
   fcr_invite_label_title: 'Share link and ID',
 
@@ -265,7 +270,8 @@ export const enUs = {
   fcr_savecanvas_tips_canvas_empty: 'Canvas is empty',
   fcr_savecanvas_tips_save_successfully: 'Save successfully',
   fcr_savecanvas_tips_save_failed: 'Save failed',
-  fcr_savecanvas_tips_save_failed_tips: 'Allow flexible classroom to access your Photos in "Setting"->"Privacy"->"Photos"',
+  fcr_savecanvas_tips_save_failed_tips:
+    'Allow flexible classroom to access your Photos in "Setting"->"Privacy"->"Photos"',
   fcr_savecanvas_tips_saving: 'outputing, please wait',
 
   //****************** 在线课件onlinecourseware ******************
@@ -300,8 +306,10 @@ export const enUs = {
   //****************** 分组 Group ******************
   fcr_group_help_title: 'Request help',
   fcr_group_help_content: 'You can invite the teacher to this group for assistance.',
-  fcr_group_help_teacher_busy_msg: 'The teacher is currently helping others. Please try again later.',
-  fcr_group_teacher_is_helping_others_msg: 'The teacher is helping other groups. Please try again later.',
+  fcr_group_help_teacher_busy_msg:
+    'The teacher is currently helping others. Please try again later.',
+  fcr_group_teacher_is_helping_others_msg:
+    'The teacher is helping other groups. Please try again later.',
   fcr_group_teacher_exist_hint: 'The teacher is already in this group.',
   fcr_group_button_invite: 'Invite',
 
@@ -328,7 +336,8 @@ export const enUs = {
   fcr_group_tips_title_close_group: 'Do you want to close all breakout rooms?',
 
   //结束分组讨论描述文案
-  fcr_group_tips_content_close_group: 'After closing all breakout rooms, all the students will be returned to the main room.',
+  fcr_group_tips_content_close_group:
+    'After closing all breakout rooms, all the students will be returned to the main room.',
 
   //弹窗提示返回大房间，还是小房间时
   fcr_group_back_sure: 'Confirm',
@@ -509,11 +518,13 @@ export const enUs = {
   fcr_cloud_button_retry: 'Update again',
   fcr_cloud_upload_status_failed: 'Failed',
   fcr_cloud_upload_status_done: 'Done',
-  fcr_cloud_tips_close_during_uploading: 'Please do not close the webpage during the uploading process.',
+  fcr_cloud_tips_close_during_uploading:
+    'Please do not close the webpage during the uploading process.',
   fcr_cloud_tips_upload_private_disk: 'You can upload document to private network disk',
   fcr_cloud_tips_supported_formats: 'Supported file formats in the room',
   fcr_cloud_label_format: 'Format',
-  fcr_cloud_tips_open_whiteboard_content: 'This file requires opening the whiteboard to be used. Would you like to continue opening this file?',
+  fcr_cloud_tips_open_whiteboard_content:
+    'This file requires opening the whiteboard to be used. Would you like to continue opening this file?',
 
   //xxx文件格式
   fcr_cloud_unsupported_file_type: 'Unsupported file type {reason1}',
@@ -547,7 +558,8 @@ export const enUs = {
   fcr_board_hide_pageration: 'Hide Pageration',
   fcr_board_display_name: 'whiteboard',
   fcr_device_tips_no_device: 'No device',
-  fcr_device_tips_mirror_turo_on_camera: 'Before using and previewing mirror effects，please start the camera',
+  fcr_device_tips_mirror_turo_on_camera:
+    'Before using and previewing mirror effects，please start the camera',
 
   //****************** 录制 Record ******************
   fcr_record_label_paused: 'Paused',
@@ -566,7 +578,8 @@ export const enUs = {
 
   //****************** 分组 Group ******************
   fcr_group_tips_leave_content: 'Are you sure you want to leave the group',
-  fcr_group_tips_student_leave_content: 'Re-entry into the group is only possible with the teacher\'s invitation.Are you sure you want to leave the group？',
+  fcr_group_tips_student_leave_content:
+    "Re-entry into the group is only possible with the teacher's invitation.Are you sure you want to leave the group？",
   fcr_group_button_leave_group: 'Leave the Group',
   fcr_group_button_create: 'Create',
 
@@ -583,10 +596,13 @@ export const enUs = {
   //****************** Error 错误提示 ******************
   fcr_unknown_error_occurred: 'Unknown error occured',
   fcr_user_tips_capture_screen_permission_title: 'Notice',
-  fcr_user_tips_capture_screen_permission_content: 'Before using screen sharing, please first enable screen recording permissions.',
+  fcr_user_tips_capture_screen_permission_content:
+    'Before using screen sharing, please first enable screen recording permissions.',
   fcr_user_tips_local_kick_out_ok: 'Leave',
   fcr_user_tips_local_prohibited: 'Prohibited',
-  fcr_layout_cannot_switch_while_screen_sharing: 'You cannot switch to grid view when screen sharing',
-  fcr_layout_cannot_switch_while_board_openning: 'You cannot switch to grid view when opening the whiteboard',
+  fcr_layout_cannot_switch_while_screen_sharing:
+    'You cannot switch to grid view when screen sharing',
+  fcr_layout_cannot_switch_while_board_openning:
+    'You cannot switch to grid view when opening the whiteboard',
   fcr_group_in_group_discussion: 'In Group Discussion',
-}
+};

@@ -55,7 +55,10 @@ export const ToolBox = observer(() => {
   );
 });
 const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) => {
-  const { getters } = useStore();
+  const {
+    getters,
+    eduToolApi: { registeredCabinetToolItems },
+  } = useStore();
   const transI18n = useI18n();
   const isWidgetActive = (widgetId: string) => {
     if (widgetId === 'breakout') {
@@ -67,25 +70,12 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
     <div className="fcr-toolbox-popover-content">
       <div className="fcr-toolbox-popover-title">{transI18n('fcr_room_button_toolbox')}</div>
       <div className="fcr-toolbox-popover-item-wrapper">
-        {[
-          // {
-          //   label: transI18n('fcr_tool_box_count_down'),
-          //   id: 'timer',
-          //   icon: SvgIconEnum.FCR_V2_TIMER,
-          // },
-          { label: 'timer', id: 'countdown', icon: SvgIconEnum.FCR_V2_VOTE },
-          { label: transI18n('fcr_tool_box_poll'), id: 'poll', icon: SvgIconEnum.FCR_V2_VOTE },
-          {
-            label: transI18n('fcr_tool_box_breakout_room'),
-            id: 'breakout',
-            icon: SvgIconEnum.FCR_V2_BREAKROOM,
-          },
-        ].map(({ id, icon, label }) => (
+        {registeredCabinetToolItems.map(({ id, iconType, name }) => (
           <ToolBoxItem
             key={id}
             id={id}
-            icon={icon}
-            label={label}
+            icon={iconType}
+            label={name}
             onClick={onClick}
             active={isWidgetActive(id)}
           />
@@ -104,7 +94,7 @@ interface ToolBoxItemProps {
 const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
   const { icon, label, active, id, onClick } = props;
   const { widgetUIStore, eduToolApi, breakoutUIStore } = useStore();
-  const { updateZIndex } = useZIndex('breakout');
+  const { updateZIndex } = useZIndex(id);
 
   const handleClick = () => {
     if (eduToolApi.isWidgetMinimized(id)) {
@@ -121,9 +111,8 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
         },
       });
     } else {
+      updateZIndex();
       if (id === 'breakout') {
-        updateZIndex();
-
         breakoutUIStore.setDialogVisible(true);
       } else {
         widgetUIStore.createWidget(id);

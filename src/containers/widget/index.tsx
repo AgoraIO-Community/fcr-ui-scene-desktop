@@ -26,6 +26,7 @@ import { chatroomWidgetId } from '@onlineclass/extension/type';
 import { useRndPosition } from '@onlineclass/utils/hooks/use-rnd-position';
 export const WidgetContainer = observer(() => {
   const {
+    eduToolApi: { isWidgetVisible },
     widgetUIStore: { z0Widgets, z10Widgets, widgetInstanceList },
   } = useStore();
   const chatWidget = widgetInstanceList.find((w) => w.widgetId === chatroomWidgetId);
@@ -37,7 +38,7 @@ export const WidgetContainer = observer(() => {
         {chatWidget && <ChatroomWidget chatWidget={chatWidget}></ChatroomWidget>}
         <TransitionGroup>
           {z0Widgets
-            .filter((w) => w.widgetId !== chatroomWidgetId)
+            .filter((w) => w.widgetId !== chatroomWidgetId && isWidgetVisible(w.widgetId))
             .map((w: AgoraOnlineclassSDKWidgetBase) => {
               const ref = createRef<HTMLDivElement>();
               return (
@@ -171,9 +172,12 @@ const WidgetWrapper = observer(
       zIndexRef.current = ref;
       renderRef.current = ref;
     };
+    // todo filter widget type
     return (
       <>
-        {widget.widgetId !== 'poll' && widget.widgetId !== 'countdown' ? (
+        {widget.widgetId !== 'poll' &&
+        widget.widgetId !== 'countdown' &&
+        widget.widgetId !== 'popupQuiz' ? (
           <div style={{ zIndex }} ref={ref} className="fcr-widget-inner">
             <WidgetDialog ref={zIndexRef} widget={widget}>
               <div ref={renderRef}></div>
@@ -245,9 +249,9 @@ const WidgetDraggableWrapper: FC<PropsWithChildren<{ widget: AgoraOnlineclassSDK
         style={{ ...rndStyle }}
         bounds={`.${classroomViewportClassName}`}
         enableResizing={false}
-        dragHandleClassName={
+        dragHandleClassName={`${
           (widget as AgoraOnlineclassSDKWidgetBase & AgoraDraggableWidget).dragHandleClassName
-        }
+        }`}
         cancel={`.${
           (widget as AgoraOnlineclassSDKWidgetBase & AgoraDraggableWidget).dragCancelClassName
         }`}>

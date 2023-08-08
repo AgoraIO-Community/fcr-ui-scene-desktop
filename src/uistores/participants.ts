@@ -30,7 +30,7 @@ export class ParticipantsUIStore extends EduUIStoreBase {
   }
   @observable orderDirection: ParticipantsOrderDirection = 'asc';
   @action.bound
-  setOrderDirection(orderDirection: 'asc' | 'desc') {
+  setOrderDirection(orderDirection: ParticipantsOrderDirection) {
     this.orderDirection = orderDirection;
   }
   participants = [];

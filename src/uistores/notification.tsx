@@ -41,7 +41,33 @@ export class NotiticationUIStore extends EduUIStoreBase {
         );
       }
     }
-
+    if (
+      event === AgoraEduClassroomEvent.RewardReceived ||
+      event === AgoraEduClassroomEvent.BatchRewardReceived
+    ) {
+      const users: { userUuid: string; userName: string }[] = param;
+      const userNames = users.map((user) => user.userName);
+      if (users.length > 3) {
+        ToastApi.open({
+          toastProps: {
+            type: 'info',
+            content: transI18n('fcr_room_tips_reward_congratulation_multiplayer', {
+              reason1: userNames.slice(0, 3).join(','),
+              reason2: userNames.length,
+            }),
+          },
+        });
+      } else {
+        ToastApi.open({
+          toastProps: {
+            type: 'info',
+            content: transI18n('fcr_room_tips_reward_congratulation_single', {
+              reason: userNames.join(','),
+            }),
+          },
+        });
+      }
+    }
     if (event === AgoraEduClassroomEvent.TeacherTurnOffMyMic) {
       ToastApi.open({
         toastProps: { type: 'info', content: transI18n('fcr_user_tips_muted') },

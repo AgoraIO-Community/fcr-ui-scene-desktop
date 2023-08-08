@@ -28,6 +28,7 @@ import { NotiticationUIStore } from './notification';
 import { EduTool } from '@onlineclass/extension/edu-tool';
 import { CloudUIStore } from './cloud';
 import { BreakoutUIStore } from './breakout';
+import { transI18n } from 'agora-common-libs';
 
 export class OnlineclassUIStore {
   @observable
@@ -118,11 +119,11 @@ export class OnlineclassUIStore {
           LeaveReason.kickOut,
           new Promise((resolve, reject) => {
             this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-              title: 'Leave Classroom',
-              content: 'You have been removed from the classroom.',
+              title: transI18n('fcr_user_tips_kick_out_notice'),
+              content: transI18n('fcr_user_tips_local_kick_out'),
               closable: false,
               onOk: resolve,
-              okText: 'OK',
+              okText: transI18n('fcr_room_button_ok'),
               okButtonProps: { styleType: 'danger' },
               cancelButtonVisible: false,
             });
@@ -135,10 +136,10 @@ export class OnlineclassUIStore {
         new Promise((resolve) => {
           this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
             closable: false,
-            title: 'Join Error',
+            title: transI18n('fcr_room_label_join_error'),
             content: (e as AGError).message,
             onOk: resolve,
-            okText: 'Leave the Room',
+            okText: transI18n('fcr_room_button_join_error_leave'),
             okButtonProps: { styleType: 'danger' },
             cancelButtonVisible: false,
           });
@@ -158,13 +159,27 @@ export class OnlineclassUIStore {
         lowStreamCameraEncoderConfigurations || EduClassroomConfig.defaultLowStreamParameter(),
       );
     } catch (e) {
-      //   this.shareUIStore.addGenericErrorDialog(e as AGError);
+      this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
+        closable: false,
+        title: transI18n('fcr_unknown_error_occurred'),
+        content: (e as AGError).message,
+        okText: transI18n('fcr_room_button_ok'),
+        okButtonProps: { styleType: 'danger' },
+        cancelButtonVisible: false,
+      });
     }
 
     try {
       await joinRTC();
     } catch (e) {
-      //   this.shareUIStore.addGenericErrorDialog(e as AGError);
+      this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
+        closable: false,
+        title: transI18n('fcr_unknown_error_occurred'),
+        content: (e as AGError).message,
+        okText: transI18n('fcr_room_button_ok'),
+        okButtonProps: { styleType: 'danger' },
+        cancelButtonVisible: false,
+      });
     }
   }
 

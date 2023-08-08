@@ -1,3 +1,5 @@
+import { SvgIconEnum } from '@components/svg-img';
+
 export enum BoardConnectionState {
   Disconnected = 0,
   Connecting = 1,
@@ -39,3 +41,9 @@ export type FcrBoardMaterialWindowConfig<T = unknown> = {
   resourceHasAnimation: boolean;
 };
 export const chatroomWidgetId = 'easemobIM';
+
+export type CabinetToolItem = {
+  name: string;
+  id: string;
+  iconType: SvgIconEnum;
+};
