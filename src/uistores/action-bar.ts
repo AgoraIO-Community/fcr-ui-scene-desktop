@@ -372,7 +372,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
                       audioState: audioPublishState,
                       audioSourceState:
                         this.classroomStore.mediaStore.localScreenShareAudioTrackState,
-                      audioSourceType: AgoraRteAudioSourceType.ScreenShare,
+                      audioSourceType: AgoraRteAudioSourceType.Loopback,
                     });
                   this.classroomStore.streamStore.initializeScreenShareStream(
                     newValue,

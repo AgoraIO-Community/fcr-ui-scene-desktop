@@ -195,43 +195,46 @@ export const PersonalResource = observer(() => {
             </div>
 
             <div className="fcr-cloud-personal-tab-upload-list-content">
-              {uploadingProgresses.toReversed().map((progress) => {
-                return (
-                  <div
-                    key={progress.resourceUuid}
-                    className="fcr-cloud-personal-tab-upload-list-item">
-                    <div className="fcr-cloud-personal-tab-upload-list-item-filename">
-                      <SvgImg size={24} type={fileNameToType(progress.ext || '')}></SvgImg>
-                      <span>{progress.fileName}</span>
+              {uploadingProgresses
+                .slice()
+                .reverse()
+                .map((progress) => {
+                  return (
+                    <div
+                      key={progress.resourceUuid}
+                      className="fcr-cloud-personal-tab-upload-list-item">
+                      <div className="fcr-cloud-personal-tab-upload-list-item-filename">
+                        <SvgImg size={24} type={fileNameToType(progress.ext || '')}></SvgImg>
+                        <span>{progress.fileName}</span>
+                      </div>
+                      <div className="fcr-cloud-personal-tab-upload-list-item-size">
+                        {progress.fileSize}
+                      </div>
+                      <div className="fcr-cloud-personal-tab-upload-list-item-status">
+                        {progress.status === CloudDriveResourceUploadStatus.Success && (
+                          <div>{transI18n('fcr_cloud_upload_status_done')}</div>
+                        )}
+                        {progress.status === CloudDriveResourceUploadStatus.Pending && (
+                          <Progress percent={progress.currentProgress}></Progress>
+                        )}
+                        {progress.status === CloudDriveResourceUploadStatus.Failed && (
+                          <>
+                            <div className="fcr-cloud-personal-tab-upload-list-item-status-failed">
+                              {transI18n('fcr_cloud_upload_status_failed')}
+                            </div>
+                            <Button
+                              size="XXS"
+                              onClick={() => {
+                                retryUpload(progress.resourceUuid);
+                              }}>
+                              {transI18n('fcr_cloud_button_retry')}
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div className="fcr-cloud-personal-tab-upload-list-item-size">
-                      {progress.fileSize}
-                    </div>
-                    <div className="fcr-cloud-personal-tab-upload-list-item-status">
-                      {progress.status === CloudDriveResourceUploadStatus.Success && (
-                        <div>{transI18n('fcr_cloud_upload_status_done')}</div>
-                      )}
-                      {progress.status === CloudDriveResourceUploadStatus.Pending && (
-                        <Progress percent={progress.currentProgress}></Progress>
-                      )}
-                      {progress.status === CloudDriveResourceUploadStatus.Failed && (
-                        <>
-                          <div className="fcr-cloud-personal-tab-upload-list-item-status-failed">
-                            {transI18n('fcr_cloud_upload_status_failed')}
-                          </div>
-                          <Button
-                            size="XXS"
-                            onClick={() => {
-                              retryUpload(progress.resourceUuid);
-                            }}>
-                            {transI18n('fcr_cloud_button_retry')}
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
         </CSSTransition>
