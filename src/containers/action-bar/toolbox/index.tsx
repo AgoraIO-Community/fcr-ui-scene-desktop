@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import { ActionBarItemWithPopover } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
-import { AgoraOnlineclassSDKMinimizableWidget, useI18n } from 'agora-common-libs';
+import { useI18n } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 export const ToolBox = observer(() => {
@@ -101,13 +101,10 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
       eduToolApi.setMinimizedState({
         minimized: false,
         widgetId: id,
-        minimizeProperties: {
+        minimizedProperties: {
           minimizedCollapsed:
-            (
-              widgetUIStore.widgetInstanceList.find(
-                (w) => w.widgetId === id,
-              ) as AgoraOnlineclassSDKMinimizableWidget
-            )?.minimizeProperties?.minimizedCollapsed || false,
+            widgetUIStore.widgetInstanceList.find((w) => w.widgetId === id)?.minimizedProperties
+              ?.minimizedCollapsed || false,
         },
       });
     } else {

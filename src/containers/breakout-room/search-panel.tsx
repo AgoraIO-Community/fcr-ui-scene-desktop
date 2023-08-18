@@ -26,11 +26,9 @@ export const SearchPanel: FC<{ groupId: string; onChange: (users: string[]) => v
         const users = groupDetails.get(groupId)?.users || [];
         if (checked) {
           const newUsers = users.map((user) => user.userUuid).concat(userUuid);
-          console.log(newUsers);
           onChange(newUsers);
         } else {
           const newUsers = users.map((user) => user.userUuid).filter((id) => userUuid !== id);
-          console.log(newUsers);
           onChange(newUsers);
         }
       };

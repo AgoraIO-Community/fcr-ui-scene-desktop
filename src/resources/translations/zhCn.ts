@@ -233,6 +233,7 @@ export const zhCn = {
   fcr_chat_label_said_to_me: '发送给我',
   fcr_chat_more: '更多',
   fcr_chat_no_data: '没有消息',
+  fcr_chat_message_from: '来自',
   fcr_chat_label_private_chat: '私聊',
   fcr_chat_label_search: '搜索',
   fcr_chat_button_mute: '禁言',

@@ -5,8 +5,8 @@ import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
 import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
-import { AgoraOnlineclassSDKMinimizableWidget, transI18n } from 'agora-common-libs';
-import { CabinetToolItem } from './type';
+import { transI18n, AgoraOnlineclassWidget } from 'agora-common-libs';
+import { AgoraIMMessageBase, CabinetToolItem } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class EduTool {
@@ -42,7 +42,7 @@ export class EduTool {
         extra?: unknown;
       }[]
   >();
-
+  @observable lastUnreadMessage: AgoraIMMessageBase | null = null;
   @computed
   get minimizedWidgetIcons() {
     return Array.from(this._minimizedStateMap.entries()).map(([key, value]) => {
@@ -92,9 +92,7 @@ export class EduTool {
   setMinimizedState(params: {
     minimized: boolean;
     widgetId: string;
-    minimizeProperties: AgoraOnlineclassSDKMinimizableWidget['minimizeProperties'] & {
-      minimizedTooltip?: string;
-    };
+    minimizedProperties: AgoraOnlineclassWidget['minimizedProperties'];
   }) {
     this._handleMinimizedStateChange(params);
   }
@@ -102,14 +100,11 @@ export class EduTool {
   private _handleMinimizedStateChange({
     minimized,
     widgetId,
-    minimizeProperties,
+    minimizedProperties,
   }: {
     minimized: boolean;
     widgetId: string;
-    minimizeProperties: AgoraOnlineclassSDKMinimizableWidget['minimizeProperties'] & {
-      minimizedTooltip?: string;
-      extra?: unknown;
-    };
+    minimizedProperties: AgoraOnlineclassWidget['minimizedProperties'];
   }) {
     const {
       minimizedTooltip,
@@ -118,7 +113,7 @@ export class EduTool {
       minimizedCollapsed,
       minimizedCollapsedIcon,
       extra,
-    } = minimizeProperties;
+    } = minimizedProperties;
     if (minimized) {
       if (minimizedCollapsed) {
         let minimizedList = this._minimizedStateMap.get(minimizedKey);
@@ -240,8 +235,16 @@ export class EduTool {
       (item) => id !== item.id,
     );
   }
+  @action.bound
+  private _handleChatUnreadMessageUpdate(message: AgoraIMMessageBase) {
+    this.lastUnreadMessage = message;
+  }
   install(controller: AgoraWidgetController) {
     this._controller = controller;
+    this._controller.addBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.ChatUnreadMessageUpdate,
+      onMessage: this._handleChatUnreadMessageUpdate,
+    });
     this._controller.addBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.RegisterCabinetTool,
       onMessage: this._handleRegisterCabinetTool,
@@ -251,7 +254,7 @@ export class EduTool {
       onMessage: this._handleUnregisterCabinetTool,
     });
     controller.addBroadcastListener({
-      messageType: AgoraExtensionWidgetEvent.Minimize,
+      messageType: AgoraExtensionWidgetEvent.SetMinimize,
       onMessage: this._handleMinimizedStateChange,
     });
     controller.addBroadcastListener({
@@ -263,7 +266,10 @@ export class EduTool {
 
   uninstall() {
     this._controller?.removeWidgetStateListener(this._stateListener);
-
+    this._controller?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.ChatUnreadMessageUpdate,
+      onMessage: this._handleChatUnreadMessageUpdate,
+    });
     this._controller?.removeBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.RegisterCabinetTool,
       onMessage: this._handleRegisterCabinetTool,
@@ -273,7 +279,7 @@ export class EduTool {
       onMessage: this._handleUnregisterCabinetTool,
     });
     this._controller?.removeBroadcastListener({
-      messageType: AgoraExtensionWidgetEvent.Minimize,
+      messageType: AgoraExtensionWidgetEvent.SetMinimize,
       onMessage: this._handleMinimizedStateChange,
     });
     this._controller?.removeBroadcastListener({

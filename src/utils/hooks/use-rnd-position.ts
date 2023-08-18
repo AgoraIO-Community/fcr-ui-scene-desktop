@@ -1,56 +1,27 @@
 import { Rnd } from 'react-rnd';
-import { useStore } from './use-store';
-import { useEffect } from 'react';
-import { Logger } from 'agora-rte-sdk';
+
 import { Boundaries } from '../clamp-bounds';
+import { Logger } from 'agora-rte-sdk';
 
-export const useRndPosition = (rndInstance?: Rnd | null) => {
-  const {
-    layoutUIStore: { viewportBoundaries },
-  } = useStore();
-  const onViewportBoundariesChanged = () => {
-    const position = getPosition();
-    const size = getSize();
-
-    if (position && size) {
-      const parentBounds = (rndInstance?.getParent() as HTMLElement)?.getBoundingClientRect();
-      const newPosition = reposition(
-        {
-          width: size.width,
-          height: size.height,
-          left: position.x,
-          top: position.y,
-        },
-        {
-          width: parentBounds?.width || 0,
-          height: parentBounds?.height || 0,
-          left: parentBounds?.left || 0,
-          top: parentBounds?.top || 0,
-        },
-      );
-
-      updatePosition({ x: newPosition.x, y: newPosition.y });
-    }
-  };
-  useEffect(onViewportBoundariesChanged, [viewportBoundaries]);
+export const useRndPosition = (rndInstance: React.RefObject<Rnd | null>) => {
   const getPosition = () => {
     if (!rndInstance) {
       Logger.warn('rnd instance is not available');
-      return;
+      return { x: 0, y: 0 };
     }
-    return rndInstance.getDraggablePosition();
+    return rndInstance.current?.getDraggablePosition();
   };
   const getSize = () => {
     if (!rndInstance) {
       Logger.warn('rnd instance is not available');
-      return;
+      return { width: 0, height: 0 };
     }
 
-    const ele = rndInstance.getSelfElement();
+    const ele = rndInstance.current?.getSelfElement();
 
     if (!ele) {
       Logger.warn('rnd ele is not available');
-      return;
+      return { width: 0, height: 0 };
     }
 
     return { width: ele.clientWidth, height: ele.clientHeight };
@@ -60,7 +31,21 @@ export const useRndPosition = (rndInstance?: Rnd | null) => {
       Logger.warn('rnd instance is not available');
       return;
     }
-    rndInstance.updatePosition(position);
+    rndInstance.current?.updatePosition(position);
+  };
+  const updateSize = (size: { width: string | number; height: string | number }) => {
+    if (!rndInstance) {
+      Logger.warn('rnd instance is not available');
+      return;
+    }
+
+    rndInstance.current?.updateSize(size);
+  };
+  return {
+    getPosition,
+    getSize,
+    updatePosition,
+    updateSize,
   };
 };
 export const reposition = (selfBoundaries: Boundaries, containerBoundaries: Boundaries) => {

@@ -1,4 +1,5 @@
 import { SvgIconEnum } from '@components/svg-img';
+import { EduRoleTypeEnum } from 'agora-edu-core';
 
 export enum BoardConnectionState {
   Disconnected = 0,
@@ -47,3 +48,80 @@ export type CabinetToolItem = {
   id: string;
   iconType: SvgIconEnum;
 };
+export enum AgoraIMMessageType {
+  Text = 'text',
+  Image = 'image',
+  Custom = 'custom',
+}
+export class AgoraIMMessageBase<B = unknown, E extends AgoraIMMessageExt = AgoraIMMessageExt> {
+  id: string;
+  from?: string;
+  to?: string;
+  type?: AgoraIMMessageType;
+  body?: B;
+  ext?: E;
+  ts?: number;
+  receiverList?: AgoraIMUserInfo[];
+  constructor(params: AgoraIMMessageBase<B, E>) {
+    this.id = params.id;
+    this.from = params.from;
+    this.to = params.to;
+    this.type = params.type;
+    this.body = params.body;
+    this.ext = params.ext;
+    this.ts = params.ts || new Date().getTime();
+    this.receiverList = params.receiverList;
+  }
+}
+export class AgoraIMTextMessage extends AgoraIMMessageBase {
+  msg: string;
+
+  constructor(params: AgoraIMTextMessage) {
+    super(params);
+    this.type = AgoraIMMessageType.Text;
+    this.msg = params.msg;
+  }
+}
+export interface AgoraIMMessageExt {
+  nickName: string;
+  roomUuid: string;
+  role: EduRoleTypeEnum;
+  avatarUrl: string;
+  muteMember?: string;
+  muteNickName?: string;
+  receiverList: AgoraIMUserInfo[];
+}
+export interface AgoraIMUserInfoExt {
+  role: EduRoleTypeEnum;
+  userUuid: string;
+}
+export interface AgoraIMUserInfo<E extends AgoraIMUserInfoExt = AgoraIMUserInfoExt> {
+  userId: string;
+  nickName: string;
+  avatarUrl: string;
+  ext: E;
+}
+export class AgoraIMImageMessage<
+  E extends AgoraIMMessageExt = AgoraIMMessageExt,
+> extends AgoraIMMessageBase<unknown, E> {
+  url?: string;
+  file?: File;
+  width?: number;
+  height?: number;
+  onFileUploadError?(): void;
+  onFileUploadProgress?(e: unknown): void;
+  onFileUploadComplete?(): void;
+
+  constructor(params: AgoraIMImageMessage<E>) {
+    super(params);
+    this.type = AgoraIMMessageType.Image;
+
+    this.url = params.url;
+    this.file = params.file;
+    this.width = params.width;
+    this.height = params.height;
+    this.onFileUploadComplete = params.onFileUploadComplete;
+    this.onFileUploadError = params.onFileUploadError;
+    this.onFileUploadProgress = params.onFileUploadProgress;
+  }
+}

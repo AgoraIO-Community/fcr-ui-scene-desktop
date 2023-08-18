@@ -221,7 +221,10 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this.classroomStore.mediaStore.videoCameraDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .map((item) => ({
-        text: item.deviceid === DEVICE_DISABLE ? transI18n('fcr_device_label_disabled') : item.devicename,
+        text:
+          item.deviceid === DEVICE_DISABLE
+            ? transI18n('fcr_device_label_disabled')
+            : item.devicename,
         value: item.deviceid,
       }));
   }
@@ -238,7 +241,10 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this.classroomStore.mediaStore.audioRecordingDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .map((item) => ({
-        text: item.deviceid === DEVICE_DISABLE ? transI18n('fcr_device_label_disabled') : item.devicename,
+        text:
+          item.deviceid === DEVICE_DISABLE
+            ? transI18n('fcr_device_label_disabled')
+            : item.devicename,
         value: item.deviceid,
       }));
   }
@@ -262,7 +268,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
       ? playbackDevicesList
       : [
           {
-            text: transI18n("fcr_device_label_default_speaker"),
+            text: transI18n('fcr_device_label_default_speaker'),
             value: 'default',
           },
         ];
@@ -1007,7 +1013,6 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
         ({ localMicTrackState, localCameraTrackState }) => {
           runInAction(() => {
             this._cameraDeviceEnabled = localCameraTrackState === AgoraRteMediaSourceState.started;
-            console.log(localMicTrackState, 'localMicTrackState');
             this._audioRecordingDeviceEnabled =
               localMicTrackState === AgoraRteMediaSourceState.started;
           });

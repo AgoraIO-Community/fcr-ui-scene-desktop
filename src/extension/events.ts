@@ -83,6 +83,8 @@ export enum AgoraExtensionRoomEvent {
   PrivateChat = 'PrivateChat',
   // widget弹框边界尺寸变化
   WidgetDialogBoundariesChanged = 'widget-dialog-boundaries-changed',
+  //插件全屏
+  SetFullscreen = 'set-fullscreen',
 }
 
 /**
@@ -133,10 +135,11 @@ export enum AgoraExtensionWidgetEvent {
   PollActiveStateChanged = 'poll-active-state-changed',
   //请求当前横屏清屏状态
   RequestMobileLandscapeToolBarVisible = 'request-mobile-landscape-tool-bar-visible',
-  //插件最小化
-  Minimize = 'minimize',
+
   //聊天对话框开启状态变更
   ChatDialogVisibleChanged = 'chat-dialog-visible-changed',
+  //聊天未读消息变更
+  ChatUnreadMessageUpdate = 'chat-unread-message-update',
   // Widget创建成功
   WidgetCreated = 'widget-created',
   // Widget销毁成功
@@ -145,4 +148,6 @@ export enum AgoraExtensionWidgetEvent {
   SetVisible = 'set-visible',
   //设置插件最小化
   SetMinimize = 'set-minimize',
+  //设置插件全屏
+  SetFullscreen = 'set-fullscreen',
 }

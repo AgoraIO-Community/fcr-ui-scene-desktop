@@ -12,7 +12,7 @@ export const StatusBarWidgetSlot = observer(() => {
     eduToolApi.setMinimizedState({
       minimized: false,
       widgetId,
-      minimizeProperties: {
+      minimizedProperties: {
         minimizedCollapsed,
       },
     });

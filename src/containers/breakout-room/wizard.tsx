@@ -41,7 +41,7 @@ export const WizardGrouping: FC = observer(() => {
     eduToolApi.setMinimizedState({
       minimized: true,
       widgetId: 'breakout',
-      minimizeProperties: {
+      minimizedProperties: {
         minimizedIcon: SvgIconEnum.FCR_V2_BREAKROOM,
         minimizedTooltip: transI18n('fcr_group_breakout_room'),
       },
@@ -226,7 +226,7 @@ export const WizardCreate = observer(() => {
     eduToolApi.setMinimizedState({
       minimized: true,
       widgetId: 'breakout',
-      minimizeProperties: {
+      minimizedProperties: {
         minimizedIcon: SvgIconEnum.FCR_V2_BREAKROOM,
         minimizedTooltip: transI18n('fcr_group_breakout_room'),
       },
