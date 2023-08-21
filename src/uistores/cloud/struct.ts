@@ -38,7 +38,7 @@ import { CloudDriveResource, ConversionOption } from 'agora-edu-core';
  * - `'static'`: Static resources.
  */
 export class CloudDriveCourseResource extends CloudDriveResource {
-  private _taskProgress: CloudDriveResourceConvertProgress;
+  private _taskProgress?: CloudDriveResourceConvertProgress;
   taskUuid: string;
   conversion: ConversionOption;
   scenes: {
@@ -55,7 +55,7 @@ export class CloudDriveCourseResource extends CloudDriveResource {
     resourceUuid: string;
     size: number;
     updateTime: number;
-    taskProgress: CloudDriveResourceConvertProgress;
+    taskProgress?: CloudDriveResourceConvertProgress;
     taskUuid: string;
     conversion: ConversionOption;
     initOpen?: boolean;
@@ -65,7 +65,7 @@ export class CloudDriveCourseResource extends CloudDriveResource {
     this.taskUuid = data.taskUuid;
     this.conversion = data.conversion;
     this.scenes = [];
-    if (data.taskProgress.convertedFileList) {
+    if (data.taskProgress?.convertedFileList) {
       this.scenes = data.taskProgress.convertedFileList.map((scene) => {
         return {
           name: scene.name,
@@ -76,9 +76,10 @@ export class CloudDriveCourseResource extends CloudDriveResource {
         };
       });
     }
-    if (data.taskProgress.images) {
+    if (data.taskProgress?.images) {
+      const taskProgress = data.taskProgress;
       this.scenes = Object.keys(data.taskProgress.images).map((key) => {
-        const { width, height, url } = data.taskProgress.images[key as unknown as number];
+        const { width, height, url } = taskProgress.images[key as unknown as number];
         return {
           name: `${key}`,
           contentUrl: url,
@@ -97,15 +98,15 @@ export class CloudDriveCourseResource extends CloudDriveResource {
   }
 
   get convertedPercentage() {
-    return this._taskProgress.convertedPercentage;
+    return this._taskProgress?.convertedPercentage;
   }
 
   get status() {
-    return this._taskProgress.status;
+    return this._taskProgress?.status;
   }
 
   get prefix() {
-    return this._taskProgress.prefix;
+    return this._taskProgress?.prefix;
   }
 }
 

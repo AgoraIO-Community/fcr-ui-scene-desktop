@@ -498,7 +498,8 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
                 }}
                 type="secondary"
                 size="XXS"
-                shape="rounded"
+                shape="circle"
+                styleType="danger"
                 preIcon={SvgIconEnum.FCR_DELETE3}></Button>
             </ToolTip>
             <ToolTip content={transI18n('fcr_cloud_button_tooltip_rename')} placement="bottom">
@@ -508,7 +509,7 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
                 }}
                 type="secondary"
                 size="XXS"
-                shape="rounded"
+                shape="circle"
                 preIcon={SvgIconEnum.FCR_RENAME}></Button>
             </ToolTip>
           </div>

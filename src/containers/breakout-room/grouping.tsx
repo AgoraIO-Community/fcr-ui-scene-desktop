@@ -216,8 +216,8 @@ export const GroupedList = observer(
         <div ref={drop} className={containerCls}>
           <div className="fcr-breakout-room__grouping-grouped-title">
             <SvgImg
-              type={SvgIconEnum.FCR_DROPDOWN}
               onClick={toggleExpand}
+              type={SvgIconEnum.FCR_DROPDOWN}
               style={{ transform: `rotate(${expanded ? 0 : -90}deg)`, transition: '.3s all' }}
               size={20}
             />
@@ -230,13 +230,15 @@ export const GroupedList = observer(
             )}
             {!editing ? (
               <React.Fragment>
-                <span className="fcr-breakout-room__grouping-grouped-group-name">
+                <span
+                  className="fcr-breakout-room__grouping-grouped-group-name"
+                  onClick={toggleExpand}>
                   {groupName} ({list.length})
                 </span>
                 <div className="fcr-breakout-room__grouping-grouped-group-actions">
                   <ToolTip content={transI18n('fcr_group_button_delete')}>
-                    <Button size="XXS" shape="circle" styleType="danger">
-                      <SvgImg type={SvgIconEnum.FCR_DELETE3} size={24} onClick={handleDelete} />
+                    <Button onClick={handleDelete} size="XXS" shape="circle" styleType="danger">
+                      <SvgImg type={SvgIconEnum.FCR_DELETE3} size={24} />
                     </Button>
                   </ToolTip>
                   <ToolTip content={transI18n('fcr_group_button_rename')}>
@@ -278,6 +280,7 @@ export const GroupedList = observer(
               </React.Fragment>
             ) : (
               <Input
+                maxLength={15}
                 size="small"
                 value={inputVal}
                 onChange={setInputVal}

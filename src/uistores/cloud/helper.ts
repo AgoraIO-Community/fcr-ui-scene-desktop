@@ -46,7 +46,7 @@ export const supportedTypes = [
 export const createCloudResource = (data: CourseWareItem): CloudDriveResource | never => {
   const ext = data.ext?.toLowerCase?.();
   if (convertableTypes.includes(ext)) {
-    if (!data.taskProgress || !data.taskUuid) {
+    if (!data.taskUuid) {
       return EduErrorCenter.shared.handleThrowableError(
         AGEduErrorCode.EDU_ERR_INVALID_CLOUD_RESOURCE,
         new Error(`invalid convertable file ${ext}`),

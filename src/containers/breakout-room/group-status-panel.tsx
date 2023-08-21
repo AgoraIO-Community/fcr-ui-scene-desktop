@@ -40,7 +40,7 @@ export const GroupStatusPanel = observer(() => {
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}
-      style={{ zIndex: 100 }}>
+      style={{ zIndex: 1020 }}>
       <div className="fcr-breakout-room__status-panel" style={{ opacity: showStatusBar ? 1 : 0 }}>
         <SvgImg type={SvgIconEnum.FCR_V2_BREAKROOM} />
         <span className="fcr-breakout-room__status-panel-label">

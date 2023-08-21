@@ -90,7 +90,10 @@ export class LayoutUIStore extends EduUIStoreBase {
   }
 
   @computed get gridLayoutDisabled() {
-    return this.getters.isScreenSharing && !this.getters.isLocalScreenSharing;
+    return (
+      (this.getters.isScreenSharing && !this.getters.isLocalScreenSharing) ||
+      this.getters.isBoardWidgetActive
+    );
   }
   @computed
   get noAvailabelStream() {

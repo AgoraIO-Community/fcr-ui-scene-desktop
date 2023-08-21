@@ -78,7 +78,7 @@ export const GroupInfoPanel = observer(() => {
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}
-      style={{ zIndex: 100 }}>
+      style={{ zIndex: 1020 }}>
       <div
         className="fcr-breakout-room__status-panel fcr-breakout-room__ask-for-help-panel"
         style={{ opacity: showStatusBar ? 1 : 0 }}>

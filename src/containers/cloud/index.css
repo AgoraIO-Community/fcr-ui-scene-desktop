@@ -219,6 +219,10 @@
   align-items: center;
   gap: 4px;
 }
+.fcr-cloud-personal-tab-table-row-actions .fcr-button {
+  @apply fcr-shadow-line-1-.3-white;
+  background: transparent;
+}
 .fcr-cloud-personal-tab-table-row-actions .fcr-button,
 .fcr-cloud-personal-tab-table-row-rename .fcr-clickabel-icon {
   flex-shrink: 0;
