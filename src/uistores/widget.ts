@@ -1,9 +1,4 @@
-import {
-  AgoraMultiInstanceWidget,
-  AgoraUiCapableConfirmDialogProps,
-  AgoraWidgetLifecycle,
-  AgoraOnlineclassSDKWidgetBase,
-} from 'agora-common-libs';
+import { AgoraUiCapableConfirmDialogProps, AgoraOnlineclassWidget } from 'agora-common-libs';
 import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
 import { action, computed, observable, reaction, trace } from 'mobx';
@@ -17,9 +12,9 @@ import { CommonDialogType } from './type';
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
   private _defaultActiveWidgetIds = ['easemobIM'];
-  private _registeredWidgets: Record<string, typeof AgoraOnlineclassSDKWidgetBase> = {};
+  private _registeredWidgets: Record<string, typeof AgoraOnlineclassWidget> = {};
   @observable
-  private _widgetInstances: Record<string, AgoraOnlineclassSDKWidgetBase> = {};
+  private _widgetInstances: Record<string, AgoraOnlineclassWidget> = {};
   private _stateListener = {
     onActive: this._handleWidgetActive,
     onInactive: this._handleWidgetInactive,
@@ -83,7 +78,7 @@ export class WidgetUIStore extends EduUIStoreBase {
         this._createUiCapable(),
         getUiConfig(),
         getTheme(),
-      ) as AgoraOnlineclassSDKWidgetBase;
+      ) as AgoraOnlineclassWidget;
 
       if (instanceId) {
         this._callWidgetSetInstanceId(widget, instanceId);
@@ -170,57 +165,44 @@ export class WidgetUIStore extends EduUIStoreBase {
     }
   }
 
-  private _callWidgetCreate(
-    widget: AgoraOnlineclassSDKWidgetBase,
-    props: unknown,
-    userProps: unknown,
-  ) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onCreate) {
-      (widget as unknown as AgoraWidgetLifecycle).onCreate(props, userProps);
+  private _callWidgetCreate(widget: AgoraOnlineclassWidget, props: unknown, userProps: unknown) {
+    if (widget.onCreate) {
+      widget.onCreate(props, userProps);
     }
   }
 
-  private _callWidgetSetInstanceId(widget: AgoraOnlineclassSDKWidgetBase, instanceId: string) {
-    if ((widget as unknown as AgoraMultiInstanceWidget).setInstanceId) {
-      (widget as unknown as AgoraMultiInstanceWidget).setInstanceId(instanceId);
+  private _callWidgetSetInstanceId(widget: AgoraOnlineclassWidget, instanceId: string) {
+    if (widget.setInstanceId) {
+      widget.setInstanceId(instanceId);
     }
   }
 
-  private _callWidgetPropertiesUpdate(widget: AgoraOnlineclassSDKWidgetBase, props: unknown) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onPropertiesUpdate) {
-      (widget as unknown as AgoraWidgetLifecycle).onPropertiesUpdate(props);
+  private _callWidgetPropertiesUpdate(widget: AgoraOnlineclassWidget, props: unknown) {
+    if (widget.onPropertiesUpdate) {
+      widget.onPropertiesUpdate(props);
     }
   }
-  private _callWidgetUserPropertiesUpdate(
-    widget: AgoraOnlineclassSDKWidgetBase,
-    userProps: unknown,
-  ) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onUserPropertiesUpdate) {
-      (widget as unknown as AgoraWidgetLifecycle).onUserPropertiesUpdate(userProps);
+  private _callWidgetUserPropertiesUpdate(widget: AgoraOnlineclassWidget, userProps: unknown) {
+    if (widget.onUserPropertiesUpdate) {
+      widget.onUserPropertiesUpdate(userProps);
     }
   }
 
-  private _callWidgetDestroy(widget: AgoraOnlineclassSDKWidgetBase) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onDestroy) {
-      (widget as unknown as AgoraWidgetLifecycle).onDestroy();
+  private _callWidgetDestroy(widget: AgoraOnlineclassWidget) {
+    if (widget.onDestroy) {
+      widget.onDestroy();
     }
   }
 
-  private _callWidgetInstall(
-    widget: AgoraOnlineclassSDKWidgetBase,
-    controller: AgoraWidgetController,
-  ) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onInstall) {
-      (widget as unknown as AgoraWidgetLifecycle).onInstall(controller);
+  private _callWidgetInstall(widget: AgoraOnlineclassWidget, controller: AgoraWidgetController) {
+    if (widget.onInstall) {
+      widget.onInstall(controller);
     }
   }
 
-  private _callWidgetUninstall(
-    widget: AgoraOnlineclassSDKWidgetBase,
-    controller: AgoraWidgetController,
-  ) {
-    if ((widget as unknown as AgoraWidgetLifecycle).onUninstall) {
-      (widget as unknown as AgoraWidgetLifecycle).onUninstall(controller);
+  private _callWidgetUninstall(widget: AgoraOnlineclassWidget, controller: AgoraWidgetController) {
+    if (widget.onUninstall) {
+      widget.onUninstall(controller);
     }
   }
 

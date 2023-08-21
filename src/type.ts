@@ -8,7 +8,7 @@ import {
 } from 'agora-edu-core';
 import { AGMediaOptions, AgoraLatencyLevel, AGVideoEncoderConfiguration } from 'agora-rte-sdk';
 import { FcrMultiThemeMode } from 'agora-common-libs';
-import { AgoraOnlineclassSDKWidgetBase } from 'agora-common-libs';
+import { AgoraOnlineclassWidget } from 'agora-common-libs';
 import { IBaseProcessor, IExtension } from 'agora-rte-extension';
 import { CloudDriveResourceConvertProgress } from './uistores/cloud/struct';
 
@@ -195,7 +195,7 @@ export type LaunchOptions = {
   /** @en
    * Widgets
    */
-  widgets?: Record<string, typeof AgoraOnlineclassSDKWidgetBase>;
+  widgets?: Record<string, typeof AgoraOnlineclassWidget>;
 
   /**
    * 教室事件回调
