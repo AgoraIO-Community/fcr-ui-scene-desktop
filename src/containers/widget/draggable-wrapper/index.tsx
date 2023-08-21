@@ -117,6 +117,9 @@ export const WidgetDraggableWrapper = observer(
       afterChange: (minimize) => {
         if (minimize) {
           setRndStyle({ display: 'none' });
+          widget.onExited();
+        } else {
+          widget.onEntered();
         }
       },
     });

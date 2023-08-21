@@ -27,6 +27,8 @@ export const WidgetContainer = observer(() => {
               const ref = createRef<HTMLDivElement>();
               return (
                 <CSSTransition
+                  onEntered={w.onEntered}
+                  onExited={w.onExited}
                   nodeRef={ref}
                   key={w.widgetId}
                   timeout={500}
@@ -46,6 +48,8 @@ export const WidgetContainer = observer(() => {
               const ref = createRef<HTMLDivElement>();
               return (
                 <CSSTransition
+                  onEntered={w.onEntered}
+                  onExited={w.onExited}
                   nodeRef={ref}
                   key={w.widgetId}
                   timeout={500}
