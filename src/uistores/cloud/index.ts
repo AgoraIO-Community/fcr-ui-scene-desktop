@@ -349,8 +349,9 @@ export class CloudUIStore extends EduUIStoreBase {
     }
 
     if (resource instanceof CloudDriveCourseResource) {
+      const isBoardActive = this.getters.isBoardWidgetActive;
       await this.checkBoardEnabled();
-      this.openCourseware(resource);
+      this.openCourseware(resource, isBoardActive);
     }
 
     if (resource instanceof CloudDriveMediaResource) {
@@ -409,7 +410,7 @@ export class CloudUIStore extends EduUIStoreBase {
     }
   }
   @bound
-  async openCourseware(resource: CloudDriveCourseResource) {
+  async openCourseware(resource: CloudDriveCourseResource, isBoardActive: boolean) {
     if (resource.status == 'Converting') {
       return;
     }
@@ -437,6 +438,11 @@ export class CloudUIStore extends EduUIStoreBase {
         };
       },
     );
+
+    // prevent showing the annoying red toast when user re-opens the whiteboard by click courseware in clouddrive
+    if (!isBoardActive && this.getters.boardApi.isCoursewareOpened(resource.resourceUuid)) {
+      return;
+    }
 
     this.getters.boardApi.openMaterialResourceWindow({
       resourceUuid: resource.resourceUuid,

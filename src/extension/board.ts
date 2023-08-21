@@ -46,6 +46,8 @@ export class Board {
   selectedTool? = FcrBoardTool.Clicker;
   @observable
   selectedShape?: FcrBoardShape;
+  @observable
+  openedCoursewareIds: string[] = [];
 
   @computed
   get connected() {
@@ -60,6 +62,13 @@ export class Board {
   @computed
   get granted() {
     return this.hasPrivilege();
+  }
+
+  isCoursewareOpened(resourceUuid: string) {
+    return (
+      this.openedCoursewareIds.includes(`/ppt/${resourceUuid}`) ||
+      this.openedCoursewareIds.includes(`/${resourceUuid}`)
+    );
   }
 
   enable() {
@@ -204,10 +213,15 @@ export class Board {
       messageType: AgoraExtensionWidgetEvent.BoardUndoStepsChanged,
       onMessage: this._handleUndoStepsChanged,
     });
-    this._controller?.addBroadcastListener({
+    controller.addBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.RequestGrantedList,
       onMessage: this._handleRequestGrantedList,
     });
+    controller.addBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.BoardOpenedCoursewareListChanged,
+      onMessage: this._handleOpenedCoursewareListChanged,
+    });
+
     const { role } = EduClassroomConfig.shared.sessionInfo;
     if (role === EduRoleTypeEnum.student) {
       this._disposers.push(
@@ -262,6 +276,11 @@ export class Board {
       messageType: AgoraExtensionWidgetEvent.RequestGrantedList,
       onMessage: this._handleRequestGrantedList,
     });
+    this._controller?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.BoardOpenedCoursewareListChanged,
+      onMessage: this._handleOpenedCoursewareListChanged,
+    });
+
     runInAction(() => {
       this.connState = BoardConnectionState.Disconnected;
       this.mountState = BoardMountState.NotMounted;
@@ -272,6 +291,11 @@ export class Board {
     runInAction(() => {
       this.grantedUsers = new Set();
     });
+  }
+
+  @action.bound
+  private _handleOpenedCoursewareListChanged(list: string[]) {
+    this.openedCoursewareIds = list;
   }
 
   @bound
