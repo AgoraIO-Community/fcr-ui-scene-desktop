@@ -1,4 +1,4 @@
-import { Boundaries, Size, clampBounds } from '@onlineclass/utils/clamp-bounds';
+import { Boundaries, Size } from '@onlineclass/utils/clamp-bounds';
 
 export const WINDOW_TITLE_HEIGHT = 28;
 // width / height

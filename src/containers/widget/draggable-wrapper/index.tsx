@@ -31,7 +31,11 @@ export const WidgetDraggableWrapper = observer(
       eduToolApi: { isWidgetMinimized, isWidgetVisible, updateWidgetDialogBoundaries },
     } = useStore();
     const rndInstance = useRef<Rnd>(null);
-    const { fitted, setFitted, getBounds, onFit } = useFitted(widget, rndInstance);
+    const { fitted, setFitted, getBounds, onFit, saveCurrentSizeAndPosition } = useFitted({
+      rndInstance,
+      defaultFullscreen: widget.defaultFullscreen,
+      defaultRect: widget.defaultRect,
+    });
 
     const defaultRect = widget.defaultFullscreen ? getBounds() : widget.defaultRect || getBounds();
     const [rndStyle, setRndStyle] = useState<CSSProperties>({});
@@ -127,16 +131,20 @@ export const WidgetDraggableWrapper = observer(
     const refHandle = (ele: HTMLDivElement) => {
       minimizeRef.current = ele;
     };
-
+    const exitFitted = () => {
+      if (fitted) {
+        saveCurrentSizeAndPosition();
+        widgetController?.broadcast(AgoraExtensionRoomEvent.SetFullscreen, {
+          widgetId: widget.widgetId,
+          fullscreen: false,
+        });
+      }
+    };
     return (
       <Rnd
         disableDragging={!widget.draggable}
-        onResize={() => {
-          if (fitted) setFitted(false);
-        }}
-        onDrag={() => {
-          if (fitted) setFitted(false);
-        }}
+        onResize={exitFitted}
+        onDrag={exitFitted}
         onResizeStop={(_e, _dir, _ele, delta) => {
           updateWidgetDialogBoundaries(widget.widgetId, delta);
         }}

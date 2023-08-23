@@ -45,7 +45,7 @@ export const StatusBarWidgetSlot = observer(() => {
               </div>
             </Popover>
           );
-        } else if (item.widgetId === 'countdown') {
+        } else if (item.widgetId === 'countdownTimer') {
           const { widgetId, tooltip, icon, extra } = item;
           const countdownExtra = extra as {
             current: number;

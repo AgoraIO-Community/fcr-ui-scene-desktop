@@ -4,24 +4,35 @@ import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
 import { observer } from 'mobx-react';
 import { Rnd } from 'react-rnd';
 import { Participants } from '.';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
+import { useFitted } from '../widget/hooks';
 export const ParticipantsDialog = observer(
   forwardRef<HTMLDivElement | null, unknown>(function ParticipantsWrapper(_, ref) {
     const { zIndex, ref: zIndexRef, updateZIndex } = useZIndex('participants');
+    const rndInstance = useRef<Rnd | null>(null);
     const {
       layoutUIStore: { classroomViewportClassName },
     } = useStore();
 
-    const { ref: positionRef, position, setPosition } = useDraggablePosition({ centered: true });
+    const {
+      ref: positionRef,
+      position,
+      setPosition,
+    } = useDraggablePosition({ centered: true, rndInstance });
     const refHandle = (ele: HTMLDivElement) => {
       zIndexRef.current = ele;
       positionRef.current = ele;
     };
+
+    useFitted({
+      rndInstance,
+    });
     useEffect(() => {
       updateZIndex();
     }, []);
     return (
       <Rnd
+        ref={rndInstance}
         bounds={`.${classroomViewportClassName}`}
         position={position}
         onDrag={(_, { x, y }) => setPosition({ x, y })}

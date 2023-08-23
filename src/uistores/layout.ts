@@ -23,7 +23,14 @@ export class LayoutUIStore extends EduUIStoreBase {
   @observable
   actionBarHeight = 58;
 
-  @observable viewportBoundaries?: AgoraViewportBoundaries;
+  @observable viewportBoundaries: AgoraViewportBoundaries = {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 0,
+    height: 0,
+  };
   @observable mouseEnterClass = false;
   @observable layoutReady = false;
   @observable showStatusBar = true;
@@ -200,7 +207,7 @@ export class LayoutUIStore extends EduUIStoreBase {
   }
 
   @bound
-  @Lodash.debounced(300)
+  @Lodash.debounced(100)
   private _updateViewportBoundaries() {
     const containerEle = document.querySelector(`body`);
 

@@ -23,6 +23,9 @@
   user-select: none;
   cursor: pointer;
 }
+.fcr-toolbox-popover-item svg {
+  flex-shrink: 0;
+}
 .fcr-toolbox-popover-item:hover {
   @apply fcr-bg-brand-6;
 }

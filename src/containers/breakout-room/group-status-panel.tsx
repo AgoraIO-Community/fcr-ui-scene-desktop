@@ -28,6 +28,8 @@ export const GroupStatusPanel = observer(() => {
       onOk: () => {
         stopGroup();
       },
+      okButtonProps: { styleType: 'danger' },
+
       okText: transI18n('fcr_group_button_stop'),
     });
   };

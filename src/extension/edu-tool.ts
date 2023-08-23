@@ -94,7 +94,13 @@ export class EduTool {
     widgetId: string;
     minimizedProperties: AgoraOnlineclassWidget['minimizedProperties'];
   }) {
+    const { minimized, widgetId, minimizedProperties } = params;
     this._handleMinimizedStateChange(params);
+    this._sendMessage(AgoraExtensionRoomEvent.SetMinimize, {
+      widgetId,
+      minimized,
+      minimizedProperties,
+    });
   }
   @action.bound
   private _handleMinimizedStateChange({
@@ -157,7 +163,6 @@ export class EduTool {
         this._minimizedStateMap.delete(widgetId);
       }
     }
-    this._sendMessage(AgoraExtensionRoomEvent.SetMinimize, { widgetId, minimized });
   }
   @action.bound
   private _handleVisibleStateChange({ widgetId, visible }: { widgetId: string; visible: boolean }) {

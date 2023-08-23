@@ -488,7 +488,7 @@ export const enUs = {
   //****************** 倒计时CountdownTimer ******************
 
   //倒计时标题
-  fcr_countdown_timer_title: 'Countdown timer',
+  fcr_countdown_timer_title: 'Countdown Timer',
 
   //倒计时 开始
   fcr_tool_box_start: 'Start',

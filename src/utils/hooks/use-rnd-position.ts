@@ -48,31 +48,42 @@ export const useRndPosition = (rndInstance: React.RefObject<Rnd | null>) => {
     updateSize,
   };
 };
-export const reposition = (selfBoundaries: Boundaries, containerBoundaries: Boundaries) => {
-  const position = {
-    x: selfBoundaries.left,
-    y: selfBoundaries.top,
+export const reposition = (
+  selfBoundaries: Boundaries,
+  oldContainerBoundaries: Boundaries,
+  newContainerBoundaries: Boundaries,
+) => {
+  const percentPosition = {
+    x: selfBoundaries.left / oldContainerBoundaries.width,
+    y: selfBoundaries.top / oldContainerBoundaries.height,
   };
-  if (selfBoundaries.left < containerBoundaries.left) {
-    position.x = containerBoundaries.left;
+  const newPosition = {
+    x: newContainerBoundaries.width * percentPosition.x,
+    y: newContainerBoundaries.height * percentPosition.y,
+  };
+
+  if (newPosition.x < newContainerBoundaries.left) {
+    newPosition.x = newContainerBoundaries.left;
   }
   if (
-    selfBoundaries.width < containerBoundaries.width &&
-    selfBoundaries.width + selfBoundaries.left >
-      containerBoundaries.width + containerBoundaries.left
+    selfBoundaries.width < newContainerBoundaries.width &&
+    selfBoundaries.width + newPosition.x >
+      newContainerBoundaries.width + newContainerBoundaries.left
   ) {
-    position.x = containerBoundaries.width + containerBoundaries.left - selfBoundaries.width;
+    newPosition.x =
+      newContainerBoundaries.width + newContainerBoundaries.left - selfBoundaries.width;
   }
-  if (selfBoundaries.top < containerBoundaries.top) {
-    position.y = containerBoundaries.top;
+  if (newPosition.y < newContainerBoundaries.top) {
+    newPosition.y = newContainerBoundaries.top;
   }
   if (
-    selfBoundaries.height < containerBoundaries.height &&
-    selfBoundaries.height + selfBoundaries.top >
-      containerBoundaries.height + containerBoundaries.top
+    selfBoundaries.height < newContainerBoundaries.height &&
+    selfBoundaries.height + newPosition.y >
+      newContainerBoundaries.height + newContainerBoundaries.top
   ) {
-    position.y = containerBoundaries.height + containerBoundaries.top - selfBoundaries.height;
+    newPosition.y =
+      newContainerBoundaries.height + newContainerBoundaries.top - selfBoundaries.height;
   }
 
-  return position;
+  return newPosition;
 };

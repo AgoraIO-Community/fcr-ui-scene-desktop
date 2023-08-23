@@ -8,18 +8,27 @@ import {
   getFittedBounds,
 } from './helpers';
 import { Rnd } from 'react-rnd';
-import { useRndPosition } from '@onlineclass/utils/hooks/use-rnd-position';
-import { clampBounds } from '@onlineclass/utils/clamp-bounds';
+import { reposition, useRndPosition } from '@onlineclass/utils/hooks/use-rnd-position';
 import { useStore } from '@onlineclass/utils/hooks/use-store';
 
-export const useFitted = (
-  widget: AgoraOnlineclassWidget,
-  rndInstance: React.RefObject<Rnd | null>,
-) => {
+export const useFitted = ({
+  defaultFullscreen = false,
+  rndInstance,
+  defaultRect = { width: 0, height: 0 },
+}: {
+  defaultRect?: {
+    width: number;
+    height: number;
+  };
+  defaultFullscreen?: boolean;
+  rndInstance: React.RefObject<Rnd | null>;
+}) => {
   const {
     layoutUIStore: { viewportBoundaries, layout },
   } = useStore();
-  const [fitted, setFitted] = useState(widget.defaultFullscreen || false);
+
+  const [fitted, setFitted] = useState(defaultFullscreen);
+  const viewportBoundariesRef = useRef(viewportBoundaries);
   const boundsRef = useRef({
     size: WINDOW_REMAIN_SIZE,
     position: WINDOW_REMAIN_POSITION,
@@ -28,7 +37,22 @@ export const useFitted = (
   const getBounds = () => {
     return fitted
       ? getFittedBounds(getContentAreaSize())
-      : getDefaultBounds(getContentAreaSize(), widget.defaultRect.width, widget.defaultRect.height);
+      : getDefaultBounds(getContentAreaSize(), defaultRect.width, defaultRect.height);
+  };
+  const saveCurrentSizeAndPosition = () => {
+    boundsRef.current.size = getSize() || WINDOW_REMAIN_SIZE;
+    boundsRef.current.position = getPosition() || WINDOW_REMAIN_POSITION;
+  };
+  const onFit = (fitted: boolean) => {
+    if (fitted) {
+      saveCurrentSizeAndPosition();
+      const defaultBounds = getFittedBounds(getContentAreaSize());
+      updatePosition({ x: defaultBounds.x, y: defaultBounds.y });
+      updateSize({ width: defaultBounds.width, height: defaultBounds.height });
+    } else {
+      updatePosition(boundsRef.current.position);
+      updateSize(boundsRef.current.size);
+    }
   };
   const onViewportBoundariesChanged = () => {
     if (fitted) {
@@ -39,39 +63,37 @@ export const useFitted = (
     } else {
       const position = getPosition();
       const size = getSize();
-      const bounds = clampBounds(
+      const domRect = (rndInstance.current?.getParent() as HTMLElement)?.getBoundingClientRect();
+
+      const bounds = reposition(
         {
           width: size.width,
           height: size.height,
           left: position?.x || 0,
           top: position?.y || 0,
         },
+        viewportBoundariesRef.current,
         {
-          ...(rndInstance.current?.getParent() as HTMLElement)?.getBoundingClientRect(),
+          left: domRect.left,
+          top: domRect.top,
+          width: domRect.width,
+          height: domRect.height,
         },
       );
+
       updatePosition({ x: bounds.x, y: bounds.y });
-      updateSize({ width: bounds.width, height: bounds.height });
     }
   };
-  const onFit = (fitted: boolean) => {
-    if (fitted) {
-      boundsRef.current.size = getSize() || WINDOW_REMAIN_SIZE;
-      boundsRef.current.position = getPosition() || WINDOW_REMAIN_POSITION;
-      const defaultBounds = getFittedBounds(getContentAreaSize());
-      updatePosition({ x: defaultBounds.x, y: defaultBounds.y });
-      updateSize({ width: defaultBounds.width, height: defaultBounds.height });
-    } else {
-      updatePosition(boundsRef.current.position);
-      updateSize(boundsRef.current.size);
-    }
-  };
-  useEffect(onViewportBoundariesChanged, [fitted, viewportBoundaries, layout]);
+  useEffect(() => {
+    onViewportBoundariesChanged();
+    viewportBoundariesRef.current = viewportBoundaries;
+  }, [fitted, viewportBoundaries, layout]);
 
   return {
     fitted,
     onFit,
     setFitted,
     getBounds,
+    saveCurrentSizeAndPosition,
   };
 };
