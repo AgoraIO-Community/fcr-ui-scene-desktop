@@ -191,6 +191,9 @@ export const enUs = {
   //xxx举手人数
   fcr_participants_tips_student_rasie_hand: '人举手,请点击查看',
 
+  fcr_participants_tips_student_in_breakoutroom:
+    'The student is not in the room, it is not possible to operate',
+
   //****************** 聊天Chat ******************
   fcr_chat_option_chat: 'Chat',
 
@@ -353,7 +356,7 @@ export const enUs = {
   fcr_group_back_to_main_room: 'Return to main session',
 
   //弹窗提示返回大房间，还是小房间时
-  fcr_group_exit_room: 'Leave the room',
+  fcr_group_exit_room: 'Leave the group',
 
   //笔迹、课件带入分组选项
   fcr_group_copy_content_to_group: 'Copy classroom content to breakout rooms',

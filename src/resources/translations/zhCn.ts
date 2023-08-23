@@ -186,7 +186,9 @@ export const zhCn = {
   fcr_participants_tips_lower_all_hand: '全部手放下',
 
   //xxx举手人数
-  fcr_participants_tips_student_rasie_hand: 'people raised hand,please click to view',
+  fcr_participants_tips_student_rasie_hand: '人举手,请点击查看',
+
+  fcr_participants_tips_student_in_breakoutroom: '学生不在房间内，无法操作',
 
   //****************** 聊天Chat ******************
   fcr_chat_option_chat: '聊天',

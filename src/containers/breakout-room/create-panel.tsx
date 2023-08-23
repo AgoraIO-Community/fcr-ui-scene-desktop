@@ -53,12 +53,16 @@ export const CreatePanel: FC<{ onClose: () => void }> = ({ onClose }) => {
       />
       {/* divider */}
       <div className="fcr-breakout-room__create-panel-divider" />
-      <Radio label={transI18n('fcr_group_assign_manually')} checked={type === 2} onChange={handleChangeType(2)} />
+      <Radio
+        label={transI18n('fcr_group_assign_manually')}
+        checked={type === 2}
+        onChange={handleChangeType(2)}
+      />
       <div className="fcr-breakout-room__create-panel-buttons">
-        <Button size="XS" styleType="gray" onClick={onClose}>
+        <Button size="XS" styleType="gray" onClick={onClose} shape="rounded">
           {transI18n('fcr_group_create_group_no')}
         </Button>
-        <Button size="XS" onClick={handleRecreate}>
+        <Button size="XS" onClick={handleRecreate} shape="rounded">
           {transI18n('fcr_group_create_group_yes')}
         </Button>
       </div>

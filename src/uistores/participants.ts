@@ -51,20 +51,19 @@ export class ParticipantsUIStore extends EduUIStoreBase {
     const { groupUuidByUserUuid } = this.classroomStore.groupStore;
     const { list } = iterateMap(this.classroomStore.userStore.users, {
       onFilter: (_, item) => {
-        const currentRoomId = this.classroomStore.connectionStore?.scene?.sceneId;
-        const userGroupUuid = groupUuidByUserUuid.get(item.userUuid) || currentRoomId;
-
         return (
-          currentRoomId === userGroupUuid &&
-          (item.userRole === EduRoleTypeEnum.teacher || item.userRole === EduRoleTypeEnum.student)
+          item.userRole === EduRoleTypeEnum.teacher || item.userRole === EduRoleTypeEnum.student
         );
       },
       onMap: (_, item) => {
         const stream = this.getters.userCameraStreamByUserUuid(item.userUuid);
         const uiStream = stream ? new EduStreamUI(stream) : undefined;
+        const currentRoomId = this.classroomStore.connectionStore?.scene?.sceneId;
+        const userGroupUuid = groupUuidByUserUuid.get(item.userUuid) || currentRoomId;
         return {
           user: item,
           stream: uiStream,
+          notAllowed: currentRoomId !== userGroupUuid,
         };
       },
     });

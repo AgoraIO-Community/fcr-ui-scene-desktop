@@ -178,6 +178,9 @@ export const GroupedList = observer(
         onOk: () => {
           removeGroup(groupId);
         },
+        okButtonProps: {
+          styleType: 'danger',
+        },
       });
     };
 
