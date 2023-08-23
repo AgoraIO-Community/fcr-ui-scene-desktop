@@ -18,7 +18,10 @@ export const Leave = observer(() => {
   } = useStore();
 
   return currentSubRoomInfo ? (
-    <ToolTip content={transI18n('fcr_room_tips_leave')}>
+    <ToolTip
+      content={
+        <div className="fcr-leave-tips">{transI18n('fcr_room_tips_leave_breakout_room')}</div>
+      }>
       <ActionBarItem
         classNames="fcr-leave-subroom-action"
         onClick={() => setShowLeaveOption(true, 2)}
@@ -29,7 +32,7 @@ export const Leave = observer(() => {
         text={transI18n('fcr_room_button_join_error_leave')}></ActionBarItem>
     </ToolTip>
   ) : (
-    <ToolTip content={transI18n('fcr_room_button_leave')}>
+    <ToolTip content={<div className="fcr-leave-tips">{transI18n('fcr_room_tips_leave')}</div>}>
       <ActionBarItem
         classNames="fcr-leave-room-action"
         onClick={() => setShowLeaveOption(true, 1)}

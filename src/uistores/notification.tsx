@@ -295,7 +295,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
                     {
                       text: transI18n('fcr_room_button_leave'),
                       styleType: 'danger',
-                      onClick: resolve,
+                      onClick: () => resolve(),
                     },
                   ],
                 });

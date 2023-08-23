@@ -58,3 +58,7 @@
   display: flex;
   justify-content: center;
 }
+
+.fcr-leave-tips {
+  white-space: nowrap;
+}

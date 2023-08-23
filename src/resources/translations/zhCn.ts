@@ -66,6 +66,7 @@ export const zhCn = {
   fcr_room_tips_open_cloud: '打开云盘',
   fcr_room_tips_setting: '设置',
   fcr_room_tips_leave: '离开',
+  fcr_room_tips_leave_breakout_room: '离开此小组',
   fcr_room_tips_authorize_open_whiteboard: '请先开启白板',
   fcr_room_button_microphone: '麦克风',
   fcr_room_button_camera: '摄像头',

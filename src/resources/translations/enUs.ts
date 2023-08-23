@@ -68,6 +68,7 @@ export const enUs = {
   fcr_room_tips_open_cloud: 'Open Cloud',
   fcr_room_tips_setting: 'Setting',
   fcr_room_tips_leave: 'Leave',
+  fcr_room_tips_leave_breakout_room: 'Leave this breakroom',
   fcr_room_tips_authorize_open_whiteboard:
     'Please open the whiteboard first and then authorize the access',
   fcr_room_button_microphone: 'Microphone',

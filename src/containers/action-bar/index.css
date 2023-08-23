@@ -55,6 +55,9 @@
   line-height: 12px;
   padding: 0 8px;
 }
+.fcr-action-bar-item-text span {
+  white-space: nowrap;
+}
 .fcr-action-bar-cancel-leave {
   margin-right: 15px;
   margin-left: auto;
