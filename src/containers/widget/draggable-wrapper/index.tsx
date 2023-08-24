@@ -62,6 +62,14 @@ export const WidgetDraggableWrapper = observer(
           messageType: AgoraExtensionWidgetEvent.SetFullscreen,
           onMessage: handleWidgetFullscreenChanged,
         });
+        widgetController.addBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.UpdateSize,
+          onMessage: handleWidgetSizeChanged,
+        });
+        widgetController.addBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.UpdatePosition,
+          onMessage: handleWidgetPositionChanged,
+        });
       }
       return () => {
         widgetController?.removeBroadcastListener({
@@ -94,6 +102,32 @@ export const WidgetDraggableWrapper = observer(
       }
       return observer.disconnect;
     }, []);
+    const handleWidgetSizeChanged = ({
+      widgetId,
+      size,
+    }: {
+      widgetId: string;
+      size: { width: number; height: number };
+    }) => {
+      if (widgetId === widget.widgetId) {
+        if (rndInstance.current) {
+          rndInstance.current.updateSize(size);
+        }
+      }
+    };
+    const handleWidgetPositionChanged = ({
+      widgetId,
+      position,
+    }: {
+      widgetId: string;
+      position: { x: number; y: number };
+    }) => {
+      if (widgetId === widget.widgetId) {
+        if (rndInstance.current) {
+          rndInstance.current.updatePosition(position);
+        }
+      }
+    };
     const handleWidgetBecomeActive = ({ widgetId }: { widgetId: string }) => {
       if (widgetId === widget.widgetId) {
         zIndexController.updateZIndex(widget.widgetId);

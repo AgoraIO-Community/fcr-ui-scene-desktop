@@ -311,6 +311,16 @@ export class ActionBarUIStore extends EduUIStoreBase {
     );
     this._disposers.push(
       reaction(
+        () => this.isScreenSharing,
+        () => {
+          if (this.isScreenSharing && this.getters.isBoardWidgetActive && this.getters.isHost) {
+            this.getters.boardApi.disable();
+          }
+        },
+      ),
+    );
+    this._disposers.push(
+      reaction(
         () => this.screenShareStateAccessor,
         (value) => {
           const { trackState, classroomState } = value;

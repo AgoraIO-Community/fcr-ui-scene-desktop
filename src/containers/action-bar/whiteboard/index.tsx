@@ -28,7 +28,9 @@ export const Whiteboard = observer(() => {
   return (
     <ToolTip
       content={
-        isBoardWidgetActive
+        isLocalScreenSharing
+          ? transI18n('fcr_screen_share_switch_white_broad')
+          : isBoardWidgetActive
           ? transI18n('fcr_room_tips_close_whiteboard')
           : transI18n('fcr_room_tips_open_whiteboard')
       }>

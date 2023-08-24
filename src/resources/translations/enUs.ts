@@ -609,4 +609,5 @@ export const enUs = {
   fcr_layout_cannot_switch_while_board_openning:
     'You cannot switch to grid view when opening the whiteboard',
   fcr_group_in_group_discussion: 'In Group Discussion',
+  fcr_screen_share_switch_white_broad: 'You cannot open the whtie broad when screen sharing.',
 };
