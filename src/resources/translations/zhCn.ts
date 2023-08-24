@@ -19,8 +19,8 @@ export const zhCn = {
   fcr_device_tips_disable_speaker: '关闭扬声器',
   fcr_device_tips_enable_speaker: '开启扬声器',
   fcr_device_tips_mirror: '镜像',
-  fcr_device_tips_background: '使用虚拟背景前，请先打开摄像头',
-  fcr_device_tips_beauty_filter: '使用美颜功能前，请先打开摄像头',
+  fcr_device_tips_background: '使用虚拟背景前，请先打开摄像头。',
+  fcr_device_tips_beauty_filter: '使用美颜功能前，请先打开摄像头。',
   fcr_device_button_join: '进入教室',
   fcr_device_button_test: '测试',
   fcr_device_label_setting: '设置',
@@ -40,7 +40,7 @@ export const zhCn = {
   fcr_room_label_layout: '布局',
   fcr_room_label_join_error: '加入异常',
   fcr_room_label_error_class_end: '课程已结束 ！',
-  fcr_room_label_class_ended_title: '课程已结束 ',
+  fcr_room_label_class_ended_title: '课程已结束 ！',
   fcr_room_label_class_ended_content: '请点击按钮离开教室',
   fcr_room_tips_network_connection: '网络状况',
   fcr_room_tips_invite: '邀请',
@@ -67,7 +67,7 @@ export const zhCn = {
   fcr_room_tips_setting: '设置',
   fcr_room_tips_leave: '离开',
   fcr_room_tips_leave_breakout_room: '离开此小组',
-  fcr_room_tips_authorize_open_whiteboard: '请先开启白板',
+  fcr_room_tips_authorize_open_whiteboard: '请先开启白板。',
   fcr_room_button_microphone: '麦克风',
   fcr_room_button_camera: '摄像头',
   fcr_room_button_participants: '花名册',
@@ -81,8 +81,12 @@ export const zhCn = {
   fcr_room_button_leave: '离开',
   fcr_room_button_join_error_leave: '离开房间',
   fcr_room_button_ok: '确定',
-  fcr_room_tips_reward_congratulation_single: '祝贺{reason}获得奖励',
-  fcr_room_tips_reward_congratulation_multiplayer: '祝贺{reason1}等{reason2}位同学获得奖励',
+
+  //reason为获得奖励的学生名字
+  fcr_room_tips_reward_congratulation_single: '祝贺{reason}获得奖励。',
+
+  //reason1为获得奖励的学生名字，reason2学生数量
+  fcr_room_tips_reward_congratulation_multiplayer: '祝贺{reason1}等{reason2}位同学获得奖励。',
 
   //****************** 邀请Invite ******************
   fcr_invite_label_title: '分享链接和房间号',
@@ -91,8 +95,8 @@ export const zhCn = {
   fcr_invite_label_room_name: '{reason1}',
   fcr_invite_label_room_id: '房间 ID',
   fcr_invite_label_invite_link: '房间链接',
-  fcr_invite_tips_copy_room_id: '房间号已复制到剪贴板',
-  fcr_invite_tips_copy_invite: '邀请链接已复制到剪贴板',
+  fcr_invite_tips_copy_room_id: '房间号已复制到剪贴板。',
+  fcr_invite_tips_copy_invite: '邀请链接已复制到剪贴板。',
 
   //****************** 网络状态 Network ******************
   fcr_network_label_network_connection: '网络状况',
@@ -148,15 +152,15 @@ export const zhCn = {
   fcr_user_button_kick_out_submit: '确定',
   fcr_user_button_kick_out_cancel: '取消',
   fcr_user_tips_kick_out_notice: '离开教室',
-  fcr_user_tips_local_kick_out: '你被移出教室',
+  fcr_user_tips_local_kick_out: '你被移出教室。',
   fcr_user_tips_teacher_start_video_title: '请求开启视频',
   fcr_user_tips_teacher_start_video_content: '老师请求您开启视频',
   fcr_user_tips_teacher_unmute_title: '请求解除禁言',
   fcr_user_tips_teacher_unmute_content: '老师请求您解除禁言',
   fcr_user_tips_banned_video: '你已被停止视频',
-  fcr_user_tips_banned_video_content: '您可以举手向老师申请开启视频',
+  fcr_user_tips_banned_video_content: '您可以举手向老师申请开启视频。',
   fcr_user_tips_muted: '你已被禁言',
-  fcr_user_tips_muted_content: '您可以举手向老师申请解除禁言',
+  fcr_user_tips_muted_content: '您可以举手向老师申请解除禁言。',
   fcr_user_tips_button_remove: '移出',
   fcr_user_tips_button_cancel: '取消',
 
@@ -187,7 +191,6 @@ export const zhCn = {
 
   //xxx举手人数
   fcr_participants_tips_student_rasie_hand: '人举手,请点击查看',
-
   fcr_participants_tips_student_in_breakoutroom: '学生不在房间内，无法操作',
 
   //****************** 聊天Chat ******************
@@ -271,7 +274,7 @@ export const zhCn = {
   fcr_savecanvas_tips_save_successfully: '保存成功',
   fcr_savecanvas_tips_save_failed: '保存失败',
   fcr_savecanvas_tips_save_failed_tips:
-    '请在系统的“设置-隐私-照片”选项中，允许灵动课堂访问你的手机照片',
+    '请在系统的“设置-隐私-照片”选项中，允许灵动课堂访问你的手机照片。',
   fcr_savecanvas_tips_saving: '正在导出，请稍后...',
 
   //****************** 在线课件onlinecourseware ******************
@@ -294,7 +297,7 @@ export const zhCn = {
   fcr_record_start: '你确定要开始录制吗？',
 
   //录制准备提示
-  fcr_record_waiting: '录制正在准备，请稍后',
+  fcr_record_waiting: '录制正在准备，请稍后。',
 
   //结束录制提示
   fcr_record_stop: '你确定要停止录制吗？',
@@ -305,14 +308,14 @@ export const zhCn = {
 
   //****************** 分组 Group ******************
   fcr_group_help_title: '请求帮助',
-  fcr_group_help_content: '你可以邀请老师进入小组帮助你',
-  fcr_group_help_teacher_busy_msg: '老师正在忙，请稍后重试',
-  fcr_group_teacher_is_helping_others_msg: '老师正在帮助其他讨论组，请稍后重试',
-  fcr_group_teacher_exist_hint: '老师已在小组内',
+  fcr_group_help_content: '你可以邀请老师进入小组帮助你。',
+  fcr_group_help_teacher_busy_msg: '老师正在忙，请稍后重试。',
+  fcr_group_teacher_is_helping_others_msg: '老师正在帮助其他讨论组，请稍后重试。',
+  fcr_group_teacher_exist_hint: '老师已在小组内。',
   fcr_group_button_invite: '邀请',
 
   //xxx为分组名
-  fcr_group_invitation: '老师邀请您加入{reason1}',
+  fcr_group_invitation: '老师邀请您加入{reason1}。',
   fcr_group_button_join: '加入',
   fcr_group_button_later: '稍后',
 
@@ -322,19 +325,19 @@ export const zhCn = {
   fcr_group_enter_welcome: '欢迎加入{组名}与大家互动讨论',
 
   //xxx为角色，yyy为名字
-  fcr_group_enter_group: '{reason1}{reason2}进入小组',
+  fcr_group_enter_group: '{reason1}{reason2}进入小组。',
 
   //xxx为角色，yyy为名字
-  fcr_group_exit_group: '{reason1}{reason2}离开小组',
-  fcr_group_close_group: '老师结束了小组讨论',
-  fcr_group_invite_back_main_room: '老师邀请你回到大房间',
+  fcr_group_exit_group: '{reason1}{reason2}离开小组。',
+  fcr_group_close_group: '老师结束了小组讨论。',
+  fcr_group_invite_back_main_room: '老师邀请你回到大房间。',
   fcr_group_back_main_room: '正在回到大房间...',
 
   //结束分组讨论提示
   fcr_group_tips_title_close_group: '确定要结束分组讨论？',
 
   //结束分组讨论描述文案
-  fcr_group_tips_content_close_group: '结束后，所有学员将返回大教室',
+  fcr_group_tips_content_close_group: '结束后，所有学员将返回大教室。',
 
   //弹窗提示返回大房间，还是小房间时
   fcr_group_back_sure: '确定',
@@ -367,11 +370,11 @@ export const zhCn = {
   //分组人数上限
   fcr_group_tips_group_is_full: '分组里人员已经达{reason1}人上限',
   fcr_group_tips_no_groups_to_start: '请先创建分组',
-  fcr_group_tips_initializing: '分组正在初始化，请等待',
-  fcr_group_tips_stopping: '分组正在关闭，请等待',
+  fcr_group_tips_initializing: '分组正在初始化，请等待...',
+  fcr_group_tips_stopping: '分组正在关闭，请等待...',
   fcr_group_tips_already_in_group: '你已经在分组里',
-  fcr_group_tips_joining: '正在进入分组，请等待',
-  fcr_group_tips_leaving: '正在离开分组，请等待',
+  fcr_group_tips_joining: '正在进入分组，请等待...',
+  fcr_group_tips_leaving: '正在离开分组，请等待...',
   fcr_group_label_default_name: '分组',
   fcr_group_confirm_ask_for_help: '{reason1}在分组{reason2}请求帮助',
   fcr_group_not_now: '稍后',
@@ -398,8 +401,8 @@ export const zhCn = {
   fcr_group_delete_room_title: '删除分组',
 
   //分组名字
-  fcr_group_delete_room_confirm: '确定要删除xxx分组吗？',
-  fcr_group_tips_ask_help: '有学生在分组里请求帮助',
+  fcr_group_delete_room_confirm: '确定要删除 {reason1} 分组吗？',
+  fcr_group_tips_ask_help: '有学生在分组里请求帮助。',
   fcr_group_button_delete: '删除',
   fcr_group_button_rename: '重命名',
   fcr_group_button_move_to: '移动至',
@@ -417,80 +420,11 @@ export const zhCn = {
 
   //待分配人
   fcr_group_tips_persons_per_group1: '待分配{reason1}人',
-  fcr_group_tips_persons_per_group2: '，每个组xxx人',
-
-  //****************** 答题器PopupQuiz ******************
-
-  //答题器标题
-  fcr_popup_quiz: '答题器',
-
-  //提交答案
-  fcr_popup_quiz_post: '提交答案',
-
-  //修改答案
-  fcr_popup_quiz_change: '修改答案',
-
-  //结束答题时，已答题人数
-  fcr_popup_quiz_submission: '已答题人数',
-
-  //结束答题时，正确率
-  fcr_popup_quiz_accuracy: '正确率',
-
-  //结束答题时，正确答案
-  fcr_popup_quiz_correct: '正确答案',
-
-  //结束答题时，我的答案
-  fcr_popup_quiz_my_answer: '我的答案',
-  fcr_popup_quiz_start_again: '重新开始',
-  fcr_popup_quiz_answer_time: '答题用时',
-  fcr_popup_quiz_start_answer: '开始答题',
-  fcr_popup_quiz_end_answer: '结束答题',
-  fcr_popup_quiz_student_name: '学生姓名',
-  fcr_popup_quiz_student_answer: '所选答案',
-
-  //****************** 投票器Poll ******************
-
-  //投票器标题
-  fcr_poll_title: '投票',
-
-  //提交投票按钮标题
-  fcr_poll_submit: '投票',
-
-  //投票选项方式-多选
-  fcr_poll_multi: '多选',
-
-  //投票选项方式-单选
-  fcr_poll_single: '单选',
-
-  //发起投票按钮标题
-  fcr_poll_start: '开始投票',
-
-  //提示输入投票内容
-  fcr_poll_input_placeholder: '请输入投票内容',
-
-  //提示输入选项
-  fcr_poll_input_option: '请输入选项',
-  fcr_poll_vote_title: '请输入投票问题',
-  fcr_poll_something_wrong: '发生错误',
-  fcr_poll_submit_server_error: '发生错误',
-  fcr_poll_state_ended: '已结束',
-  fcr_poll_state_in_progress: '进行中',
-  fcr_poll_enter_placeholder: '请输入',
-  fcr_poll_minimization: '最小化',
-  fcr_poll_close: '关闭',
-  fcr_poll_unable_to_close: '关闭前，请结束本轮投票',
-  fcr_poll_people_participated: '参与人数',
-
-  //****************** 倒计时CountdownTimer ******************
-
-  //倒计时标题
-  fcr_countdown_timer_title: '倒计时',
-
-  //倒计时 开始
-  fcr_tool_box_start: '开始',
-
-  //倒计时单位
-  fcr_tool_box_unit_second: '(秒)',
+  fcr_group_tips_persons_per_group2: '，每个组{reason1}人',
+  fcr_group_label_create_room: '创建分组',
+  fcr_group_label_manage_group: '管理分组',
+  fcr_group_label_end_discuss: '结束讨论',
+  fcr_group_label_instructions: '使用说明',
 
   //****************** 云盘Cloud ******************
   fcr_cloud_file_name: '文件名',
@@ -515,8 +449,8 @@ export const zhCn = {
   fcr_cloud_button_retry: '再次上传',
   fcr_cloud_upload_status_failed: '上传错误',
   fcr_cloud_upload_status_done: '已完成',
-  fcr_cloud_tips_close_during_uploading: '正在上传文件，请不要关闭页面',
-  fcr_cloud_tips_upload_private_disk: '你可以上传文件到个人资源',
+  fcr_cloud_tips_close_during_uploading: '正在上传文件，请不要关闭页面。',
+  fcr_cloud_tips_upload_private_disk: '你可以上传文件到个人资源。',
   fcr_cloud_tips_supported_formats: '支持格式',
   fcr_cloud_label_format: '支持格式',
   fcr_cloud_tips_open_whiteboard_content: '该文件需要打开白板才能使用，是否继续打开？',
@@ -532,8 +466,8 @@ export const zhCn = {
   fcr_tool_box_popup_quiz: '答题器',
 
   //****************** 白板Board ******************
-  fcr_board_granted: '你已被老师授权，请使用白板工具互动',
-  fcr_board_ungranted: '你已被老师收回授权，无法使用白板工具互动',
+  fcr_board_granted: '你已被老师授权，请使用白板工具互动。',
+  fcr_board_ungranted: '你已被老师收回授权，无法使用白板工具互动。',
   fcr_board_tool_eraser: '橡皮擦',
   fcr_board_tool_extra: '更多',
   fcr_board_tool_undo: '撤销',
@@ -553,7 +487,7 @@ export const zhCn = {
   fcr_board_hide_pageration: '隐藏页码',
   fcr_board_display_name: '白板',
   fcr_device_tips_no_device: '没有设备',
-  fcr_device_tips_mirror_turo_on_camera: '使用镜像功能前，请先打开摄像头',
+  fcr_device_tips_mirror_turo_on_camera: '使用镜像功能前，请先打开摄像头。',
 
   //****************** 录制 Record ******************
   fcr_record_label_paused: '暂停',
@@ -589,11 +523,11 @@ export const zhCn = {
   //****************** Error 错误提示 ******************
   fcr_unknown_error_occurred: '发生未知错误',
   fcr_user_tips_capture_screen_permission_title: '警告',
-  fcr_user_tips_capture_screen_permission_content: '在使用屏幕共享前，请先授权屏幕录制功能',
+  fcr_user_tips_capture_screen_permission_content: '在使用屏幕共享前，请先授权屏幕录制功能。',
   fcr_user_tips_local_kick_out_ok: '离开教室',
   fcr_user_tips_local_prohibited: '禁止加入房间',
-  fcr_layout_cannot_switch_while_screen_sharing: '开启屏幕分享时，不能切换宫格模式',
-  fcr_layout_cannot_switch_while_board_openning: '开启白板时，不能切换宫格模式',
+  fcr_layout_cannot_switch_while_screen_sharing: '开启屏幕分享时，不能切换宫格模式。',
+  fcr_layout_cannot_switch_while_board_openning: '开启白板时，不能切换宫格模式。',
   fcr_group_in_group_discussion: '分组讨论中',
   fcr_screen_share_switch_white_broad: '开启屏幕分享时，无法打开白板',
 };

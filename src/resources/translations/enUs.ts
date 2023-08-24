@@ -20,9 +20,9 @@ export const enUs = {
   fcr_device_tips_enable_speaker: 'Enable speaker',
   fcr_device_tips_mirror: 'Mirror',
   fcr_device_tips_background:
-    'Before using and previewing background effects，please start the camera',
+    'Before using and previewing background effects，please start the camera.',
   fcr_device_tips_beauty_filter:
-    'Before using and previewing beauty filter effects，please start the camera',
+    'Before using and previewing beauty filter effects，please start the camera.',
   fcr_device_button_join: 'Join',
   fcr_device_button_test: 'Test',
   fcr_device_label_setting: 'Setting',
@@ -42,7 +42,7 @@ export const enUs = {
   fcr_room_label_layout: 'Layout',
   fcr_room_label_join_error: 'Join Error',
   fcr_room_label_error_class_end: 'The Class has ended !',
-  fcr_room_label_class_ended_title: 'The Class has ended',
+  fcr_room_label_class_ended_title: 'The Class has ended ！',
   fcr_room_label_class_ended_content: 'Please click the button to leave the classroom.',
   fcr_room_tips_network_connection: 'Network Connection ',
   fcr_room_tips_invite: 'Invite',
@@ -70,7 +70,7 @@ export const enUs = {
   fcr_room_tips_leave: 'Leave',
   fcr_room_tips_leave_breakout_room: 'Leave this breakroom',
   fcr_room_tips_authorize_open_whiteboard:
-    'Please open the whiteboard first and then authorize the access',
+    'Please open the whiteboard first and then authorize the access.',
   fcr_room_button_microphone: 'Microphone',
   fcr_room_button_camera: 'Camera',
   fcr_room_button_participants: 'Participants',
@@ -84,9 +84,15 @@ export const enUs = {
   fcr_room_button_leave: 'Leave',
   fcr_room_button_join_error_leave: 'Leave the room',
   fcr_room_button_ok: 'OK',
-  fcr_room_tips_reward_congratulation_single: 'Congratulations to {reason} for receiving the award',
+
+  //reason为获得奖励的学生名字
+  fcr_room_tips_reward_congratulation_single:
+    'Congratulations to {reason} for receiving the award.',
+
+  //reason1为获得奖励的学生名字，reason2学生数量
   fcr_room_tips_reward_congratulation_multiplayer:
-    'Congratulations to {reason2} students, including {reason1}, for receiving awards',
+    'Congratulations to {reason2} students, including {reason1}, for receiving awards.',
+
   //****************** 邀请Invite ******************
   fcr_invite_label_title: 'Share link and ID',
 
@@ -94,8 +100,8 @@ export const enUs = {
   fcr_invite_label_room_name: '{reason1}',
   fcr_invite_label_room_id: 'Room ID',
   fcr_invite_label_invite_link: 'Link',
-  fcr_invite_tips_copy_room_id: 'Room ID copied to clipboard',
-  fcr_invite_tips_copy_invite: 'Invitation link copied to clipboard',
+  fcr_invite_tips_copy_room_id: 'Room ID copied to clipboard.',
+  fcr_invite_tips_copy_invite: 'Invitation link copied to clipboard.',
 
   //****************** 网络状态 Network ******************
   fcr_network_label_network_connection: 'Network Connection',
@@ -151,7 +157,7 @@ export const enUs = {
   fcr_user_button_kick_out_submit: 'Confirm',
   fcr_user_button_kick_out_cancel: 'Cancel',
   fcr_user_tips_kick_out_notice: 'Leave Classroom',
-  fcr_user_tips_local_kick_out: 'You have been removed from the classroom by the teacher',
+  fcr_user_tips_local_kick_out: 'You have been removed from the classroom by the teacher.',
   fcr_user_tips_teacher_start_video_title: 'Request to start video',
   fcr_user_tips_teacher_start_video_content: 'Teacher requests to start video',
   fcr_user_tips_teacher_unmute_title: 'Request to unmute',
@@ -189,8 +195,7 @@ export const enUs = {
   fcr_participants_tips_lower_all_hand: 'Lower All Hands',
 
   //xxx举手人数
-  fcr_participants_tips_student_rasie_hand: '人举手,请点击查看',
-
+  fcr_participants_tips_student_rasie_hand: 'people raised hand,please click to view',
   fcr_participants_tips_student_in_breakoutroom:
     'The student is not in the room, it is not possible to operate',
 
@@ -275,7 +280,7 @@ export const enUs = {
   fcr_savecanvas_tips_save_successfully: 'Save successfully',
   fcr_savecanvas_tips_save_failed: 'Save failed',
   fcr_savecanvas_tips_save_failed_tips:
-    'Allow flexible classroom to access your Photos in "Setting"->"Privacy"->"Photos"',
+    'Allow flexible classroom to access your Photos in "Setting"->"Privacy"->"Photos".',
   fcr_savecanvas_tips_saving: 'outputing, please wait',
 
   //****************** 在线课件onlinecourseware ******************
@@ -318,7 +323,7 @@ export const enUs = {
   fcr_group_button_invite: 'Invite',
 
   //xxx为分组名
-  fcr_group_invitation: 'Teacher is inviting you to join {reason1}',
+  fcr_group_invitation: 'Teacher is inviting you to join {reason1}。',
   fcr_group_button_join: 'Join',
   fcr_group_button_later: 'Later',
 
@@ -328,12 +333,12 @@ export const enUs = {
   fcr_group_enter_welcome: 'welcome to {reason1}',
 
   //xxx为角色，yyy为名字
-  fcr_group_enter_group: '{reason1}{reason2} has joined the group',
+  fcr_group_enter_group: '{reason1}{reason2} has joined the group.',
 
   //xxx为角色，yyy为名字
-  fcr_group_exit_group: '{reason1}{reason2} has left the group',
-  fcr_group_close_group: 'The teacher has closed all rooms',
-  fcr_group_invite_back_main_room: 'The teacher is inviting you to return to main room',
+  fcr_group_exit_group: '{reason1}{reason2} has left the group.',
+  fcr_group_close_group: 'The teacher has closed all rooms.',
+  fcr_group_invite_back_main_room: 'The teacher is inviting you to return to main room.',
   fcr_group_back_main_room: 'Returning to main session...',
 
   //结束分组讨论提示
@@ -406,7 +411,7 @@ export const enUs = {
 
   //分组名字
   fcr_group_delete_room_confirm: 'Are you sure you want to delete the {reason1} group',
-  fcr_group_tips_ask_help: 'Someone in the group is asking for help',
+  fcr_group_tips_ask_help: 'Someone in the group is asking for help.',
   fcr_group_button_delete: 'Delete',
   fcr_group_button_rename: 'Rename',
   fcr_group_button_move_to: 'Move to',
@@ -424,80 +429,11 @@ export const enUs = {
 
   //待分配人
   fcr_group_tips_persons_per_group1: 'To be assigned {reason1} persons',
-  fcr_group_tips_persons_per_group2: ', per group {reason2} persons',
-
-  //****************** 答题器PopupQuiz ******************
-
-  //答题器标题
-  fcr_popup_quiz: 'Popup quiz answerer',
-
-  //提交答案
-  fcr_popup_quiz_post: 'Submit the answer',
-
-  //修改答案
-  fcr_popup_quiz_change: 'Change My Answer',
-
-  //结束答题时，已答题人数
-  fcr_popup_quiz_submission: 'Submitted',
-
-  //结束答题时，正确率
-  fcr_popup_quiz_accuracy: 'Accuracy',
-
-  //结束答题时，正确答案
-  fcr_popup_quiz_correct: 'The correct Answer',
-
-  //结束答题时，我的答案
-  fcr_popup_quiz_my_answer: 'My Answer',
-  fcr_popup_quiz_start_again: 'restart',
-  fcr_popup_quiz_answer_time: 'Time elapsed',
-  fcr_popup_quiz_start_answer: 'Start the quiz',
-  fcr_popup_quiz_end_answer: 'End the quiz',
-  fcr_popup_quiz_student_name: 'Name',
-  fcr_popup_quiz_student_answer: 'Answer',
-
-  //****************** 投票器Poll ******************
-
-  //投票器标题
-  fcr_poll_title: 'Poll',
-
-  //提交投票按钮标题
-  fcr_poll_submit: 'Submit',
-
-  //投票选项方式-多选
-  fcr_poll_multi: 'Multi select',
-
-  //投票选项方式-单选
-  fcr_poll_single: 'Single select',
-
-  //发起投票按钮标题
-  fcr_poll_start: 'Start',
-
-  //提示输入投票内容
-  fcr_poll_input_placeholder: 'Please input the question',
-
-  //提示输入选项
-  fcr_poll_input_option: 'Please input choices',
-  fcr_poll_vote_title: 'Create polling',
-  fcr_poll_something_wrong: 'Something is wrong',
-  fcr_poll_submit_server_error: 'something is wrong',
-  fcr_poll_state_ended: 'Ended',
-  fcr_poll_state_in_progress: 'In Progress',
-  fcr_poll_enter_placeholder: 'Please enter...',
-  fcr_poll_minimization: 'Minimization',
-  fcr_poll_close: 'Close',
-  fcr_poll_unable_to_close: 'Please end the current round of voting before closing the polls.',
-  fcr_poll_people_participated: 'People Participated',
-
-  //****************** 倒计时CountdownTimer ******************
-
-  //倒计时标题
-  fcr_countdown_timer_title: 'Countdown Timer',
-
-  //倒计时 开始
-  fcr_tool_box_start: 'Start',
-
-  //倒计时单位
-  fcr_tool_box_unit_second: '(second)',
+  fcr_group_tips_persons_per_group2: ', per group {reason1} persons',
+  fcr_group_label_create_room: 'Create Group',
+  fcr_group_label_manage_group: 'Manage Group',
+  fcr_group_label_end_discuss: 'End Discuss',
+  fcr_group_label_instructions: 'Instructions for the use process',
 
   //****************** 云盘Cloud ******************
   fcr_cloud_file_name: 'File Name',
@@ -524,7 +460,7 @@ export const enUs = {
   fcr_cloud_upload_status_done: 'Done',
   fcr_cloud_tips_close_during_uploading:
     'Please do not close the webpage during the uploading process.',
-  fcr_cloud_tips_upload_private_disk: 'You can upload document to private network disk',
+  fcr_cloud_tips_upload_private_disk: 'You can upload document to private network disk.',
   fcr_cloud_tips_supported_formats: 'Supported file formats in the room',
   fcr_cloud_label_format: 'Format',
   fcr_cloud_tips_open_whiteboard_content:
@@ -560,10 +496,10 @@ export const enUs = {
   fcr_board_new_page: 'New page',
   fcr_board_show_pageration: 'Show Pageration',
   fcr_board_hide_pageration: 'Hide Pageration',
-  fcr_board_display_name: 'whiteboard',
+  fcr_board_display_name: 'Whiteboard',
   fcr_device_tips_no_device: 'No device',
   fcr_device_tips_mirror_turo_on_camera:
-    'Before using and previewing mirror effects，please start the camera',
+    'Before using and previewing mirror effects，please start the camera.',
 
   //****************** 录制 Record ******************
   fcr_record_label_paused: 'Paused',
@@ -590,13 +526,6 @@ export const enUs = {
   //****************** 花名册Participants ******************
   fcr_participants_label_search: 'Search',
 
-  //****************** 插件Widget ******************
-  fcr_widget_close: 'Close',
-  fcr_widget_refresh: 'Refresh',
-  fcr_widget_minimization: 'Minimization',
-  fcr_widget_exit_adaptation: 'Exit Adaptation',
-  fcr_widget_adapt_to_viewport: 'Adapt to Viewport',
-
   //****************** Error 错误提示 ******************
   fcr_unknown_error_occurred: 'Unknown error occured',
   fcr_user_tips_capture_screen_permission_title: 'Notice',
@@ -605,9 +534,9 @@ export const enUs = {
   fcr_user_tips_local_kick_out_ok: 'Leave',
   fcr_user_tips_local_prohibited: 'Prohibited',
   fcr_layout_cannot_switch_while_screen_sharing:
-    'You cannot switch to grid view when screen sharing',
+    'You cannot switch to grid view when screen sharing.',
   fcr_layout_cannot_switch_while_board_openning:
-    'You cannot switch to grid view when opening the whiteboard',
+    'You cannot switch to grid view when opening the whiteboard.',
   fcr_group_in_group_discussion: 'In Group Discussion',
   fcr_screen_share_switch_white_broad: 'You cannot open the whtie broad when screen sharing.',
 };

@@ -316,16 +316,16 @@ export const WizardCreate = observer(() => {
 
             <div className="fcr-breakout-room__instructions">
               <div className="fcr-breakout-room__instructions-title">
-                Instructions for the Use Process
+                {transI18n('fcr_group_label_instructions')}
               </div>
               {/* divider */}
               <div className="fcr-breakout-room__widget-dialog-divider" />
               <div className="fcr-breakout-room__instructions-steps">
-                <div>Create Rooms</div>
+                <div>{transI18n('fcr_group_label_create_room')}</div>
                 <SvgImg type={SvgIconEnum.FCR_WIZARD_ARROW} size={42} />
-                <div>Manage Group</div>
+                <div>{transI18n('fcr_group_label_manage_group')}</div>
                 <SvgImg type={SvgIconEnum.FCR_WIZARD_ARROW} size={42} />
-                <div>End discuss</div>
+                <div>{transI18n('fcr_group_label_end_discuss')}</div>
               </div>
             </div>
           </div>
