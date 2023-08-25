@@ -29,6 +29,7 @@ export const Chat = observer(() => {
           chatVisible ? transI18n('fcr_room_tips_close_chat') : transI18n('fcr_room_tips_open_chat')
         }>
         <ActionBarItem
+          classNames="fcr-action-bar-chat"
           onClick={() => (chatVisible ? closeChatDialog() : openChatDialog())}
           icon={SvgIconEnum.FCR_CHAT2}
           text={transI18n('fcr_room_button_chat')}></ActionBarItem>
@@ -66,6 +67,7 @@ const FcrChatroomTooltip = observer(() => {
   }, [chatVisible]);
   return (
     <DialogToolTip
+      getTooltipContainer={() => document.querySelector('.fcr-action-bar-chat') as HTMLElement}
       content={
         <FcrChatroomTooltipContent
           onClick={openChatDialog}

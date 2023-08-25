@@ -30,6 +30,7 @@ export const Record = observer(() => {
         content: transI18n('fcr_record_stop'),
         cancelText: transI18n('fcr_record_button_confirm_cancel'),
         okText: transI18n('fcr_record_stop_confirm_ok'),
+        okButtonProps: { styleType: 'danger' },
         onOk: stopRecording,
       });
     }

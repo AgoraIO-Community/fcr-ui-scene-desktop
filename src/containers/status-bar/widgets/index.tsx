@@ -6,6 +6,8 @@ import { ToolTip } from '@components/tooltip';
 import { Popover } from '@components/popover';
 import classnames from 'classnames';
 import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
+import { AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
 export const StatusBarWidgetSlot = observer(() => {
   const { eduToolApi } = useStore();
   const handleClick = (widgetId: string, minimizedCollapsed: boolean) => {
@@ -18,72 +20,55 @@ export const StatusBarWidgetSlot = observer(() => {
     });
   };
   return (
-    <div className="fcr-status-bar-widget-slot">
-      {eduToolApi.minimizedWidgetIcons.reverse().map((item, index) => {
-        if (item instanceof Array) {
-          const firstItem = item[0];
-          const { minimizedIcon } = firstItem;
-          return (
-            <Popover
-              overlayInnerStyle={{
-                width: 207,
-              }}
-              mouseEnterDelay={0}
-              placement="bottom"
-              content={
-                <WidgetMinimizedPopoverContent
-                  widgetList={item}
-                  onClick={(widgetId) => {
-                    handleClick(widgetId, true);
-                  }}></WidgetMinimizedPopoverContent>
-              }>
-              <div
-                className="fcr-minimized-widget-icon fcr-minimized-widget-icon-collapsed"
-                key={index.toString()}>
-                <SvgImg type={minimizedIcon} size={20} />
-                {item.length}
-              </div>
-            </Popover>
-          );
-        } else if (item.widgetId === 'countdownTimer') {
-          const { widgetId, tooltip, icon, extra } = item;
-          const countdownExtra = extra as {
-            current: number;
-          };
-          const current = countdownExtra?.current;
-
-          return (
-            <ToolTip key={widgetId} content={tooltip}>
-              <div
-                className={classnames(
-                  'fcr-minimized-widget-icon',
-                  'fcr-minimized-widget-countdown',
-                  {
-                    'fcr-minimized-widget-countdown-danger': current <= 10 && current > 0,
-                  },
-                )}
-                onClick={() => handleClick(widgetId, false)}
-                key={index.toString()}>
-                <SvgImg type={icon} size={20} />
-                {current !== undefined && dayjs.duration(current, 'seconds').format('mm:ss')}
-              </div>
-            </ToolTip>
-          );
-        } else {
-          const { widgetId, tooltip, icon } = item;
-          return (
-            <ToolTip key={widgetId} content={tooltip}>
-              <div
-                className="fcr-minimized-widget-icon"
-                onClick={() => handleClick(widgetId, false)}
-                key={index.toString()}>
-                <SvgImg type={icon} size={20} />
-              </div>
-            </ToolTip>
-          );
-        }
-      })}
-    </div>
+    <>
+      <CountdownTimerMinimize></CountdownTimerMinimize>
+      <div className="fcr-status-bar-widget-slot">
+        {eduToolApi.minimizedWidgetIcons
+          .filter((i) => !(i instanceof Array) && i.widgetId !== 'countdownTimer')
+          .slice()
+          .reverse()
+          .map((item, index) => {
+            if (item instanceof Array) {
+              const firstItem = item[0];
+              const { minimizedIcon } = firstItem;
+              return (
+                <Popover
+                  overlayInnerStyle={{
+                    width: 207,
+                  }}
+                  mouseEnterDelay={0}
+                  placement="bottom"
+                  content={
+                    <WidgetMinimizedPopoverContent
+                      widgetList={item}
+                      onClick={(widgetId) => {
+                        handleClick(widgetId, true);
+                      }}></WidgetMinimizedPopoverContent>
+                  }>
+                  <div
+                    className="fcr-minimized-widget-icon fcr-minimized-widget-icon-collapsed"
+                    key={index.toString()}>
+                    <SvgImg type={minimizedIcon} size={20} />
+                    {item.length}
+                  </div>
+                </Popover>
+              );
+            } else {
+              const { widgetId, tooltip, icon } = item;
+              return (
+                <ToolTip key={widgetId} content={tooltip}>
+                  <div
+                    className="fcr-minimized-widget-icon"
+                    onClick={() => handleClick(widgetId, false)}
+                    key={index.toString()}>
+                    <SvgImg type={icon} size={20} />
+                  </div>
+                </ToolTip>
+              );
+            }
+          })}
+      </div>
+    </>
   );
 });
 const WidgetMinimizedPopoverContent = (props: {
@@ -118,3 +103,69 @@ const WidgetMinimizedPopoverContent = (props: {
     </div>
   );
 };
+type CountdownTimerStates = {
+  current: number;
+  state: CountdownTimerState;
+  tooltip: string;
+  icon: SvgIconEnum;
+};
+enum CountdownTimerState {
+  STOPPED,
+  RUNNING,
+  PAUSED,
+}
+
+const CountdownTimerMinimize = observer(() => {
+  const {
+    eduToolApi: { isWidgetMinimized, setMinimizedState },
+    widgetUIStore: {
+      widgetInstanceList,
+      classroomStore: {
+        widgetStore: { widgetController },
+      },
+    },
+  } = useStore();
+  const [countdownTimerState, setCountdownTimerState] = useState<CountdownTimerStates>({
+    current: 0,
+    state: CountdownTimerState.STOPPED,
+    tooltip: '',
+    icon: SvgIconEnum.FCR_V2_TIMER,
+  });
+  const countdownTimer = widgetInstanceList.find((w) => w.widgetId === 'countdownTimer');
+  useEffect(() => {
+    if (countdownTimer && widgetController) {
+      widgetController.addBroadcastListener({
+        messageType: AgoraExtensionWidgetEvent.CountdownTimerStateChanged,
+        onMessage: handleCountdownTimerStateChanged,
+      });
+    }
+  }, [countdownTimer, widgetController]);
+  const handleCountdownTimerStateChanged = (states: CountdownTimerStates) => {
+    setCountdownTimerState(states);
+  };
+  const handleClick = () => {
+    if (isWidgetMinimized('countdownTimer')) {
+      setMinimizedState({
+        minimized: false,
+        widgetId: 'countdownTimer',
+        minimizedProperties: {
+          minimizedCollapsed: false,
+        },
+      });
+    }
+  };
+
+  const { current, state, tooltip, icon } = countdownTimerState;
+  return countdownTimer ? (
+    <ToolTip content={tooltip}>
+      <div
+        className={classnames('fcr-minimized-widget-icon', 'fcr-minimized-widget-countdown', {
+          'fcr-minimized-widget-countdown-danger': current <= 10 && current > 0,
+        })}
+        onClick={handleClick}>
+        <SvgImg type={icon} size={20} />
+        {current !== undefined && dayjs.duration(current, 'seconds').format('mm:ss')}
+      </div>
+    </ToolTip>
+  ) : null;
+});

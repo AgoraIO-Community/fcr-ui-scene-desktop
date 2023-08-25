@@ -45,6 +45,9 @@ export const Participants = observer(() => {
           : transI18n('fcr_room_tips_open_participants')
       }>
       <DialogToolTip
+        getTooltipContainer={() =>
+          document.querySelector('.fcr-action-bar-participants-wrapper') as HTMLElement
+        }
         closeable={false}
         overlayClassName="fcr-action-bar-raise-hand-dialog"
         content={

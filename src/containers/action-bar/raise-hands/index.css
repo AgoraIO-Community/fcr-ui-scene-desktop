@@ -1,3 +1,6 @@
+.fcr-action-bar-raise-hand {
+  position: relative;
+}
 .fcr-action-bar-raise-hand-active .fcr-action-bar-item-icon {
   @apply fcr-bg-brand-6 fcr-rounded-8;
   width: 48px;

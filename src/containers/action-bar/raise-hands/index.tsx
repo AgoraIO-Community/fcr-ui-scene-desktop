@@ -36,6 +36,9 @@ const StudentRaiseHands = observer(() => {
       }}
       content={transI18n('fcr_participants_label_raise_hand')}>
       <DialogToolTip
+        getTooltipContainer={() =>
+          document.querySelector('.fcr-action-bar-raise-hand') as HTMLElement
+        }
         overlayClassName="fcr-action-bar-raise-hand-dialog"
         onClose={() => setDialogTooltipVisible(false)}
         visible={dialogTooltipVisible}
@@ -45,7 +48,9 @@ const StudentRaiseHands = observer(() => {
           </span>
         }>
         <ActionBarItem
-          classNames={classnames({ 'fcr-action-bar-raise-hand-active': isHandsUp })}
+          classNames={classnames('fcr-action-bar-raise-hand', {
+            'fcr-action-bar-raise-hand-active': isHandsUp,
+          })}
           onClick={() => {
             isHandsUp ? lowerHand() : raiseHand();
           }}

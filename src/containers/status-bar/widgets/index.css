@@ -2,7 +2,7 @@
   display: flex;
   gap: 5px;
 }
-.fcr-status-bar-widget-slot .fcr-minimized-widget-icon {
+.fcr-minimized-widget-icon {
   @apply fcr-bg-2  fcr-rounded-4 fcr-shadow-line-1-.5;
   height: 28px;
   width: 28px;
@@ -12,7 +12,7 @@
   justify-content: center;
   cursor: pointer;
 }
-.fcr-status-bar-widget-slot .fcr-minimized-widget-icon:hover {
+.fcr-minimized-widget-icon:hover {
   @apply fcr-bg-brand;
 }
 .fcr-minimized-widget-item {
@@ -47,7 +47,7 @@
 .fcr-minimized-widget-container {
   padding: 0 10px 20px;
 }
-.fcr-status-bar-widget-slot .fcr-minimized-widget-icon.fcr-minimized-widget-icon-collapsed {
+.fcr-minimized-widget-icon.fcr-minimized-widget-icon-collapsed {
   @apply fcr-text-1;
   padding: 0 8px 0 2px;
   font-size: 14px;
@@ -61,7 +61,7 @@
   padding: 16px 16px 13px 16px;
 }
 
-.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown {
+.fcr-minimized-widget-countdown {
   @apply fcr-text-1;
   width: auto;
   display: flex;
@@ -70,9 +70,9 @@
   padding-right: 12px;
   padding-left: 4px;
 }
-.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown-danger {
+.fcr-minimized-widget-countdown-danger {
   @apply fcr-bg-red-6;
 }
-.fcr-status-bar-widget-slot .fcr-minimized-widget-countdown-danger:hover {
+.fcr-minimized-widget-countdown-danger:hover {
   @apply fcr-bg-red-7;
 }
