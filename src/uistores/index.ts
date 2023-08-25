@@ -117,7 +117,7 @@ export class OnlineclassUIStore {
       if (AGError.isOf(e as AGError, AGServiceErrorCode.SERV_CANNOT_JOIN_ROOM)) {
         return this.classroomStore.connectionStore.leaveClassroom(
           LeaveReason.kickOut,
-          new Promise((resolve, reject) => {
+          new Promise((resolve) => {
             this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
               title: transI18n('fcr_user_tips_kick_out_notice'),
               content: transI18n('fcr_user_tips_local_kick_out'),

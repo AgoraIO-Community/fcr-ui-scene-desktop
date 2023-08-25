@@ -11,9 +11,8 @@ import { useI18n } from 'agora-common-libs';
 
 export const GroupStatusPanel = observer(() => {
   const {
-    getters: { isBreakoutMinimized },
     layoutUIStore: { showStatusBar, addDialog },
-    breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo, breakoutDialogVisible },
+    breakoutUIStore: { groupState, stopGroup, currentSubRoomInfo },
   } = useStore();
   const transI18n = useI18n();
 
@@ -38,7 +37,7 @@ export const GroupStatusPanel = observer(() => {
     setVisible(false);
   };
 
-  return isTeacher && groupState && (!breakoutDialogVisible || isBreakoutMinimized) ? (
+  return isTeacher && groupState ? (
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}

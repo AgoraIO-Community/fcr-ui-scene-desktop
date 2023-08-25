@@ -64,8 +64,6 @@ export const GroupInfoPanel = observer(() => {
               content: transI18n('fcr_group_teacher_is_helping_others_msg'),
               cancelButtonVisible: false,
             });
-          } else {
-            // this.shareUIStore.addGenericErrorDialog(e as AGError);
           }
         });
       },
