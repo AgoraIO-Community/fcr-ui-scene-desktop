@@ -673,22 +673,22 @@ export class BreakoutUIStore extends EduUIStoreBase {
     this._groupSeq = 0;
 
     if (type === GroupMethod.Manual) {
-      range(0, count).forEach(() => {
+      range(0, count).forEach((i) => {
         const groupDetail = {
           groupName: this._generateGroupName(),
           users: [],
-          sort: this.getLastOrder(),
+          sort: i,
         };
 
         this._localGroups.set(`${uuidv4()}`, groupDetail);
       });
     } else if (type === GroupMethod.Auto) {
       const groupIds: string[] = [];
-      range(0, count).forEach(() => {
+      range(0, count).forEach((i) => {
         const groupDetail = {
           groupName: this._generateGroupName(),
           users: [],
-          sort: this.getLastOrder(),
+          sort: i,
         };
 
         const groupId = `${uuidv4()}`;

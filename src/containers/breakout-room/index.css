@@ -812,7 +812,7 @@
 
 .fcr-breakout-room__ask-for-help-panel .fcr-button {
   height: 100% !important;
-  min-width: unset;
+  min-width: unset !important;
   border-radius: 0 12px 12px 0;
 }
 
