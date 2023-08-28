@@ -29,7 +29,7 @@ export const Leave = observer(() => {
           type: SvgIconEnum.FCR_QUIT2,
           size: 36,
         }}
-        text={transI18n('fcr_room_button_join_error_leave')}></ActionBarItem>
+        text={transI18n('fcr_group_button_leave_group')}></ActionBarItem>
     </ToolTip>
   ) : (
     <ToolTip content={<div className="fcr-leave-tips">{transI18n('fcr_room_tips_leave')}</div>}>
