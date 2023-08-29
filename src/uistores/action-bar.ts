@@ -13,7 +13,6 @@ import {
 import { computedFn } from 'mobx-utils';
 
 import { isElectron } from '@onlineclass/utils/check';
-import { getConfig } from '@onlineclass/utils/launch-options-holder';
 import { ToastApi } from '@components/toast';
 import { getRandomInt } from '@onlineclass/utils';
 import {
@@ -24,6 +23,7 @@ import {
   CustomMessageHandsUpType,
 } from './type';
 import { chatroomWidgetId } from '@onlineclass/extension/type';
+import { getLanguage } from 'agora-common-libs';
 export class ActionBarUIStore extends EduUIStoreBase {
   // for student hands up
   private _handsUpTask: Scheduler.Task | null = null;
@@ -181,11 +181,9 @@ export class ActionBarUIStore extends EduUIStoreBase {
   get recordArgs() {
     const { recordUrl, recordRetryTimeout } = EduClassroomConfig.shared;
 
-    const { language } = getConfig();
-
     const args = {
       webRecordConfig: {
-        rootUrl: `${recordUrl}?language=${language}`,
+        rootUrl: `${recordUrl}?language=${getLanguage()}`,
         videoBitrate: 3000,
       },
       mode: RecordMode.Web,

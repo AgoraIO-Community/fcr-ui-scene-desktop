@@ -2,17 +2,7 @@ import { FcrTheme, FcrUIConfig } from 'agora-common-libs';
 import { LaunchOptions } from '..';
 
 type Config = Partial<
-  Record<
-    | 'host'
-    | 'ignoreUrlRegionPrefix'
-    | 'logo'
-    | 'language'
-    | 'shareUrl'
-    | 'uiConfig'
-    | 'theme'
-    | 'logo',
-    unknown
-  >
+  Record<'host' | 'ignoreUrlRegionPrefix' | 'logo' | 'shareUrl' | 'uiConfig' | 'theme', unknown>
 >;
 
 let _launchOptions: LaunchOptions | null = null;
