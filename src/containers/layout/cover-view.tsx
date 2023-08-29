@@ -13,7 +13,6 @@ export const CoverView = () => {
         position: 'absolute',
         top: 0,
         left: 0,
-        zIndex: 100,
         pointerEvents: 'none',
       }}>
       <StatusBar></StatusBar>

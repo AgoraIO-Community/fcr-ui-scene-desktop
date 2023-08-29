@@ -18,7 +18,7 @@
   @apply fcr-bg-3;
   position: relative;
   backdrop-filter: blur(6px);
-  z-index: 1;
+  z-index: 0;
 }
 .fcr-layout-content-list-on-top .fcr-layout-content-list-view {
   width: 100%;

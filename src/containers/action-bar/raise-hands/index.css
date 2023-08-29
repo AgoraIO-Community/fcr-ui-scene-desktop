@@ -18,8 +18,9 @@
   gap: 5px;
   padding: 0 5px;
 }
-.fcr-action-bar-raise-hand-content span {
-  font-size: 20px;
+.fcr-action-bar-raise-hand-content img {
+  width: 20px;
+  height: 20px;
 }
 
 .fcr-action-bar-raise-hand-dialog .fcr-dialog-tooltip-overlay-close {

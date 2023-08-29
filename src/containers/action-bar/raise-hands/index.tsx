@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { DialogToolTip } from '@components/tooltip/dialog';
 import classnames from 'classnames';
 import { useI18n } from 'agora-common-libs';
+import raiseHandsImg from './assets/raise_hands.png';
 export const RaiseHands = observer(() => {
   return <StudentRaiseHands></StudentRaiseHands>;
 });
@@ -44,7 +45,7 @@ const StudentRaiseHands = observer(() => {
         visible={dialogTooltipVisible}
         content={
           <span className="fcr-action-bar-raise-hand-content" onClick={() => lowerHand()}>
-            <span>🙋</span> {transI18n('fcr_participants_tips_lower_hand')}
+            <img src={raiseHandsImg}></img> {transI18n('fcr_participants_tips_lower_hand')}
           </span>
         }>
         <ActionBarItem

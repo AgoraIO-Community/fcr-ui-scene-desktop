@@ -22,12 +22,12 @@ export const ClassroomLayout = observer(() => {
   return (
     <ZIndexContext.Provider value={zIndexControllerRef.current}>
       <>
-        <CoverView></CoverView>
         {layout === Layout.Grid ? (
           <GalleryView></GalleryView>
         ) : (
           <PresentationView></PresentationView>
         )}
+        <CoverView></CoverView>
         <WidgetContainer />
         <GroupInfoPanel />
         <GroupStatusPanel />

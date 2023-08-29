@@ -11,6 +11,13 @@
   @apply fcr-text-1 fcr-font-medium;
   font-size: 22px;
   line-height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.fcr-network-connection-status img {
+  width: 24px;
+  height: 24px;
 }
 .fcr-network-connection-detail {
   padding: 0 15px 10px;

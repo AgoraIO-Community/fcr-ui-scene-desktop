@@ -14,7 +14,7 @@ export const NetworkConnection = observer(() => {
         {transI18n('fcr_network_label_network_connection')}
       </div>
       <div className="fcr-network-connection-status" style={{ color: network.color }}>
-        {network.text}
+        {network.text} <img src={network.img}></img>
       </div>
     </div>
   );

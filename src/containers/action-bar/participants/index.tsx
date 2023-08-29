@@ -7,6 +7,8 @@ import './index.css';
 import { DialogToolTip } from '@components/tooltip/dialog';
 import { useEffect, useState } from 'react';
 import { useI18n } from 'agora-common-libs';
+import raiseHandsImg from '../raise-hands/assets/raise_hands.png';
+
 export const Participants = observer(() => {
   const transI18n = useI18n();
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -57,8 +59,8 @@ export const Participants = observer(() => {
               setParticipantsDialogVisible(true);
               setDialogTooltipVisible(false);
             }}>
-            <span>🙋</span> {handsUpMap.size}{' '}
-            {transI18n('fcr_participants_tips_student_rasie_hand')}
+            <img src={raiseHandsImg}></img>
+            {handsUpMap.size} {transI18n('fcr_participants_tips_student_rasie_hand')}
           </span>
         }
         visible={dialogTooltipVisible}>
