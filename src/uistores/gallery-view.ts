@@ -1,6 +1,7 @@
 import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { EduRoleTypeEnum } from 'agora-edu-core';
 export class GalleryUIStore extends EduUIStoreBase {
   @observable mainViewStreamUuid: string | null = null;
   pageSize = 20;
@@ -25,14 +26,16 @@ export class GalleryUIStore extends EduUIStoreBase {
     const needFill =
       this.cameraUIStreamsSortByPin.length > this.pageSize &&
       start + currentPageStreams.length >= this.cameraUIStreamsSortByPin.length;
+    let list = [];
     if (needFill) {
-      return this.cameraUIStreamsSortByPin.slice(
+      list = this.cameraUIStreamsSortByPin.slice(
         this.cameraUIStreamsSortByPin.length - this.pageSize,
         this.cameraUIStreamsSortByPin.length,
       );
     } else {
-      return currentPageStreams;
+      list = currentPageStreams;
     }
+    return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 1));
   }
   @computed get cameraUIStreamsSortByPin() {
     return this.getters.cameraUIStreams.sort((a, b) => {

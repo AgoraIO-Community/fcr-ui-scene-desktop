@@ -21,7 +21,7 @@ import { GalleryUIStore } from './gallery-view';
 import { StreamUIStore } from './stream';
 import { Board } from '../extension/board';
 import { WidgetUIStore } from './widget';
-import { PresentationUIStore } from './presentaion-view';
+import { PresentationUIStore } from './presentation-view';
 import { SubscriptionUIStore } from './subscription';
 import { ParticipantsUIStore } from './participants';
 import { NotiticationUIStore } from './notification';

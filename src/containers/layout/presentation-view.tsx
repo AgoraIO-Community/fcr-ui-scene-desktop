@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import './index.css';
 import { StreamWindow } from '../stream-window';
 import { convertStreamUIStatus, StreamWindowContext } from '../stream-window/context';
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ListViewPagination } from '@components/pagination';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { CSSTransition } from 'react-transition-group';

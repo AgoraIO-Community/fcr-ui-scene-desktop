@@ -225,6 +225,8 @@ const TableAuth = observer(
     const isHost = isHostByUserRole(role);
     const tooltipContent = isHost
       ? transI18n('fcr_role_teacher')
+      : !isBoardWidgetActive
+      ? transI18n('fcr_room_tips_authorize_open_whiteboard')
       : notAllowed
       ? transI18n('fcr_participants_tips_student_in_breakoutroom')
       : tooltip;

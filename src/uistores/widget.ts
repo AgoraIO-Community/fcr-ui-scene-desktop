@@ -1,7 +1,7 @@
 import { AgoraUiCapableConfirmDialogProps, AgoraOnlineclassWidget } from 'agora-common-libs';
 import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
-import { action, computed, observable, reaction, trace } from 'mobx';
+import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { getLaunchOptions, getUiConfig, getTheme } from '@onlineclass/utils/launch-options-holder';
 import { ToastApi } from '@components/toast';
@@ -289,13 +289,9 @@ export class WidgetUIStore extends EduUIStoreBase {
     this._registeredWidgets = this._getEnabledWidgets();
 
     this._disposers.push(
-      computed(() => {
-        trace();
-        return {
-          // isJoingingSubRoom: this.getters.isJoiningSubRoom,
-          controller: this.classroomStore.widgetStore.widgetController,
-        };
-      }).observe(({ oldValue, newValue }) => {
+      computed(() => ({
+        controller: this.classroomStore.widgetStore.widgetController,
+      })).observe(({ oldValue, newValue }) => {
         const oldController = oldValue?.controller;
         const controller = newValue.controller;
 
@@ -344,14 +340,11 @@ export class WidgetUIStore extends EduUIStoreBase {
         }
       }),
       reaction(
-        () => {
-          trace();
-          return {
-            widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
-            isJoingingSubRoom: this.getters.isJoiningSubRoom,
-            controller: this.classroomStore.widgetStore.widgetController,
-          };
-        },
+        () => ({
+          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+          isJoingingSubRoom: this.getters.isJoiningSubRoom,
+          controller: this.classroomStore.widgetStore.widgetController,
+        }),
         ({ controller, isJoingingSubRoom, widgetIds }) => {
           // install widgets
           if (controller && !isJoingingSubRoom && widgetIds) {

@@ -2,6 +2,7 @@ import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { Log } from 'agora-rte-sdk';
 import { Layout } from './type';
+import { EduRoleTypeEnum } from 'agora-edu-core';
 export enum ListViewStreamPageSize {
   Normal = 6,
   Compact = 5,
@@ -53,14 +54,16 @@ export class PresentationUIStore extends EduUIStoreBase {
     const needFill =
       this.getters.cameraUIStreams.length > this.pageSize &&
       start + currentPageStreams.length >= this.getters.cameraUIStreams.length;
+    let list = [];
     if (needFill) {
-      return this.getters.cameraUIStreams.slice(
+      list = this.getters.cameraUIStreams.slice(
         this.getters.cameraUIStreams.length - this.pageSize,
         this.getters.cameraUIStreams.length,
       );
     } else {
-      return currentPageStreams;
+      list = currentPageStreams;
     }
+    return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 1));
   }
 
   onDestroy(): void {
