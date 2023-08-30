@@ -192,6 +192,8 @@ export const enUs = {
   fcr_participants_tips_Remove: 'Remove',
   fcr_participants_tips_mute_all: 'Mute all',
   fcr_participants_tips_unmute_all: 'Request to unmute all',
+  fcr_participants_tips_mute_all_error: 'Mute all failed',
+  fcr_participants_tips_unmute_all_error: 'Request to unmute all failed',
   fcr_participants_tips_lower_all_hand: 'Lower All Hands',
 
   //xxx举手人数

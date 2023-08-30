@@ -187,6 +187,8 @@ export const zhCn = {
   fcr_participants_tips_Remove: '移出教室',
   fcr_participants_tips_mute_all: '全体静音',
   fcr_participants_tips_unmute_all: '解除全体静音',
+  fcr_participants_tips_mute_all_error: '全体静音失败',
+  fcr_participants_tips_unmute_all_error: '解除全体静音失败',
   fcr_participants_tips_lower_all_hand: '全部手放下',
 
   //xxx举手人数

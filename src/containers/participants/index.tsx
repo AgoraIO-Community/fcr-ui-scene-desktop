@@ -16,7 +16,7 @@ import { themeVal } from '@ui-kit-utils/tailwindcss';
 import classnames from 'classnames';
 import { ToastApiFactory } from '@components/toast';
 import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
-import { AgoraRteMediaPublishState } from 'agora-rte-sdk';
+import { AgoraRteMediaPublishState, Logger } from 'agora-rte-sdk';
 import {
   ParticipantsOrderDirection,
   ParticipantsTableSortKeysEnum,
@@ -73,7 +73,7 @@ export const Participants = observer(() => {
     }
   }, []);
   const handleMuteAll = async () => {
-    await updateRemotePublishStateBatch(
+    updateRemotePublishStateBatch(
       participantStudentList.map(({ user, stream }) => {
         return {
           userUuid: user.userUuid,
@@ -81,7 +81,16 @@ export const Participants = observer(() => {
           audioState: AgoraRteMediaPublishState.Unpublished,
         };
       }),
-    );
+    ).catch((e) => {
+      Logger.error('[Participants] muteAll failed', e);
+      toastApiRef.current?.open({
+        toastProps: {
+          type: 'error',
+          content: transI18n('fcr_participants_tips_mute_all_error'),
+          size: 'small',
+        },
+      });
+    });
     sendCustomChannelMessage({
       cmd: CustomMessageCommandType.deviceSwitchBatch,
       data: {
@@ -98,7 +107,7 @@ export const Participants = observer(() => {
     });
   };
   const handleUnMuteAll = async () => {
-    await updateRemotePublishStateBatch(
+    updateRemotePublishStateBatch(
       participantStudentList.map(({ user, stream }) => {
         return {
           userUuid: user.userUuid,
@@ -106,7 +115,17 @@ export const Participants = observer(() => {
           audioState: AgoraRteMediaPublishState.Published,
         };
       }),
-    );
+    ).catch((e) => {
+      Logger.error('[Participants] unMuteAll failed', e);
+      toastApiRef.current?.open({
+        toastProps: {
+          type: 'error',
+          content: transI18n('fcr_participants_tips_unmute_all_error'),
+          size: 'small',
+        },
+      });
+    });
+
     sendCustomChannelMessage({
       cmd: CustomMessageCommandType.deviceSwitchBatch,
       data: {
