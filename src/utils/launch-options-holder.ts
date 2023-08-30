@@ -2,7 +2,10 @@ import { FcrTheme, FcrUIConfig } from 'agora-common-libs';
 import { LaunchOptions } from '..';
 
 type Config = Partial<
-  Record<'host' | 'ignoreUrlRegionPrefix' | 'logo' | 'shareUrl' | 'uiConfig' | 'theme', unknown>
+  Record<
+    'host' | 'ignoreUrlRegionPrefix' | 'logo' | 'shareUrl' | 'uiConfig' | 'theme' | 'recordOptions',
+    unknown
+  >
 >;
 
 let _launchOptions: LaunchOptions | null = null;
@@ -23,7 +26,7 @@ export const getLaunchOptions = () => {
 };
 
 export const setConfig = (config: Config) => {
-  _config = config;
+  _config = { ..._config, ...config };
 };
 
 export const getConfig = () => {

@@ -12,6 +12,16 @@ import { AgoraOnlineclassWidget } from 'agora-common-libs';
 import { IBaseProcessor, IExtension } from 'agora-rte-extension';
 import { CloudDriveResourceConvertProgress } from './uistores/cloud/struct';
 
+export type BoardWindowAnimationOptions = {
+  minFPS?: number;
+  maxFPS?: number;
+  resolution?: number;
+  autoResolution?: boolean;
+  autoFPS?: boolean;
+  maxResolutionLevel?: number;
+  forceCanvas?: boolean;
+};
+
 /**
  * 启动参数
  */
@@ -196,6 +206,13 @@ export type LaunchOptions = {
    * Widgets
    */
   widgets?: Record<string, typeof AgoraOnlineclassWidget>;
+  /**
+   * 白板录制选项
+   */
+  /** @en
+   * BoardRecordOptions
+   */
+  recordOptions?: BoardWindowAnimationOptions;
 
   /**
    * 教室事件回调

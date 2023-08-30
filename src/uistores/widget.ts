@@ -3,9 +3,14 @@ import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-
 import { bound, Log } from 'agora-rte-sdk';
 import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
-import { getLaunchOptions, getUiConfig, getTheme } from '@onlineclass/utils/launch-options-holder';
+import {
+  getLaunchOptions,
+  getUiConfig,
+  getTheme,
+  getConfig,
+} from '@onlineclass/utils/launch-options-holder';
 import { ToastApi } from '@components/toast';
-import { AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
+import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
 import { ConfirmDialogProps } from '@components/dialog/confirm-dialog';
 import { CommonDialogType } from './type';
 
@@ -337,6 +342,10 @@ export class WidgetUIStore extends EduUIStoreBase {
             messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
             onMessage: this._handlePollActiveStateChanged,
           });
+          controller.broadcast(
+            AgoraExtensionRoomEvent.BoardSetAnimationOptions,
+            getConfig().recordOptions,
+          );
         }
       }),
       reaction(

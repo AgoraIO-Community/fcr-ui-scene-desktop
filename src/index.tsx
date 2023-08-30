@@ -59,6 +59,7 @@ export class AgoraOnlineclassSDK {
       listener,
       coursewareList,
       language,
+      recordOptions,
     } = launchOptions;
     if (coursewareList) this.coursewareList = coursewareList;
     Logger.info('[AgoraOnlineclassSDK]launched with options:', launchOptions);
@@ -77,7 +78,11 @@ export class AgoraOnlineclassSDK {
       flexProperties: userFlexProperties,
       token,
     };
-
+    if (recordOptions) {
+      setConfig({
+        recordOptions,
+      });
+    }
     const { virtualBackgroundExtension, beautyEffectExtension, aiDenoiserExtension } =
       initializeBuiltInExtensions();
 
