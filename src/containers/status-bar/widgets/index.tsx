@@ -160,7 +160,8 @@ const CountdownTimerMinimize = observer(() => {
     <ToolTip content={tooltip}>
       <div
         className={classnames('fcr-minimized-widget-icon', 'fcr-minimized-widget-countdown', {
-          'fcr-minimized-widget-countdown-danger': current <= 10 && current > 0,
+          'fcr-minimized-widget-countdown-danger':
+            current <= 10 && state !== CountdownTimerState.STOPPED,
         })}
         onClick={handleClick}>
         <SvgImg type={icon} size={20} />
