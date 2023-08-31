@@ -92,7 +92,7 @@ export const enUs = {
   //reason1为获得奖励的学生名字，reason2学生数量
   fcr_room_tips_reward_congratulation_multiplayer:
     'Congratulations to {reason2} students, including {reason1}, for receiving awards.',
-
+  fcr_room_tips_reward_number: 'Reward Quantity',
   //****************** 邀请Invite ******************
   fcr_invite_label_title: 'Share link and ID',
 

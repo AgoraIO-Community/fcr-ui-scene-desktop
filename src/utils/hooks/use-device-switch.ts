@@ -114,8 +114,8 @@ export const useDeviceSwitch = ({
     ? transI18n('fcr_device_tips_mute')
     : transI18n('fcr_device_tips_unmute');
   const remoteMicTooltip = micEnabled
-    ? transI18n('fcr_device_tips_unmute')
-    : transI18n('fcr_participants_tips_mute');
+    ? transI18n('fcr_participants_tips_mute')
+    : transI18n('fcr_device_tips_unmute');
   const micTooltip = isLocal ? localMicTooltip : remoteMicTooltip;
   const handleMicrophoneClick = () => {
     if (isLocal) {

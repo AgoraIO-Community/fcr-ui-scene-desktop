@@ -42,9 +42,14 @@ export class Getters {
   }
 
   get isHost() {
+    return this.isTeacher || this.isAssistant;
+  }
+  get isTeacher() {
     return EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
   }
-
+  get isAssistant() {
+    return EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.assistant;
+  }
   get isStudent() {
     return EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student;
   }

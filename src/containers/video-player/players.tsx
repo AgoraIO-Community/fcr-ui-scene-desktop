@@ -5,18 +5,21 @@ import { Avatar } from '@components/avatar';
 import { getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
 
 export const LocalVideoPlayer = observer(() => {
-  const { deviceSettingUIStore } = useStore();
+  const {
+    deviceSettingUIStore: {
+      isPreviewCameraDeviceEnabled,
+      setupLocalVideoPreview,
+      isLocalMirrorEnabled,
+    },
+  } = useStore();
   const videoRef = useRef<HTMLDivElement>(null);
   const { userName } = getLaunchOptions();
 
   useEffect(() => {
-    if (videoRef.current) {
-      deviceSettingUIStore.setupLocalVideoPreview(
-        videoRef.current,
-        deviceSettingUIStore.isLocalMirrorEnabled,
-      );
+    if (videoRef.current && isPreviewCameraDeviceEnabled) {
+      setupLocalVideoPreview(videoRef.current, isLocalMirrorEnabled);
     }
-  }, [deviceSettingUIStore.isLocalMirrorEnabled]);
+  }, [isLocalMirrorEnabled, isPreviewCameraDeviceEnabled]);
 
   return (
     <div className="fcr-video-player-wrapper">

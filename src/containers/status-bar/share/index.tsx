@@ -54,15 +54,19 @@ export const Share = () => {
           <SvgImg size={20} type={SvgIconEnum.FCR_COPY}></SvgImg>
         </div>
       </div>
-      <div className="fcr-share-room-link">
-        <span>{transI18n('fcr_invite_label_invite_link')}</span>
-        <span>{shareUrl as string}</span>
-      </div>
-      <div data-clipboard-text={shareUrl as string} ref={shareCopyRef}>
-        <Button size="XS" block shape="rounded" preIcon={SvgIconEnum.FCR_LINK}>
-          {transI18n('fcr_invite_button_copy_link')}
-        </Button>
-      </div>
+      {shareUrl ? (
+        <>
+          <div className="fcr-share-room-link">
+            <span>{transI18n('fcr_invite_label_invite_link')}</span>
+            <span>{shareUrl as string}</span>
+          </div>
+          <div data-clipboard-text={shareUrl as string} ref={shareCopyRef}>
+            <Button size="XS" block shape="rounded" preIcon={SvgIconEnum.FCR_LINK}>
+              {transI18n('fcr_invite_button_copy_link')}
+            </Button>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

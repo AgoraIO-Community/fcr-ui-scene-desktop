@@ -347,13 +347,15 @@ const TableCamera = observer(
       participantsUIStore: { tableIconSize },
     } = useStore();
     const isSelf = stream?.fromUser.userUuid === localUser?.userUuid;
-    const actionDisabled = !isHost && !isSelf;
+    const isLocal = !!stream?.isLocal;
+    const actionDisabled =
+      (!isHost && !isSelf) || (stream?.role === EduRoleTypeEnum.teacher && !isLocal);
     const {
       cameraTooltip,
       handleCameraClick,
       cameraIcon: icon,
       cameraIconColor: iconColor,
-    } = useDeviceSwitch({ stream, isLocal: !!stream?.isLocal });
+    } = useDeviceSwitch({ stream, isLocal });
 
     return (
       <TableIconWrapper
@@ -370,12 +372,6 @@ const TableCamera = observer(
 const TableMicrophone = observer(
   ({ stream, notAllowed }: { stream?: EduStreamUI; notAllowed: boolean }) => {
     const {
-      micTooltip,
-      handleMicrophoneClick,
-      micIcon: icon,
-      micIconColor: iconColor,
-    } = useDeviceSwitch({ stream, isLocal: !!stream?.isLocal });
-    const {
       statusBarUIStore: { isHost },
       classroomStore: {
         userStore: { localUser },
@@ -383,8 +379,15 @@ const TableMicrophone = observer(
       participantsUIStore: { tableIconSize },
     } = useStore();
     const isSelf = stream?.fromUser.userUuid === localUser?.userUuid;
-    const actionDisabled = !isHost && !isSelf;
-
+    const isLocal = !!stream?.isLocal;
+    const actionDisabled =
+      (!isHost && !isSelf) || (stream?.role === EduRoleTypeEnum.teacher && !isLocal);
+    const {
+      micTooltip,
+      handleMicrophoneClick,
+      micIcon: icon,
+      micIconColor: iconColor,
+    } = useDeviceSwitch({ stream, isLocal });
     return (
       <TableIconWrapper
         tooltip={

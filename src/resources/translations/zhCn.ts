@@ -87,7 +87,7 @@ export const zhCn = {
 
   //reason1为获得奖励的学生名字，reason2学生数量
   fcr_room_tips_reward_congratulation_multiplayer: '祝贺{reason1}等{reason2}位同学获得奖励。',
-
+  fcr_room_tips_reward_number: '奖励数量',
   //****************** 邀请Invite ******************
   fcr_invite_label_title: '分享链接和房间号',
 

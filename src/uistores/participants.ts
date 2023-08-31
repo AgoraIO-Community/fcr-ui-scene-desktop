@@ -38,6 +38,9 @@ export class ParticipantsUIStore extends EduUIStoreBase {
   get isHost() {
     return this.getters.isHost;
   }
+  get isTeacher() {
+    return this.getters.isTeacher;
+  }
   isHostByUserRole = (role: EduRoleTypeEnum) => {
     return role === EduRoleTypeEnum.teacher;
   };
