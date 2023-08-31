@@ -23,7 +23,7 @@ import {
 import { transI18n } from 'agora-common-libs';
 import { BeautyFilterOptions, VirtualBackgroundOptions } from '..';
 import { fetchMediaFileByUrl } from '@onlineclass/utils';
-import { getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
+import { getConfig, getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
 import concat from 'lodash/concat';
 import map from 'lodash/map';
 import {
@@ -44,8 +44,8 @@ import {
 @Log.attach()
 export class DeviceSettingUIStore extends EduUIStoreBase {
   private _defaultBeautyOptions = { smooth: 0.5, brightening: 0.6, blush: 0.1 };
-  private _pretestCameraEnabled = false;
-  private _pretestMicEnabled = false;
+  private _pretestCameraEnabled = !!getConfig().defaultEnableDevice;
+  private _pretestMicEnabled = !!getConfig().defaultEnableDevice;
   @bound
   setPretestCameraEnabled(enable: boolean) {
     this._pretestCameraEnabled = enable;
@@ -595,8 +595,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             if (!hasStartVideoDialog && !this._cameraDeviceEnabled) {
               this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
                 id: dialogId,
-                title: 'Request to start video',
-                content: 'Teacher requests to start video',
+                title: transI18n('fcr_user_tips_teacher_start_video_title'),
+                content: transI18n('fcr_user_tips_teacher_start_video_content'),
                 onOk: () => {
                   this.enableCamera(true);
                 },
@@ -610,9 +610,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             if (!hasUnmuteDialog && !this._audioRecordingDeviceEnabled) {
               this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
                 id: dialogId,
-
-                title: 'Request to unmute',
-                content: 'Teacher requests to unmute',
+                title: transI18n('fcr_user_tips_teacher_unmute_title'),
+                content: transI18n('fcr_user_tips_teacher_unmute_content'),
                 onOk: () => {
                   this.enableAudioRecording(true);
                 },
@@ -642,8 +641,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             if (!hasStartVideoDialog && !this._cameraDeviceEnabled) {
               this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
                 id: dialogId,
-                title: 'Request to start video',
-                content: 'Teacher requests to start video',
+                title: transI18n('fcr_user_tips_teacher_start_video_title'),
+                content: transI18n('fcr_user_tips_teacher_start_video_content'),
                 onOk: () => {
                   this.enableCamera(true);
                 },
@@ -657,8 +656,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             if (!hasUnmuteDialog && !this._audioRecordingDeviceEnabled) {
               this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
                 id: dialogId,
-                title: 'Request to unmute',
-                content: 'Teacher requests to unmute',
+                title: transI18n('fcr_user_tips_teacher_unmute_title'),
+                content: transI18n('fcr_user_tips_teacher_unmute_content'),
                 onOk: () => {
                   this.enableAudioRecording(true);
                 },

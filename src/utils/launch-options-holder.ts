@@ -3,7 +3,14 @@ import { LaunchOptions } from '..';
 
 type Config = Partial<
   Record<
-    'host' | 'ignoreUrlRegionPrefix' | 'logo' | 'shareUrl' | 'uiConfig' | 'theme' | 'recordOptions',
+    | 'host'
+    | 'ignoreUrlRegionPrefix'
+    | 'logo'
+    | 'shareUrl'
+    | 'uiConfig'
+    | 'theme'
+    | 'recordOptions'
+    | 'defaultEnableDevice',
     unknown
   >
 >;

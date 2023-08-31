@@ -149,7 +149,8 @@ export class AgoraOnlineclassSDK {
    */
   static setParameters(params: string) {
     Logger.info(`[AgoraOnlineclassSDK]set parameters`, params);
-    const { host, ignoreUrlRegionPrefix, logo, shareUrl } = JSON.parse(params) || {};
+    const { host, ignoreUrlRegionPrefix, logo, shareUrl, defaultEnableDevice } =
+      JSON.parse(params) || {};
 
     const config = getConfig() || {};
 
@@ -167,6 +168,10 @@ export class AgoraOnlineclassSDK {
 
     if (logo) {
       config.logo = logo;
+    }
+
+    if (defaultEnableDevice) {
+      config.defaultEnableDevice = defaultEnableDevice;
     }
     setConfig(config);
   }
