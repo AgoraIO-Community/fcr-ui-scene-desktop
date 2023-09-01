@@ -24,7 +24,7 @@ export const StatusBarWidgetSlot = observer(() => {
       <CountdownTimerMinimize></CountdownTimerMinimize>
       <div className="fcr-status-bar-widget-slot">
         {eduToolApi.minimizedWidgetIcons
-          .filter((i) => !(i instanceof Array) && i.widgetId !== 'countdownTimer')
+          .filter((i) => i instanceof Array || i.widgetId !== 'countdownTimer')
           .slice()
           .reverse()
           .map((item, index) => {

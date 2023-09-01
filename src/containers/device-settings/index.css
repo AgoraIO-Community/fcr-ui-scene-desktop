@@ -107,6 +107,7 @@ li.fcr-device-settings__nav-list-item--active {
   padding: 0 15px 0;
   flex-grow: 1;
   display: flex;
+  overflow: hidden;
 }
 .fcr-device-settings__video {
   display: flex;
@@ -206,4 +207,6 @@ li.fcr-device-settings__nav-list-item--active {
 }
 .fcr-device-settings__audio {
   padding-top: 15px;
+  overflow: hidden;
+  width: 100%;
 }

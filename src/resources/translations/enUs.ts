@@ -174,7 +174,7 @@ export const enUs = {
   fcr_participants_button_unmute_all: 'Request to unmute all',
   fcr_participants_button_lower_all_hand: 'Lower All Hands',
   fcr_participants_label_participants: 'Participants',
-  fcr_participants_label_name: 'name',
+  fcr_participants_label_name: 'Name',
   fcr_participants_label_auth: 'Auth',
   fcr_participants_label_raise_hand: 'Raise Hand',
   fcr_participants_label_camera: 'Camera',
