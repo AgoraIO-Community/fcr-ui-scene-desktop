@@ -1,6 +1,6 @@
 source_root=$(pwd)
 ci_source_root=../apaas-cicd-web
-build_branch=$online_class_desktop_branch
+build_branch=$fcr_ui_scene_desktop_branch
 
 ci_script_version=v1
 lib_dependencies=(
