@@ -1,14 +1,10 @@
 import './preset';
 import { render, unmountComponentAtNode } from 'react-dom';
-import {
-  ConvertMediaOptionsConfig,
-  CoursewareList,
-  LaunchMediaOptions,
-  LaunchOptions,
-} from './type';
+import { ConvertMediaOptionsConfig, LaunchMediaOptions, LaunchOptions } from './type';
 import { App } from './app';
 import { Logger, changeLanguage, addResourceBundle } from 'agora-common-libs';
 import {
+  AgoraEduClassroomEvent,
   EduClassroomConfig,
   EduEventCenter,
   EduMediaEncryptionMode,
@@ -22,23 +18,29 @@ import { zhCn } from './resources/translations/zhCn';
 import { enUs } from './resources/translations/enUs';
 
 /**
- * Online class SDK
+ * Scene SDK
  */
-export class AgoraOnlineclassSDK {
-  static coursewareList: CoursewareList = [];
+export class FcrUIScene {
   /**
    * 启动入口
-   * @param dom
-   * @param launchOption
-   * @returns
+   * @param dom 教室挂载节点
+   * @param launchOption 教室启动参数
+   * @param callbackSuccess
+   * @returns 卸载函数
    */
   /** @en
    * Entry point of AgoraOnlineclassSDK, which is used to create an online classroom app and render at the specified dom.
-   * @param dom
-   * @param launchOption
-   * @returns
+   * @param dom dom to mount classroom UI
+   * @param launchOption options to launch a classroom
+   * @returns unmount function
    */
-  static launch(dom: HTMLElement, launchOptions: LaunchOptions) {
+  static launch(
+    dom: HTMLElement,
+    launchOptions: LaunchOptions,
+    callbackSuccess?: () => void,
+    callbackFailure?: (err: Error) => void,
+    callbackDestroy?: (type: number) => void,
+  ) {
     const {
       appId,
       userUuid,
@@ -56,12 +58,10 @@ export class AgoraOnlineclassSDK {
       roomType,
       startTime,
       duration,
-      listener,
-      coursewareList,
       language,
       recordOptions,
     } = launchOptions;
-    if (coursewareList) this.coursewareList = coursewareList;
+
     Logger.info('[AgoraOnlineclassSDK]launched with options:', launchOptions);
 
     setLaunchOptions(launchOptions);
@@ -113,11 +113,27 @@ export class AgoraOnlineclassSDK {
 
     EduClassroomConfig.setConfig(config);
 
+    Logger.info(`[AgoraOnlineclassSDK]classroomConfig`, config);
+
     changeLanguage(language);
 
-    listener && EduEventCenter.shared.onClassroomEvents(listener);
+    EduEventCenter.shared.onClassroomEvents((evt, ...args: unknown[]) => {
+      if (evt === AgoraEduClassroomEvent.Ready) {
+        FcrUIScene._setRecordReady();
+      }
 
-    Logger.info(`[AgoraOnlineclassSDK]classroomConfig`, config);
+      if (evt === AgoraEduClassroomEvent.Ready && typeof callbackSuccess === 'function') {
+        callbackSuccess();
+      }
+
+      if (evt === AgoraEduClassroomEvent.FailedToJoin && typeof callbackFailure === 'function') {
+        callbackFailure(args[0] as Error);
+      }
+
+      if (evt === AgoraEduClassroomEvent.Destroyed && typeof callbackDestroy === 'function') {
+        callbackDestroy(args[0] as number);
+      }
+    });
 
     const startTs = Date.now();
     let isUnmounted = false;
@@ -144,7 +160,7 @@ export class AgoraOnlineclassSDK {
    * @param params
    */
   /** @en
-   *
+   * Sets parameters for SDK
    * @param params
    */
   static setParameters(params: string) {
@@ -231,7 +247,8 @@ export class AgoraOnlineclassSDK {
     }
     return config;
   }
-  static setRecordReady() {
+
+  static _setRecordReady() {
     const {
       rteEngineConfig: { ignoreUrlRegionPrefix, region },
       sessionInfo: { roomUuid },

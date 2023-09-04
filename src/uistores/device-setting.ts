@@ -770,10 +770,6 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
           if (inOldList && !inNewList) {
             //change to first device if there's any
             newValue.length > 0 && this.setCameraDevice(newValue[0].deviceid);
-
-            if (inOldList && !inNewList) {
-              EduEventCenter.shared.emitClasroomEvents(AgoraEduClassroomEvent.CurrentCamUnplugged);
-            }
           }
         } else {
           if (EduClassroomConfig.shared.openCameraDeviceAfterLaunch) {
@@ -807,9 +803,6 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
         if (inOldList && !inNewList) {
           //change to first device if there's any
           newValue.length > 0 && this.setAudioRecordingDevice(newValue[0].deviceid);
-          if (inOldList && !inNewList) {
-            EduEventCenter.shared.emitClasroomEvents(AgoraEduClassroomEvent.CurrentMicUnplugged);
-          }
         }
       } else {
         if (EduClassroomConfig.shared.openRecordingDeviceAfterLaunch) {
@@ -841,11 +834,6 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
         if (inOldList && !inNewList) {
           //change to first device if there's any
           newValue.length > 0 && this.setAudioPlaybackDevice(newValue[0].deviceid);
-          if (inOldList && !inNewList) {
-            EduEventCenter.shared.emitClasroomEvents(
-              AgoraEduClassroomEvent.CurrentSpeakerUnplugged,
-            );
-          }
         }
       } else {
         let deviceId = null;

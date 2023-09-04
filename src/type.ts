@@ -1,5 +1,4 @@
 import {
-  AgoraEduClassroomEvent,
   ConversionOption,
   EduRegion,
   EduRoleTypeEnum,
@@ -33,143 +32,58 @@ export type LaunchOptions = {
    * App ID
    */
   /** @en
-   *
+   * App ID
    */
   appId: string;
   /**
-   * 区域
+   * 教育服务区域
    */
   /** @en
-   *
+   * Edu service region
    */
   region: EduRegion;
   /**
-   * 令牌
+   * 进入教室的令牌
    */
   /** @en
-   *
+   * API Token used to join the room
    */
   token: string;
   /**
-   * 语言
+   * 界面语言
    */
   /** @en
-   *
+   * UI language
    */
   language: Language;
   /**
-   * 用户UUID
+   * 用户唯一标识
    */
   /** @en
-   *
+   * User identifier
    */
   userUuid: string;
   /**
    * 用户昵称
    */
   /** @en
-   *
+   * User nickname
    */
   userName: string;
-  /**
-   * 房间UUID
-   */
-  /** @en
-   *
-   */
-  roomUuid: string;
   /**
    * 用户角色
    */
   /** @en
-   *
+   * User role
    */
   roleType: EduRoleTypeEnum;
   /**
-   * 设备检测是否启用
+   * 房间唯一标识
    */
   /** @en
-   *
+   * Room identifier
    */
-  devicePretest: boolean;
-  /**
-   * 公共课件列表
-   */
-  /** @en
-   *
-   */
-  coursewareList?: CoursewareList;
-  /**
-   * 用户自定义属性
-   */
-  /** @en
-   *
-   */
-  userFlexProperties?: { [key: string]: unknown };
-  /**
-   * 延迟等级
-   */
-  /** @en
-   *
-   */
-  latencyLevel?: AgoraLatencyLevel;
-  /**
-   * 录制页面地址
-   */
-  /** @en
-   *
-   */
-  recordUrl?: string;
-  /**
-   * 录制重试间隔
-   */
-  /** @en
-   *
-   */
-  recordRetryTimeout?: number;
-  /**
-   * UI主题
-   */
-  /** @en
-   *
-   */
-  uiMode?: FcrMultiThemeMode;
-  /**
-   * 分享链接
-   */
-  /** @en
-   *
-   */
-  shareUrl?: string;
-  /**
-   * 虚拟背景图片
-   */
-  /** @en
-   *
-   */
-  virtualBackgroundImages?: string[];
-  /**
-   * 虚拟背景视频
-   */
-  /** @en
-   *
-   */
-  virtualBackgroundVideos?: string[];
-  /**
-   * WebRTC 扩展插件包路径前缀
-   */
-  /** @en
-   *
-   */
-  webrtcExtensionBaseUrl?: string;
-  /**
-   * 音视频编解码配置
-   */
-  /** @en
-   *
-   */
-  mediaOptions?: LaunchMediaOptions;
-
+  roomUuid: string;
   /**
    * 房间名称
    */
@@ -181,29 +95,113 @@ export type LaunchOptions = {
    * 房间类型
    */
   /** @en
-   *
+   * Room type
    */
   roomType: EduRoomTypeEnum;
   /**
    * 开始时间
    */
   /** @en
-   *
+   * Start timestamp of the room
    */
   startTime?: number;
   /**
    * 房间时长
    */
   /** @en
-   *
+   * Time duration of the room
    */
   duration: number;
-
   /**
-   * 插件
+   * 设备检测是否启用
    */
   /** @en
-   * Widgets
+   * Wether device pretest is enabled
+   */
+  devicePretest: boolean;
+  /**
+   * 公共课件列表
+   */
+  /** @en
+   * Public courseware list listing in the cloud drive
+   */
+  coursewareList?: CoursewareList;
+  /**
+   * 用户自定义属性
+   */
+  /** @en
+   * User flexible properties
+   */
+  userFlexProperties?: { [key: string]: unknown };
+  /**
+   * RTC 延迟等级
+   */
+  /** @en
+   * RTC latency level
+   */
+  latencyLevel?: AgoraLatencyLevel;
+  /**
+   * 录制页面地址
+   */
+  /** @en
+   * Recording page URL
+   */
+  recordUrl?: string;
+  /**
+   * 录制重试间隔
+   */
+  /** @en
+   * Time duration to wait before retrying when recording is failed to start
+   */
+  recordRetryTimeout?: number;
+  /**
+   * UI 主题
+   */
+  /** @en
+   * UI Theme
+   */
+  uiMode?: FcrMultiThemeMode;
+  /**
+   * 分享链接
+   */
+  /** @en
+   * Room share link
+   */
+  shareUrl?: string;
+  /**
+   * 虚拟背景图片
+   */
+  /** @en
+   * Virtual background image assets
+   */
+  virtualBackgroundImages?: string[];
+  /**
+   * 虚拟背景视频
+   */
+  /** @en
+   * Virtual background video assets
+   */
+  virtualBackgroundVideos?: string[];
+  /**
+   * 声网 WebRTC SDK 扩展插件包路径前缀
+   */
+  /** @en
+   * URL prefix of extension binary assets of Agora WebRTC SDK
+   */
+  webrtcExtensionBaseUrl?: string;
+  /**
+   * 音视频编解码配置
+   */
+  /** @en
+   * Configurations for video and audio codecs
+   */
+  mediaOptions?: LaunchMediaOptions;
+
+  /**
+   * 使用插件
+   */
+  /** @en
+   * Widgets to use with SDK
    */
   widgets?: Record<string, typeof AgoraOnlineclassWidget>;
   /**
@@ -213,23 +211,13 @@ export type LaunchOptions = {
    * BoardRecordOptions
    */
   recordOptions?: BoardWindowAnimationOptions;
-
-  /**
-   * 教室事件回调
-   */
-  /** @en
-   *
-   */
-  listener?: ListenerCallback; // launch状态
 };
-
-export type ListenerCallback = (evt: AgoraEduClassroomEvent, ...args: unknown[]) => void;
 
 /**
  * 支持的语言
  */
 /** @en
- *
+ * Supported languages
  */
 export type Language = 'en' | 'zh';
 
@@ -237,35 +225,35 @@ export type Language = 'en' | 'zh';
  * 课件页信息
  */
 /** @en
- *
+ * Page info of slides
  */
 export type CoursewarePageInfo = {
   /**
    * 预览图
    */
   /** @en
-   *
+   * URL of the preview image of the page showing at nav bar of a slide window
    */
   preview?: string;
   /**
    * 图片资源链接
    */
   /** @en
-   *
+   * URL of the page image
    */
   src: string;
   /**
    * 图片资源宽度
    */
   /** @en
-   *
+   * Width of the page image
    */
   width: number;
   /**
    * 图片资源高度
    */
   /** @en
-   *
+   * Height of the page image
    */
   height: number;
 };
@@ -274,9 +262,15 @@ export type CoursewarePageInfo = {
  * 课件信息
  */
 /** @en
- *
+ * Courseware slide info
  */
 export type CoursewareItem = {
+  /**
+   *
+   */
+  /**
+   *
+   */
   resourceName: string;
   resourceUuid: string;
   ext: string;

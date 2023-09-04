@@ -1,7 +1,6 @@
 import { action, computed, observable, reaction, runInAction, when } from 'mobx';
 import { EduUIStoreBase } from '../base';
 import { SvgIconEnum } from '@components/svg-img';
-import { AgoraOnlineclassSDK } from '../..';
 import {
   AGEduErrorCode,
   CloudDrivePagingOption,
@@ -26,6 +25,7 @@ import { MimeTypesKind, UploadItem, supportedTypes } from '../type';
 import { CloudDriveResourceInfo } from 'agora-edu-core/lib/stores/domain/common/cloud-drive/type';
 import { ToastApi } from '@components/toast';
 import { AGErrorWrapper } from 'agora-rte-sdk';
+import { getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
 
 export class CloudUIStore extends EduUIStoreBase {
   cloudHelpTips = [
@@ -74,7 +74,7 @@ export class CloudUIStore extends EduUIStoreBase {
   @computed
   get publicResources() {
     const keyword = this.searchPublicResourcesKeyword;
-    const list = AgoraOnlineclassSDK.coursewareList;
+    const list = getLaunchOptions().coursewareList || [];
     return list
       .filter((item) => (keyword ? item.resourceName.includes(keyword) : true))
       .map((courseware) => {

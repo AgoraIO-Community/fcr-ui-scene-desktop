@@ -79,31 +79,6 @@ export class NotiticationUIStore extends EduUIStoreBase {
         toastProps: { type: 'info', content: transI18n('fcr_user_tips_banned_video') },
       });
     }
-    if (event === AgoraEduClassroomEvent.TeacherGrantPermission) {
-      ToastApi.open({
-        persist: true,
-        duration: 15000,
-        toastProps: {
-          type: 'warn',
-          icon: SvgIconEnum.FCR_HOST,
-          content: transI18n('fcr_board_granted'),
-          closable: true,
-        },
-      });
-    }
-    // teacher revoke permission
-    if (event === AgoraEduClassroomEvent.TeacherRevokePermission) {
-      ToastApi.open({
-        persist: true,
-        duration: 15000,
-        toastProps: {
-          icon: SvgIconEnum.FCR_HOST,
-          type: 'warn',
-          content: transI18n('fcr_board_ungranted'),
-          closable: true,
-        },
-      });
-    }
 
     // capture screen permission denied received
     if (event === AgoraEduClassroomEvent.CaptureScreenPermissionDenied) {

@@ -1,10 +1,4 @@
-import {
-  AgoraEduClassroomEvent,
-  AgoraWidgetController,
-  EduClassroomConfig,
-  EduEventCenter,
-  EduRoleTypeEnum,
-} from 'agora-edu-core';
+import { AgoraWidgetController, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { bound, Log, Logger } from 'agora-rte-sdk';
 import { action, computed, IReactionDisposer, observable, runInAction, toJS } from 'mobx';
 
@@ -18,6 +12,9 @@ import {
 } from './type';
 import { getTheme } from '@onlineclass/utils/launch-options-holder';
 import { BoardH5WindowConfig, BoardMediaWindowConfig } from '@onlineclass/uistores/type';
+import { ToastApi } from '@components/toast';
+import { SvgIconEnum } from '@components/svg-img';
+import { transI18n } from 'agora-common-libs';
 
 @Log.attach({ proxyMethods: false })
 export class Board {
@@ -231,12 +228,28 @@ export class Board {
           const { userUuid } = EduClassroomConfig.shared.sessionInfo;
 
           if (newGranted.has(userUuid) && !oldGranted?.has(userUuid)) {
-            EduEventCenter.shared.emitClasroomEvents(AgoraEduClassroomEvent.TeacherGrantPermission);
+            ToastApi.open({
+              persist: true,
+              duration: 15000,
+              toastProps: {
+                type: 'warn',
+                icon: SvgIconEnum.FCR_HOST,
+                content: transI18n('fcr_board_granted'),
+                closable: true,
+              },
+            });
           }
           if (!newGranted.has(userUuid) && oldGranted?.has(userUuid)) {
-            EduEventCenter.shared.emitClasroomEvents(
-              AgoraEduClassroomEvent.TeacherRevokePermission,
-            );
+            ToastApi.open({
+              persist: true,
+              duration: 15000,
+              toastProps: {
+                icon: SvgIconEnum.FCR_HOST,
+                type: 'warn',
+                content: transI18n('fcr_board_ungranted'),
+                closable: true,
+              },
+            });
           }
         }),
       );
