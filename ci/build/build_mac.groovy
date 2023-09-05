@@ -6,7 +6,7 @@ import groovy.transform.Field
 buildUtils = new agora.build.BuildUtils()
 
 compileConfig = [
-    "sourceDir": "online-class-desktop",
+    "sourceDir": "fcr-ui-scene-desktop",
     "non-publish": [
         "command": "./ci/build/build_mac.sh",
         "extraArgs": "",
