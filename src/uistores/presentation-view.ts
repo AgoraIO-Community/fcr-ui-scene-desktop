@@ -63,7 +63,7 @@ export class PresentationUIStore extends EduUIStoreBase {
     } else {
       list = currentPageStreams;
     }
-    return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 1));
+    return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 0));
   }
 
   onDestroy(): void {

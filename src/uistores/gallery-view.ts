@@ -35,10 +35,13 @@ export class GalleryUIStore extends EduUIStoreBase {
     } else {
       list = currentPageStreams;
     }
-    return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 1));
+    return list;
   }
   @computed get cameraUIStreamsSortByPin() {
     return this.getters.cameraUIStreams.sort((a, b) => {
+      if (a.role === EduRoleTypeEnum.teacher) {
+        return -1;
+      }
       if (a.stream.streamUuid === this.getters.pinnedUIStream?.stream.streamUuid) {
         return -1;
       }
