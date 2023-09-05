@@ -82,26 +82,7 @@ export const WidgetDraggableWrapper = observer(
         });
       };
     }, [widgetController]);
-    useEffect(() => {
-      const observer = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          if (!(entry.target as HTMLElement).style.cssText.includes('scale(0)')) {
-            if (rndInstance.current) {
-              rndInstance.current.updateSize({
-                width: minimizeRef.current?.clientWidth || 0,
-                height: minimizeRef.current?.clientHeight || 0,
-              });
-            }
-          }
-        }
-      });
 
-      const viewport = minimizeRef.current;
-      if (viewport) {
-        observer.observe(viewport);
-      }
-      return observer.disconnect;
-    }, []);
     const handleWidgetSizeChanged = ({
       widgetId,
       size,
@@ -162,9 +143,6 @@ export const WidgetDraggableWrapper = observer(
       },
     });
 
-    const refHandle = (ele: HTMLDivElement) => {
-      minimizeRef.current = ele;
-    };
     const exitFitted = () => {
       if (fitted) {
         saveCurrentSizeAndPosition();
@@ -203,7 +181,7 @@ export const WidgetDraggableWrapper = observer(
         enableResizing={widget.resizable}
         dragHandleClassName={`${widget.dragHandleClassName || `fcr-widget-dialog-title-bar`}`}
         cancel={`.${widget.dragCancelClassName || `fcr-widget-dialog-content`}`}>
-        <div ref={refHandle} style={{ ...minimizeStyle, height: '100%' }}>
+        <div ref={minimizeRef} style={{ ...minimizeStyle, height: '100%' }}>
           <div ref={ref} style={{ height: '100%' }}>
             {children}
           </div>
