@@ -236,11 +236,10 @@ const TableAuth = observer(
   }) => {
     const transI18n = useI18n();
     const {
-      participantsUIStore: { isHostByUserRole, tableIconSize },
+      participantsUIStore: { isHostByUserRole, tableIconSize, isHost: isHostLocal },
       presentationUIStore: { isBoardWidgetActive },
     } = useStore();
     const { tooltip, toggleAuthorization, granted } = useAuthorization(userUuid);
-    const isHostLocal = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
     const isHost = isHostByUserRole(role);
     const tooltipContent = isHost
       ? transI18n('fcr_role_teacher')
