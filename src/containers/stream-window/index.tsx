@@ -127,7 +127,7 @@ const StreamPlayer = observer(() => {
     return () => {
       stream && videoRenderable && removeVideoDom(stream.stream.streamUuid);
     };
-  }, [stream, stream?.isLocal, stream?.stream.streamUuid, videoRenderable]);
+  }, [stream?.isLocal, stream?.stream.streamUuid, videoRenderable]);
 
   return (
     <div
