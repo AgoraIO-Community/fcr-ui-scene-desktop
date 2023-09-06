@@ -8,6 +8,8 @@ import classnames from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
+import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+
 export const StatusBarWidgetSlot = observer(() => {
   const { eduToolApi } = useStore();
   const handleClick = (widgetId: string, minimizedCollapsed: boolean) => {
@@ -125,6 +127,7 @@ const CountdownTimerMinimize = observer(() => {
       },
     },
   } = useStore();
+  const { updateZIndex } = useZIndex('countdownTimer');
   const [countdownTimerState, setCountdownTimerState] = useState<CountdownTimerStates>({
     current: 0,
     state: CountdownTimerState.STOPPED,
@@ -152,6 +155,8 @@ const CountdownTimerMinimize = observer(() => {
           minimizedCollapsed: false,
         },
       });
+    } else {
+      updateZIndex();
     }
   };
 
