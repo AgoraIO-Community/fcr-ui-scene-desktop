@@ -101,31 +101,6 @@ export abstract class SceneSubscription {
         this.handleRemoteStreamRemoved(streams);
       },
     );
-
-    this._disposers.push(
-      reaction(
-        () => this.getters.cameraStreams,
-        () => {
-          this.getters.cameraStreams.forEach((stream) => {
-            const { muteLocalAudio, muteRemoteAudio } = this.isMuted(stream);
-            if (stream.isLocal) {
-              this.logger.info(
-                `muteLocalAudio, stream=[${stream.streamUuid}], user=[${stream.fromUser.userUuid},${stream.fromUser.userName}], mute=[${muteLocalAudio}]`,
-              );
-              scene.rtcChannel.muteLocalAudioStream(muteLocalAudio);
-              this.putRegistry(stream.streamUuid, { muteAudio: muteLocalAudio });
-            } else {
-              this.logger.info(
-                `muteRemoteAudio, stream=[${stream.streamUuid}], user=[${stream.fromUser.userUuid},${stream.fromUser.userName}], mute=[${muteRemoteAudio}]`,
-              );
-
-              scene.rtcChannel.muteRemoteAudioStream(stream.streamUuid, muteRemoteAudio);
-              this.putRegistry(stream.streamUuid, { muteAudio: muteRemoteAudio });
-            }
-          });
-        },
-      ),
-    );
   }
 
   protected abstract handleLocalStreamAdded(streams: AgoraStream[]): void;
