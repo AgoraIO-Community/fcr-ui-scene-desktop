@@ -38,7 +38,7 @@ export class GalleryUIStore extends EduUIStoreBase {
     return list;
   }
   @computed get cameraUIStreamsSortByPin() {
-    return this.getters.cameraUIStreams.sort((a, b) => {
+    return this.getters.cameraUIStreams.slice().sort((a, b) => {
       if (a.role === EduRoleTypeEnum.teacher) {
         return -1;
       }
