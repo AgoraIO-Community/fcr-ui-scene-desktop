@@ -38,18 +38,41 @@ export class GalleryUIStore extends EduUIStoreBase {
     return list;
   }
   @computed get cameraUIStreamsSortByPin() {
-    return this.getters.cameraUIStreams.slice().sort((a, b) => {
-      if (a.role === EduRoleTypeEnum.teacher) {
-        return -1;
+    const { pinnedUIStream } = this.getters;
+
+    let pinnedStream: EduStreamUI | null = null;
+    let teacherStream: EduStreamUI | null = null;
+    let localStream: EduStreamUI | null = null;
+
+    const otherStreams = this.getters.cameraUIStreams.filter((uiStream) => {
+      const { stream, role } = uiStream;
+      // pick up pin stream
+      if (stream.streamUuid === pinnedUIStream?.stream.streamUuid) {
+        pinnedStream = uiStream;
+        return false;
       }
-      if (a.stream.streamUuid === this.getters.pinnedUIStream?.stream.streamUuid) {
-        return -1;
+      // pick up teacher stream
+      if (role === EduRoleTypeEnum.teacher) {
+        teacherStream = uiStream;
+        return false;
       }
-      if (b.stream.streamUuid === this.getters.pinnedUIStream?.stream.streamUuid) {
-        return 1;
+      // pick local stream
+      if (stream.isLocal) {
+        localStream = uiStream;
+        return false;
       }
-      return 0;
+
+      return true;
     });
+    const topStreams: EduStreamUI[] = [];
+
+    pinnedStream && topStreams.push(pinnedStream);
+
+    teacherStream && topStreams.push(teacherStream);
+
+    localStream && topStreams.push(localStream);
+
+    return topStreams.concat(otherStreams);
   }
   @action.bound
   setCurrentPage(page: number) {
