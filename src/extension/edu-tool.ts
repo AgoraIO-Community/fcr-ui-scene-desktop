@@ -118,7 +118,6 @@ export class EduTool {
       minimizedKey = '',
       minimizedCollapsed,
       minimizedCollapsedIcon,
-      extra,
     } = minimizedProperties;
     if (minimized) {
       if (minimizedCollapsed) {
@@ -138,7 +137,6 @@ export class EduTool {
         this._minimizedStateMap.set(widgetId, {
           icon: minimizedIcon as SvgIconEnum,
           tooltip: minimizedTooltip,
-          extra: extra,
         });
       }
     } else {
