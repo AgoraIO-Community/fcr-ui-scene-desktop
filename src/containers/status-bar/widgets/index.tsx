@@ -32,29 +32,31 @@ export const StatusBarWidgetSlot = observer(() => {
           .map((item, index) => {
             if (item instanceof Array) {
               const firstItem = item[0];
-              const { minimizedIcon } = firstItem;
-              return (
-                <Popover
-                  overlayInnerStyle={{
-                    width: 207,
-                  }}
-                  mouseEnterDelay={0}
-                  placement="bottom"
-                  content={
-                    <WidgetMinimizedPopoverContent
-                      widgetList={item}
-                      onClick={(widgetId) => {
-                        handleClick(widgetId, true);
-                      }}></WidgetMinimizedPopoverContent>
-                  }>
-                  <div
-                    className="fcr-minimized-widget-icon fcr-minimized-widget-icon-collapsed"
-                    key={index.toString()}>
-                    <SvgImg type={minimizedIcon} size={20} />
-                    {item.length}
-                  </div>
-                </Popover>
-              );
+              if (firstItem) {
+                const { minimizedIcon } = firstItem;
+                return (
+                  <Popover
+                    overlayInnerStyle={{
+                      width: 207,
+                    }}
+                    mouseEnterDelay={0}
+                    placement="bottom"
+                    content={
+                      <WidgetMinimizedPopoverContent
+                        widgetList={item}
+                        onClick={(widgetId) => {
+                          handleClick(widgetId, true);
+                        }}></WidgetMinimizedPopoverContent>
+                    }>
+                    <div
+                      className="fcr-minimized-widget-icon fcr-minimized-widget-icon-collapsed"
+                      key={index.toString()}>
+                      <SvgImg type={minimizedIcon} size={20} />
+                      {item.length}
+                    </div>
+                  </Popover>
+                );
+              }
             } else {
               const { widgetId, tooltip, icon } = item;
               return (

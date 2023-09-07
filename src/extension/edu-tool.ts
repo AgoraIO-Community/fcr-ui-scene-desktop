@@ -180,7 +180,11 @@ export class EduTool {
       this._minimizedStateMap.forEach((value, key) => {
         if (Array.isArray(value)) {
           const newValue = value.filter((item) => item.widgetId !== widgetId);
-          this._minimizedStateMap.set(key, newValue);
+          if (value.length <= 0) {
+            this._minimizedStateMap.delete(key);
+          } else {
+            this._minimizedStateMap.set(key, newValue);
+          }
         }
       });
     }
@@ -271,6 +275,8 @@ export class EduTool {
 
   uninstall() {
     this._controller?.removeWidgetStateListener(this._stateListener);
+    this._minimizedStateMap.clear();
+    this._visibleStateMap.clear();
     this._controller?.removeBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.ChatUnreadMessageUpdate,
       onMessage: this._handleChatUnreadMessageUpdate,

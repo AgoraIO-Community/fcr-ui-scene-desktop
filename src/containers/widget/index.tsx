@@ -12,7 +12,7 @@ import { ParticipantsDialogWrapper } from './participants';
 import { BreakoutDialogWrapper } from './break-out-room';
 export const WidgetContainer = observer(() => {
   const {
-    eduToolApi: { isWidgetVisible },
+    eduToolApi: { isWidgetVisible, isWidgetMinimized },
     widgetUIStore: { z0Widgets, z10Widgets },
   } = useStore();
   return (
@@ -25,15 +25,19 @@ export const WidgetContainer = observer(() => {
             .filter((w) => isWidgetVisible(w.widgetId))
             .map((w: AgoraOnlineclassWidget) => {
               const ref = createRef<HTMLDivElement>();
+              const animationTime = isWidgetMinimized(w.widgetId) ? 0 : 500;
+              const animationClassname = isWidgetMinimized(w.widgetId)
+                ? ''
+                : 'fcr-widget-dialog-transition';
               return (
                 <CSSTransition
                   onEntered={w.onEntered}
                   onExited={w.onExited}
                   nodeRef={ref}
                   key={w.widgetId}
-                  timeout={500}
+                  timeout={animationTime}
                   unmountOnExit
-                  classNames={'fcr-widget-dialog-transition'}>
+                  classNames={animationClassname}>
                   <Widget ref={ref} widget={w} />
                 </CSSTransition>
               );
@@ -46,15 +50,19 @@ export const WidgetContainer = observer(() => {
             .filter((w) => isWidgetVisible(w.widgetId))
             .map((w: AgoraOnlineclassWidget) => {
               const ref = createRef<HTMLDivElement>();
+              const animationTime = isWidgetMinimized(w.widgetId) ? 0 : 500;
+              const animationClassname = isWidgetMinimized(w.widgetId)
+                ? ''
+                : 'fcr-widget-dialog-transition';
               return (
                 <CSSTransition
                   onEntered={w.onEntered}
                   onExited={w.onExited}
                   nodeRef={ref}
                   key={w.widgetId}
-                  timeout={500}
+                  timeout={animationTime}
                   unmountOnExit
-                  classNames={'fcr-widget-dialog-transition'}>
+                  classNames={animationClassname}>
                   <Widget ref={ref} widget={w} />
                 </CSSTransition>
               );

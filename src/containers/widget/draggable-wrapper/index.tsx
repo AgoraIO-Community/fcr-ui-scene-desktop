@@ -80,6 +80,14 @@ export const WidgetDraggableWrapper = observer(
           messageType: AgoraExtensionWidgetEvent.SetFullscreen,
           onMessage: handleWidgetFullscreenChanged,
         });
+        widgetController?.removeBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.UpdateSize,
+          onMessage: handleWidgetSizeChanged,
+        });
+        widgetController?.removeBroadcastListener({
+          messageType: AgoraExtensionWidgetEvent.UpdatePosition,
+          onMessage: handleWidgetPositionChanged,
+        });
       };
     }, [widgetController]);
 
