@@ -8,7 +8,7 @@ import {
   LeaveReason,
   Platform,
 } from 'agora-edu-core';
-import { AGError, bound } from 'agora-rte-sdk';
+import { AGError, AGRtcConnectionType, AgoraRteScene, bound } from 'agora-rte-sdk';
 import { observable, action, runInAction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { DeviceSettingUIStore } from './device-setting';
@@ -107,7 +107,36 @@ export class OnlineclassUIStore {
   setDevicePretestFinished() {
     this._devicePretestFinished = true;
   }
+  @bound
+  async enableDualStream(fromScene?: AgoraRteScene) {
+    try {
+      const lowStreamCameraEncoderConfigurations = (
+        EduClassroomConfig.shared.rteEngineConfig.rtcConfigs as ConvertMediaOptionsConfig
+      )?.defaultLowStreamCameraEncoderConfigurations;
 
+      const enableDualStream = EduClassroomConfig.shared.platform !== Platform.H5;
+      await this.classroomStore.mediaStore.enableDualStream(
+        enableDualStream,
+        AGRtcConnectionType.main,
+        fromScene,
+      );
+
+      await this.classroomStore.mediaStore.setLowStreamParameter(
+        lowStreamCameraEncoderConfigurations || EduClassroomConfig.defaultLowStreamParameter(),
+        AGRtcConnectionType.main,
+        fromScene,
+      );
+    } catch (e) {
+      this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
+        closable: false,
+        title: transI18n('fcr_unknown_error_occurred'),
+        content: (e as AGError).message,
+        okText: transI18n('fcr_room_button_ok'),
+        okButtonProps: { styleType: 'danger' },
+        cancelButtonVisible: false,
+      });
+    }
+  }
   @bound
   async join() {
     const { joinClassroom, joinRTC } = this.classroomStore.connectionStore;
@@ -146,29 +175,7 @@ export class OnlineclassUIStore {
         }),
       );
     }
-
-    try {
-      const lowStreamCameraEncoderConfigurations = (
-        EduClassroomConfig.shared.rteEngineConfig.rtcConfigs as ConvertMediaOptionsConfig
-      )?.defaultLowStreamCameraEncoderConfigurations;
-
-      const enableDualStream = EduClassroomConfig.shared.platform !== Platform.H5;
-      await this.classroomStore.mediaStore.enableDualStream(enableDualStream);
-
-      await this.classroomStore.mediaStore.setLowStreamParameter(
-        lowStreamCameraEncoderConfigurations || EduClassroomConfig.defaultLowStreamParameter(),
-      );
-    } catch (e) {
-      this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
-        closable: false,
-        title: transI18n('fcr_unknown_error_occurred'),
-        content: (e as AGError).message,
-        okText: transI18n('fcr_room_button_ok'),
-        okButtonProps: { styleType: 'danger' },
-        cancelButtonVisible: false,
-      });
-    }
-
+    await this.enableDualStream();
     try {
       await joinRTC();
     } catch (e) {

@@ -895,7 +895,9 @@ export class BreakoutUIStore extends EduUIStoreBase {
           setPretestCameraEnabled(pretestCameraEnabled || isCameraDeviceEnabled);
           setPretestMicEnabled(pretestMicEnabled || isAudioRecordingDeviceEnabled);
           await this.classroomStore.connectionStore.joinSubRoom(roomUuid);
-
+          await this.getters.classroomUIStore.enableDualStream(
+            this.classroomStore.connectionStore.scene,
+          );
           await this.classroomStore.connectionStore.joinRTC();
         } catch (e) {
           this.logger.error('change sub room err', e);
