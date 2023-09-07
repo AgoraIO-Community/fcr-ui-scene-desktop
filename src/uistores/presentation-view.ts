@@ -41,7 +41,7 @@ export class PresentationUIStore extends EduUIStoreBase {
   }
 
   @computed get totalPage() {
-    return Math.ceil(this.getters.cameraUIStreams.length / this.pageSize);
+    return Math.ceil(this.cameraUIStreamsSortByRole.length / this.pageSize);
   }
   @computed get showPager() {
     return this.totalPage > 1;
@@ -50,20 +50,25 @@ export class PresentationUIStore extends EduUIStoreBase {
   @computed get listViewStreamsByPage() {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    const currentPageStreams = this.getters.cameraUIStreams.slice(start, end);
+    const currentPageStreams = this.cameraUIStreamsSortByRole.slice(start, end);
     const needFill =
-      this.getters.cameraUIStreams.length > this.pageSize &&
-      start + currentPageStreams.length >= this.getters.cameraUIStreams.length;
+      this.cameraUIStreamsSortByRole.length > this.pageSize &&
+      start + currentPageStreams.length >= this.cameraUIStreamsSortByRole.length;
     let list = [];
     if (needFill) {
-      list = this.getters.cameraUIStreams.slice(
-        this.getters.cameraUIStreams.length - this.pageSize,
-        this.getters.cameraUIStreams.length,
+      list = this.cameraUIStreamsSortByRole.slice(
+        this.cameraUIStreamsSortByRole.length - this.pageSize,
+        this.cameraUIStreamsSortByRole.length,
       );
     } else {
       list = currentPageStreams;
     }
     return list.sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 0));
+  }
+
+  @computed get cameraUIStreamsSortByRole() {
+    const { cameraUIStreams } = this.getters;
+    return cameraUIStreams.slice().sort(({ role }) => (role === EduRoleTypeEnum.teacher ? -1 : 0));
   }
 
   onDestroy(): void {
