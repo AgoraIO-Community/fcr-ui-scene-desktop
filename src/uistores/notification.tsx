@@ -52,7 +52,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
           toastProps: {
             type: 'info',
             content: transI18n('fcr_room_tips_reward_congratulation_multiplayer', {
-              reason1: userNames.slice(0, 3).join(','),
+              reason1: userNames.slice(0, 3).join(', '),
               reason2: userNames.length,
             }),
           },
