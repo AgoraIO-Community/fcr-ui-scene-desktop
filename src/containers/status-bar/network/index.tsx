@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { useNetwork } from '@onlineclass/utils/hooks/use-network';
+import { useNetwork } from '@ui-scene/utils/hooks/use-network';
 import { useI18n } from 'agora-common-libs';
 
 export const NetworkConnection = observer(() => {

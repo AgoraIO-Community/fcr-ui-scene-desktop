@@ -3,7 +3,7 @@ import { Popover } from '@components/popover';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { BroadcastMessagePanel } from './broadcast-panel';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';

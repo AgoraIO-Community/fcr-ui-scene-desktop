@@ -1,4 +1,4 @@
-import { Boundaries, Size } from '@onlineclass/utils/clamp-bounds';
+import { Boundaries, Size } from '@ui-scene/utils/clamp-bounds';
 
 export const WINDOW_TITLE_HEIGHT = 28;
 // width / height

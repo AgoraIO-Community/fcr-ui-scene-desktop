@@ -13,7 +13,7 @@ import { Chat } from './chat';
 import { Participants } from './participants';
 import { Setting } from './setting';
 import { Leave, LeaveCheck } from './leave';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { RaiseHands } from './raise-hands';
 import { Cloud } from './cloud';
 export const ActionBar = observer(() => {

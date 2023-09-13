@@ -6,7 +6,7 @@ import './dialog-header.css';
 import { Popover } from '@components/popover';
 import classnames from 'classnames';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { CloudTabsValueContext } from '.';
 import { useI18n } from 'agora-common-libs';
 

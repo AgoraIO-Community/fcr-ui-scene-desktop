@@ -1,6 +1,6 @@
-import { useDraggablePosition } from '@onlineclass/utils/hooks/use-drag-position';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+import { useDraggablePosition } from '@ui-scene/utils/hooks/use-drag-position';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
+import { useZIndex } from '@ui-scene/utils/hooks/use-z-index';
 import { observer } from 'mobx-react';
 import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';

@@ -1,6 +1,6 @@
 import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { FC } from 'react';

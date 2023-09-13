@@ -3,14 +3,13 @@ import { Radio } from '@components/radio';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
 import { MicrophoneIndicator } from '@components/svg-img/mic';
-
 import { FC, useState } from 'react';
 import { ActionBarItemWrapper } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
+import { useDeviceSwitch } from '@ui-scene/utils/hooks/use-device-switch';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { useI18n } from 'agora-common-libs';
 const colors = themeVal('colors');

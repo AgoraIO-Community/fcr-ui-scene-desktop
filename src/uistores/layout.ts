@@ -8,7 +8,7 @@ import { AgoraViewportBoundaries } from 'agora-common-libs';
 import { ClassDialogProps } from '@components/dialog/class-dialog';
 import { v4 as uuidv4 } from 'uuid';
 import { ClassroomState, EduRoleTypeEnum } from 'agora-edu-core';
-import { AgoraExtensionRoomEvent } from '@onlineclass/extension/events';
+import { AgoraExtensionRoomEvent } from '@ui-scene/extension/events';
 
 @Log.attach({ proxyMethods: false })
 export class LayoutUIStore extends EduUIStoreBase {

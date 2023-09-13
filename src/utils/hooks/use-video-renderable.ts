@@ -1,5 +1,5 @@
-import { StreamWindowContext } from '@onlineclass/containers/stream-window/context';
-import { Layout } from '@onlineclass/uistores/type';
+import { StreamWindowContext } from '@ui-scene/containers/stream-window/context';
+import { Layout } from '@ui-scene/uistores/type';
 import { useContext } from 'react';
 import { useStore } from './use-store';
 import { AgoraRteVideoSourceType } from 'agora-rte-sdk';

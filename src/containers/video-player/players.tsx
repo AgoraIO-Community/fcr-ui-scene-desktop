@@ -1,8 +1,8 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { useEffect, useRef } from 'react';
 import { Avatar } from '@components/avatar';
-import { getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
+import { getLaunchOptions } from '@ui-scene/utils/launch-options-holder';
 
 export const LocalVideoPlayer = observer(() => {
   const {

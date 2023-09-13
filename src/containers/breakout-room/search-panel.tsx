@@ -1,7 +1,7 @@
 import { Checkbox } from '@components/checkbox';
 import { Input } from '@components/input';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { FC, useState } from 'react';

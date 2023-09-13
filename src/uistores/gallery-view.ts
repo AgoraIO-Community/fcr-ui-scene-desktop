@@ -1,6 +1,6 @@
 import { action, computed, observable, reaction } from 'mobx';
 import { EduUIStoreBase } from './base';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { EduRoleTypeEnum } from 'agora-edu-core';
 export class GalleryUIStore extends EduUIStoreBase {
   @observable mainViewStreamUuid: string | null = null;

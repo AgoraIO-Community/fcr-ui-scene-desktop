@@ -3,7 +3,7 @@ import { ToolTip } from '@components/tooltip';
 import { ActionBarItem } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import { InfoToolTip } from '@components/tooltip/info';
 import { Button } from '@components/button';

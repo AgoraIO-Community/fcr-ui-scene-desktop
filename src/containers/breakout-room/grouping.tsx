@@ -11,7 +11,7 @@ import { SearchPanel } from './search-panel';
 import { DndProvider, useDrop, useDrag } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 
 type GroupItem = {

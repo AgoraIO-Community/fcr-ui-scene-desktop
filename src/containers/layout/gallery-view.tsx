@@ -1,11 +1,11 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
 import './index.css';
 import { StreamWindow } from '../stream-window';
 import useMeasure from 'react-use-measure';
 import { useEffect, useMemo } from 'react';
-import { calculateGridMatrix } from '@onlineclass/utils/grid';
+import { calculateGridMatrix } from '@ui-scene/utils/grid';
 import { convertStreamUIStatus, StreamWindowContext } from '../stream-window/context';
 import { FloatPagination } from '@components/pagination';
 

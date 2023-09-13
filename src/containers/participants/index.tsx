@@ -5,28 +5,28 @@ import { Table } from '@components/table';
 import './index.css';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { ToolTip } from '@components/tooltip';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { DialogToolTip } from '@components/tooltip/dialog';
 import { Button } from '@components/button';
 import { Radio, RadioGroup } from '@components/radio';
-import { EduClassroomConfig, EduRoleTypeEnum, EduUserStruct } from 'agora-edu-core';
+import { EduRoleTypeEnum, EduUserStruct } from 'agora-edu-core';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
 import classnames from 'classnames';
 import { ToastApiFactory } from '@components/toast';
-import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
+import { useDeviceSwitch } from '@ui-scene/utils/hooks/use-device-switch';
 import { AgoraRteMediaPublishState, Logger } from 'agora-rte-sdk';
 import {
   ParticipantsOrderDirection,
   ParticipantsTableSortKeysEnum,
-} from '@onlineclass/uistores/participants';
-import { useAuthorization } from '@onlineclass/utils/hooks/use-authorization';
+} from '@ui-scene/uistores/participants';
+import { useAuthorization } from '@ui-scene/utils/hooks/use-authorization';
 import {
   CustomMessageCommandType,
   CustomMessageDeviceState,
   CustomMessageDeviceType,
-} from '@onlineclass/uistores/type';
+} from '@ui-scene/uistores/type';
 import { transI18n, useI18n } from 'agora-common-libs';
 
 interface ParticipantsContext {

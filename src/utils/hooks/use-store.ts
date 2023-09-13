@@ -1,4 +1,4 @@
-import { OnlineclassContext } from '@onlineclass/uistores/context';
+import { FcrUISceneContext } from '@ui-scene/uistores/context';
 import { useContext } from 'react';
 
-export const useStore = () => useContext(OnlineclassContext.shared);
+export const useStore = () => useContext(FcrUISceneContext.shared);

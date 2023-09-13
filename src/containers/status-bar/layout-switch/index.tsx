@@ -1,10 +1,10 @@
 import { Radio } from '@components/radio';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { Layout } from '@onlineclass/uistores/type';
+import { Layout } from '@ui-scene/uistores/type';
 import classnames from 'classnames';
 import './index.css';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { StatusBarItemWrapper } from '..';
 import { PopoverWithTooltip } from '@components/popover';
 import { useEffect, useRef } from 'react';

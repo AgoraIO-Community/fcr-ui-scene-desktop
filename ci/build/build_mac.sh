@@ -36,4 +36,4 @@ make_monorepo $source_root "../fcr-ui-kit-desktop"
 
 install_packages $source_root
 
-build_lib $source_root $ci_source_root agora-onlineclass-sdk $build_branch
+build_lib $source_root $ci_source_root fcr-ui-scene $build_branch

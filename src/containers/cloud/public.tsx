@@ -5,7 +5,7 @@ import { Table } from '@components/table';
 
 import { observer } from 'mobx-react';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import dayjs from 'dayjs';
 import { Logger } from 'agora-rte-sdk';
 import { useI18n } from 'agora-common-libs';

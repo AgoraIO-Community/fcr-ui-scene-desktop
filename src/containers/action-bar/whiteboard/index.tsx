@@ -1,7 +1,7 @@
 import { SvgIconEnum } from '@components/svg-img';
 import { ActionBarItem } from '..';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { Logger, useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { themeVal } from '@ui-kit-utils/tailwindcss';

@@ -1,5 +1,5 @@
-import { ActionBar } from '@onlineclass/containers/action-bar';
-import { StatusBar } from '@onlineclass/containers/status-bar';
+import { ActionBar } from '@ui-scene/containers/action-bar';
+import { StatusBar } from '@ui-scene/containers/status-bar';
 
 export const CoverView = () => {
   return (

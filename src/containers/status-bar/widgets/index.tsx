@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
 import { Popover } from '@components/popover';
 import classnames from 'classnames';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
-import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+import { AgoraExtensionWidgetEvent } from '@ui-scene/extension/events';
+import { useZIndex } from '@ui-scene/utils/hooks/use-z-index';
 
 export const StatusBarWidgetSlot = observer(() => {
   const { eduToolApi } = useStore();

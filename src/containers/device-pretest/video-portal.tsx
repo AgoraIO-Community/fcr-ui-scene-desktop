@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Button } from '@components/button';
 import { SvgIconEnum } from '@components/svg-img';
 import { PretestDeviceIcon, PretestDeviceIconProps } from '@components/svg-img/clickable-icon';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { BeautySlider } from './beauty-slider';
 import { MirrorToggle } from './mirror-toggle';
 import { LocalVideoPlayer } from '../video-player';

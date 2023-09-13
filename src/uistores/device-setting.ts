@@ -1,12 +1,6 @@
-import { isInvisible, isWeb } from '@onlineclass/utils/check';
-import { builtInExtensions, getProcessorInitializer } from '@onlineclass/utils/rtc-extensions';
-import {
-  AgoraEduClassroomEvent,
-  ClassroomState,
-  DEVICE_DISABLE,
-  EduClassroomConfig,
-  EduEventCenter,
-} from 'agora-edu-core';
+import { isInvisible, isWeb } from '@ui-scene/utils/check';
+import { builtInExtensions, getProcessorInitializer } from '@ui-scene/utils/rtc-extensions';
+import { ClassroomState, DEVICE_DISABLE, EduClassroomConfig } from 'agora-edu-core';
 import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { IAIDenoiserProcessor } from 'agora-extension-ai-denoiser';
 import { IVirtualBackgroundProcessor } from 'agora-extension-virtual-background';
@@ -22,8 +16,8 @@ import {
 } from 'agora-rte-sdk';
 import { transI18n } from 'agora-common-libs';
 import { BeautyFilterOptions, VirtualBackgroundOptions } from '..';
-import { fetchMediaFileByUrl } from '@onlineclass/utils';
-import { getConfig, getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
+import { fetchMediaFileByUrl } from '@ui-scene/utils';
+import { getConfig, getLaunchOptions } from '@ui-scene/utils/launch-options-holder';
 import concat from 'lodash/concat';
 import map from 'lodash/map';
 import {

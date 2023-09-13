@@ -1,7 +1,7 @@
 import { VerticalSlider } from '@components/slider';
 import { SvgIconEnum } from '@components/svg-img';
 import { ClickableIcon } from '@components/svg-img/clickable-icon';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 
 export const BeautySlider = observer(() => {

@@ -1,4 +1,4 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import loadingGif from './assets/loading.gif';
 import './index.css';

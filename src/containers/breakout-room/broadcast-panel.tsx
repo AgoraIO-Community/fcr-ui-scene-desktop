@@ -1,7 +1,7 @@
 import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { TextArea } from '@components/textarea';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { FC, useState } from 'react';
 

@@ -1,4 +1,4 @@
-import { ConvertMediaOptionsConfig } from '@onlineclass/type';
+import { ConvertMediaOptionsConfig } from '@ui-scene/type';
 import {
   AGServiceErrorCode,
   EduClassroomConfig,
@@ -13,7 +13,7 @@ import { observable, action, runInAction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { DeviceSettingUIStore } from './device-setting';
 import { ActionBarUIStore } from './action-bar';
-import { OnlineclassContext } from './context';
+import { FcrUISceneContext } from './context';
 import { Getters } from './getters';
 import { LayoutUIStore } from './layout';
 import { StatusBarUIStore } from './status-bar';
@@ -25,12 +25,12 @@ import { PresentationUIStore } from './presentation-view';
 import { SubscriptionUIStore } from './subscription';
 import { ParticipantsUIStore } from './participants';
 import { NotiticationUIStore } from './notification';
-import { EduTool } from '@onlineclass/extension/edu-tool';
+import { EduTool } from '@ui-scene/extension/edu-tool';
 import { CloudUIStore } from './cloud';
 import { BreakoutUIStore } from './breakout';
 import { transI18n } from 'agora-common-libs';
 
-export class OnlineclassUIStore {
+export class SceneUIStore {
   @observable
   private _installed = false;
   @observable
@@ -202,6 +202,6 @@ export class OnlineclassUIStore {
         }
       }
     });
-    OnlineclassContext.reset();
+    FcrUISceneContext.reset();
   }
 }

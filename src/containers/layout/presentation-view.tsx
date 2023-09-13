@@ -1,5 +1,5 @@
-import { Layout } from '@onlineclass/uistores/type';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { Layout } from '@ui-scene/uistores/type';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
 import './index.css';

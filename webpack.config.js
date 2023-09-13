@@ -7,7 +7,7 @@ const ROOT_PATH = path.resolve(__dirname, './');
 
 const config = {
   entry: {
-    onlineclass_sdk: './src/index',
+    scene: './src/index',
   },
   output: {
     path: path.resolve(ROOT_PATH, 'lib'),
@@ -19,9 +19,9 @@ const config = {
   resolve: {
     alias: {
       '@res': path.resolve(ROOT_PATH, './src/resources'),
-      '@onlineclass': path.resolve(ROOT_PATH, './src'),
-      '@components': 'agora-scenario-ui-kit/src/components',
-      '@ui-kit-utils': 'agora-scenario-ui-kit/src/utils',
+      '@ui-scene': path.resolve(ROOT_PATH, './src'),
+      '@components': 'fcr-ui-kit/src/components',
+      '@ui-kit-utils': 'fcr-ui-kit/src/utils',
     },
   },
 };

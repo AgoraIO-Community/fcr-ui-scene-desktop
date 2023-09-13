@@ -1,4 +1,3 @@
-import { AgoraOnlineclassWidget } from 'agora-common-libs';
 import { useEffect, useRef, useState } from 'react';
 import {
   WINDOW_REMAIN_POSITION,
@@ -8,8 +7,8 @@ import {
   getFittedBounds,
 } from './helpers';
 import { Rnd } from 'react-rnd';
-import { reposition, useRndPosition } from '@onlineclass/utils/hooks/use-rnd-position';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { reposition, useRndPosition } from '@ui-scene/utils/hooks/use-rnd-position';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 
 export const useFitted = ({
   defaultFullscreen = false,

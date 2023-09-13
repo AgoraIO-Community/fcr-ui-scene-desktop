@@ -2,7 +2,7 @@ import { SvgIconEnum } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
 import { ActionBarItem } from '..';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 
 export const Setting = () => {

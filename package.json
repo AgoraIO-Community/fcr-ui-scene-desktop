@@ -1,11 +1,8 @@
 {
-  "name": "agora-onlineclass-sdk",
+  "name": "fcr-ui-scene",
   "version": "1.0.0",
-  "main": "lib/onlineclass_sdk.bundle.js",
-  "types": "lib/agora-onlineclass-sdk/src/index.d.ts",
-  "repository": "ssh://git@git.agoralab.co/aduc/online-class-desktop.git",
-  "author": "renyifei <renyifei@agora.io>",
-  "license": "MIT",
+  "main": "lib/scene.bundle.js",
+  "types": "lib/fcr-ui-scene/src/index.d.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=4096 webpack --watch --config ./webpack/webpack.dev.js",
     "build:types": "tsc -p tsconfig.json",

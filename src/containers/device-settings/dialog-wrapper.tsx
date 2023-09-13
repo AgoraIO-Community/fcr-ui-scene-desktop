@@ -1,4 +1,4 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { FC } from 'react';
 import { DeviceSettings } from '.';
 import { GlobalDialog } from '@components/dialog/global-dialog';

@@ -6,7 +6,7 @@ import { AIDenoiserExtension, IAIDenoiserProcessor } from 'agora-extension-ai-de
 import { ExtensionInitializer, ProcessorInitializer } from '../type';
 import { EduClassroomConfig } from 'agora-edu-core';
 import { IBaseProcessor, IExtension } from 'agora-rte-extension';
-import { isProduction } from '@onlineclass/utils/check';
+import { isProduction } from '@ui-scene/utils/check';
 
 let assetsBaseUrl = isProduction ? 'https://solutions-apaas.agora.io/static' : '';
 

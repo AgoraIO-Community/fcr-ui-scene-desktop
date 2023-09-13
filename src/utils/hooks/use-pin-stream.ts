@@ -1,4 +1,4 @@
-import { Layout } from '@onlineclass/uistores/type';
+import { Layout } from '@ui-scene/uistores/type';
 import { useStore } from './use-store';
 
 export const usePinStream = () => {

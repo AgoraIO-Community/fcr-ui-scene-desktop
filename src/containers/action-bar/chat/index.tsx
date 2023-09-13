@@ -1,6 +1,6 @@
 import { SvgIconEnum } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { ActionBarItem } from '..';
 import './index.css';
@@ -9,7 +9,7 @@ import {
   AgoraIMMessageType,
   AgoraIMTextMessage,
   chatroomWidgetId,
-} from '@onlineclass/extension/type';
+} from '@ui-scene/extension/type';
 import { Scheduler, useI18n } from 'agora-common-libs';
 import { useEffect, useRef, useState } from 'react';
 import { DialogToolTip } from '@components/tooltip/dialog';

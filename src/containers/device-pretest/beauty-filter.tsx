@@ -1,5 +1,5 @@
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import classNames from 'classnames';
 import { observer } from 'mobx-react';

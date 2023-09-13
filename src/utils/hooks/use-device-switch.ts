@@ -7,7 +7,7 @@ import {
   CustomMessageCommandType,
   CustomMessageDeviceState,
   CustomMessageDeviceType,
-} from '@onlineclass/uistores/type';
+} from '@ui-scene/uistores/type';
 import { useI18n } from 'agora-common-libs';
 const colors = themeVal('colors');
 export const checkCameraEnabled = (stream?: EduStreamUI) => {

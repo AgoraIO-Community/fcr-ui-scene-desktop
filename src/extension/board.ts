@@ -10,8 +10,8 @@ import {
   FcrBoardShape,
   FcrBoardTool,
 } from './type';
-import { getTheme } from '@onlineclass/utils/launch-options-holder';
-import { BoardH5WindowConfig, BoardMediaWindowConfig } from '@onlineclass/uistores/type';
+import { getTheme } from '@ui-scene/utils/launch-options-holder';
+import { BoardH5WindowConfig, BoardMediaWindowConfig } from '@ui-scene/uistores/type';
 import { ToastApi } from '@components/toast';
 import { SvgIconEnum } from '@components/svg-img';
 import { transI18n } from 'agora-common-libs';

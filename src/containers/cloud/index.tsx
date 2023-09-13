@@ -1,4 +1,4 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { FC, createContext, useState } from 'react';
 import { GlobalDialog } from '@components/dialog/global-dialog';
 import { observer } from 'mobx-react';

@@ -1,6 +1,6 @@
 import { EduUIStoreBase } from './base';
 import { observable, computed, reaction, action, runInAction } from 'mobx';
-import { ShareStreamStateKeeper } from '@onlineclass/utils/stream/state-keeper';
+import { ShareStreamStateKeeper } from '@ui-scene/utils/stream/state-keeper';
 import { ClassroomState, EduClassroomConfig, LeaveReason, RecordMode } from 'agora-edu-core';
 import {
   AgoraRteAudioSourceType,
@@ -12,9 +12,9 @@ import {
 } from 'agora-rte-sdk';
 import { computedFn } from 'mobx-utils';
 
-import { isElectron } from '@onlineclass/utils/check';
+import { isElectron } from '@ui-scene/utils/check';
 import { ToastApi } from '@components/toast';
-import { getRandomInt } from '@onlineclass/utils';
+import { getRandomInt } from '@ui-scene/utils';
 import {
   CustomMessageCommandType,
   CustomMessageData,
@@ -22,7 +22,7 @@ import {
   CustomMessageHandsUpState,
   CustomMessageHandsUpType,
 } from './type';
-import { chatroomWidgetId } from '@onlineclass/extension/type';
+import { chatroomWidgetId } from '@ui-scene/extension/type';
 import { getLanguage } from 'agora-common-libs';
 export class ActionBarUIStore extends EduUIStoreBase {
   // for student hands up

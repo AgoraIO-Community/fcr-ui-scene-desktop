@@ -3,7 +3,7 @@ import { ToolTip } from '@components/tooltip';
 import { ActionBarItem } from '..';
 import './index.css';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { Popover } from '@components/popover';
 import { Button } from '@components/button';
 import { useEffect, useState } from 'react';

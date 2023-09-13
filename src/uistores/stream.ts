@@ -13,7 +13,7 @@ import {
 import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { computedFn } from 'mobx-utils';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { v4 as uuidv4 } from 'uuid';
 type RenderableVideoDom = {
   dom: HTMLDivElement;

@@ -1,15 +1,15 @@
 import { createContext, Context } from 'react';
-import { OnlineclassUIStore } from '.';
+import { SceneUIStore } from '.';
 
-export class OnlineclassContext {
-  private static _context: Context<OnlineclassUIStore> | null;
+export class FcrUISceneContext {
+  private static _context: Context<SceneUIStore> | null;
   static get shared() {
-    if (!OnlineclassContext._context) {
-      OnlineclassContext._context = createContext(new OnlineclassUIStore());
+    if (!FcrUISceneContext._context) {
+      FcrUISceneContext._context = createContext(new SceneUIStore());
     }
-    return OnlineclassContext._context;
+    return FcrUISceneContext._context;
   }
   static reset() {
-    OnlineclassContext._context = null;
+    FcrUISceneContext._context = null;
   }
 }

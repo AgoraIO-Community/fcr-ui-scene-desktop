@@ -25,7 +25,7 @@ import { MimeTypesKind, UploadItem, supportedTypes } from '../type';
 import { CloudDriveResourceInfo } from 'agora-edu-core/lib/stores/domain/common/cloud-drive/type';
 import { ToastApi } from '@components/toast';
 import { AGErrorWrapper } from 'agora-rte-sdk';
-import { getLaunchOptions } from '@onlineclass/utils/launch-options-holder';
+import { getLaunchOptions } from '@ui-scene/utils/launch-options-holder';
 
 export class CloudUIStore extends EduUIStoreBase {
   cloudHelpTips = [

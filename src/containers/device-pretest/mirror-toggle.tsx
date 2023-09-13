@@ -1,6 +1,6 @@
 import { SvgIconEnum } from '@components/svg-img';
 import { PretestDeviceIcon } from '@components/svg-img/clickable-icon';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import { useMemo } from 'react';

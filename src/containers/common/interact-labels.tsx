@@ -1,10 +1,10 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
 import './index.css';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { EduRoleTypeEnum } from 'agora-edu-core';
-import { usePinStream } from '@onlineclass/utils/hooks/use-pin-stream';
+import { usePinStream } from '@ui-scene/utils/hooks/use-pin-stream';
 import { ToolTip } from '@components/tooltip';
 import { useI18n } from 'agora-common-libs';
 const interactLabelGroupSizeMap = {

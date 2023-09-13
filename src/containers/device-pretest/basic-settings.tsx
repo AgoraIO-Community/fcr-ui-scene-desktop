@@ -1,6 +1,6 @@
 import { Checkbox } from '@components/checkbox';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import { VolumeIndicator } from '@components/volume';
 import { CameraSelect, MicrophoneSelect, SpeakerSelect } from './device-select';

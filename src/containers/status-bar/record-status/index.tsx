@@ -1,6 +1,6 @@
 import './index.css';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { StatusBarItemWrapper } from '..';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';

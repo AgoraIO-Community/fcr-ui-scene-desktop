@@ -7,7 +7,7 @@ import { VirtualBackground } from '../device-pretest/virtual-background';
 import { BeautyFilter } from '../device-pretest/beauty-filter';
 import { CameraSelect } from '../device-pretest/device-select';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 
 const tabContents = {

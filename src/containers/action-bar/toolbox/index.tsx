@@ -1,12 +1,12 @@
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { FC, useState } from 'react';
 import { ActionBarItemWithPopover } from '..';
 import { observer } from 'mobx-react';
 import './index.css';
 import { useI18n } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
-import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+import { useZIndex } from '@ui-scene/utils/hooks/use-z-index';
 export const ToolBox = observer(() => {
   const {
     layoutUIStore: { setHasPopoverShowed },

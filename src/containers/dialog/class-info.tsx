@@ -1,5 +1,5 @@
 import { ClassDialog, ClassDialogProps } from '@components/dialog/class-dialog';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { FC, useState } from 'react';
 

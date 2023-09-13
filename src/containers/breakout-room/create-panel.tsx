@@ -2,7 +2,7 @@ import { Button } from '@components/button';
 import { InputNumber } from '@components/input-number';
 import { Radio } from '@components/radio';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { FC, useState } from 'react';
 

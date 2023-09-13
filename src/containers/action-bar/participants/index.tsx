@@ -1,6 +1,6 @@
 import { SvgIconEnum } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react-lite';
 import { ActionBarItem } from '..';
 import './index.css';

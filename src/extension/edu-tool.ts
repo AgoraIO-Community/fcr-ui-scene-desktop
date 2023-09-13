@@ -4,8 +4,8 @@ import { action, computed, IReactionDisposer, observable } from 'mobx';
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
-import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@onlineclass/uistores/type';
-import { transI18n, AgoraOnlineclassWidget } from 'agora-common-libs';
+import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@ui-scene/uistores/type';
+import { transI18n, FcrUISceneWidget } from 'agora-common-libs';
 import { AgoraIMMessageBase, CabinetToolItem } from './type';
 
 @Log.attach({ proxyMethods: false })
@@ -92,7 +92,7 @@ export class EduTool {
   setMinimizedState(params: {
     minimized: boolean;
     widgetId: string;
-    minimizedProperties: AgoraOnlineclassWidget['minimizedProperties'];
+    minimizedProperties: FcrUISceneWidget['minimizedProperties'];
   }) {
     const { minimized, widgetId, minimizedProperties } = params;
     this._handleMinimizedStateChange(params);
@@ -110,7 +110,7 @@ export class EduTool {
   }: {
     minimized: boolean;
     widgetId: string;
-    minimizedProperties: AgoraOnlineclassWidget['minimizedProperties'];
+    minimizedProperties: FcrUISceneWidget['minimizedProperties'];
   }) {
     const {
       minimizedTooltip,

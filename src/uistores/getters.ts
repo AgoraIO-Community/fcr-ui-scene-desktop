@@ -1,13 +1,13 @@
-import { extractUserStreams } from '@onlineclass/utils/stream';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { extractUserStreams } from '@ui-scene/utils/stream';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { EduClassroomConfig, EduRoleTypeEnum, EduStream } from 'agora-edu-core';
 import { AgoraRteMediaSourceState, AgoraRteVideoSourceType } from 'agora-rte-sdk';
 import { computed } from 'mobx';
 import { computedFn } from 'mobx-utils';
-import { OnlineclassUIStore } from '.';
+import { SceneUIStore } from '.';
 
 export class Getters {
-  constructor(private _classroomUIStore: OnlineclassUIStore) {}
+  constructor(private _classroomUIStore: SceneUIStore) {}
 
   get classroomUIStore() {
     return this._classroomUIStore;

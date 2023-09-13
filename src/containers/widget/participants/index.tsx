@@ -1,5 +1,5 @@
-import { ParticipantsDialog } from '@onlineclass/containers/participants/dialog';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { ParticipantsDialog } from '@ui-scene/containers/participants/dialog';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';

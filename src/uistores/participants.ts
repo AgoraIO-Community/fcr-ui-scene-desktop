@@ -1,10 +1,10 @@
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { EduRoleTypeEnum, iterateMap } from 'agora-edu-core';
 import { bound } from 'agora-rte-sdk';
 import { action, computed, observable } from 'mobx';
 import { EduUIStoreBase } from './base';
 import { computedFn } from 'mobx-utils';
-import { checkCameraEnabled, checkMicEnabled } from '@onlineclass/utils/hooks/use-device-switch';
+import { checkCameraEnabled, checkMicEnabled } from '@ui-scene/utils/hooks/use-device-switch';
 export enum ParticipantsTableSortKeysEnum {
   Auth = 'Auth',
   Camera = 'Camera',

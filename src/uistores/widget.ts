@@ -1,4 +1,4 @@
-import { AgoraUiCapableConfirmDialogProps, AgoraOnlineclassWidget } from 'agora-common-libs';
+import { AgoraUiCapableConfirmDialogProps, FcrUISceneWidget } from 'agora-common-libs';
 import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
 import { action, computed, observable, reaction } from 'mobx';
@@ -8,18 +8,18 @@ import {
   getUiConfig,
   getTheme,
   getConfig,
-} from '@onlineclass/utils/launch-options-holder';
+} from '@ui-scene/utils/launch-options-holder';
 import { ToastApi } from '@components/toast';
-import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
+import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@ui-scene/extension/events';
 import { ConfirmDialogProps } from '@components/dialog/confirm-dialog';
 import { CommonDialogType } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
   private _defaultActiveWidgetIds = ['easemobIM'];
-  private _registeredWidgets: Record<string, typeof AgoraOnlineclassWidget> = {};
+  private _registeredWidgets: Record<string, typeof FcrUISceneWidget> = {};
   @observable
-  private _widgetInstances: Record<string, AgoraOnlineclassWidget> = {};
+  private _widgetInstances: Record<string, FcrUISceneWidget> = {};
   private _stateListener = {
     onActive: this._handleWidgetActive,
     onInactive: this._handleWidgetInactive,
@@ -83,7 +83,7 @@ export class WidgetUIStore extends EduUIStoreBase {
         this._createUiCapable(),
         getUiConfig(),
         getTheme(),
-      ) as AgoraOnlineclassWidget;
+      ) as FcrUISceneWidget;
 
       if (instanceId) {
         this._callWidgetSetInstanceId(widget, instanceId);
@@ -170,42 +170,42 @@ export class WidgetUIStore extends EduUIStoreBase {
     }
   }
 
-  private _callWidgetCreate(widget: AgoraOnlineclassWidget, props: unknown, userProps: unknown) {
+  private _callWidgetCreate(widget: FcrUISceneWidget, props: unknown, userProps: unknown) {
     if (widget.onCreate) {
       widget.onCreate(props, userProps);
     }
   }
 
-  private _callWidgetSetInstanceId(widget: AgoraOnlineclassWidget, instanceId: string) {
+  private _callWidgetSetInstanceId(widget: FcrUISceneWidget, instanceId: string) {
     if (widget.setInstanceId) {
       widget.setInstanceId(instanceId);
     }
   }
 
-  private _callWidgetPropertiesUpdate(widget: AgoraOnlineclassWidget, props: unknown) {
+  private _callWidgetPropertiesUpdate(widget: FcrUISceneWidget, props: unknown) {
     if (widget.onPropertiesUpdate) {
       widget.onPropertiesUpdate(props);
     }
   }
-  private _callWidgetUserPropertiesUpdate(widget: AgoraOnlineclassWidget, userProps: unknown) {
+  private _callWidgetUserPropertiesUpdate(widget: FcrUISceneWidget, userProps: unknown) {
     if (widget.onUserPropertiesUpdate) {
       widget.onUserPropertiesUpdate(userProps);
     }
   }
 
-  private _callWidgetDestroy(widget: AgoraOnlineclassWidget) {
+  private _callWidgetDestroy(widget: FcrUISceneWidget) {
     if (widget.onDestroy) {
       widget.onDestroy();
     }
   }
 
-  private _callWidgetInstall(widget: AgoraOnlineclassWidget, controller: AgoraWidgetController) {
+  private _callWidgetInstall(widget: FcrUISceneWidget, controller: AgoraWidgetController) {
     if (widget.onInstall) {
       widget.onInstall(controller);
     }
   }
 
-  private _callWidgetUninstall(widget: AgoraOnlineclassWidget, controller: AgoraWidgetController) {
+  private _callWidgetUninstall(widget: FcrUISceneWidget, controller: AgoraWidgetController) {
     if (widget.onUninstall) {
       widget.onUninstall(controller);
     }

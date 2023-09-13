@@ -29,7 +29,7 @@ export class FcrUIScene {
    * @returns 卸载函数
    */
   /** @en
-   * Entry point of AgoraOnlineclassSDK, which is used to create an online classroom app and render at the specified dom.
+   * Entry point of FcrUIScene, which is used to create an online classroom app and render at the specified dom.
    * @param dom dom to mount classroom UI
    * @param launchOption options to launch a classroom
    * @returns unmount function
@@ -62,7 +62,7 @@ export class FcrUIScene {
       recordOptions,
     } = launchOptions;
 
-    Logger.info('[AgoraOnlineclassSDK]launched with options:', launchOptions);
+    Logger.info('[FcrUIScene]launched with options:', launchOptions);
 
     setLaunchOptions(launchOptions);
 
@@ -113,7 +113,7 @@ export class FcrUIScene {
 
     EduClassroomConfig.setConfig(config);
 
-    Logger.info(`[AgoraOnlineclassSDK]classroomConfig`, config);
+    Logger.info(`[FcrUIScene]classroomConfig`, config);
 
     changeLanguage(language);
 
@@ -141,17 +141,17 @@ export class FcrUIScene {
     Promise.all([addResourceBundle('zh', zhCn), addResourceBundle('en', enUs)]).then(() => {
       if (!isUnmounted) {
         render(<App skipDevicePretest={!devicePretest} />, dom, () => {
-          Logger.info(`[AgoraOnlineclassSDK]render complete in ${Date.now() - startTs}ms.`);
+          Logger.info(`[FcrUIScene]render complete in ${Date.now() - startTs}ms.`);
         });
       } else {
-        Logger.info('[AgoraOnlineclassSDK]SDK is unmounted before first render.');
+        Logger.info('[FcrUIScene]SDK is unmounted before first render.');
       }
     });
     // return a disposer
     return () => {
       isUnmounted = true;
       unmountComponentAtNode(dom);
-      Logger.info(`[AgoraOnlineclassSDK]unmounted.`);
+      Logger.info(`[FcrUIScene]unmounted.`);
     };
   }
 
@@ -164,7 +164,7 @@ export class FcrUIScene {
    * @param params
    */
   static setParameters(params: string) {
-    Logger.info(`[AgoraOnlineclassSDK]set parameters`, params);
+    Logger.info(`[FcrUIScene]set parameters`, params);
     const { host, ignoreUrlRegionPrefix, logo, shareUrl, defaultEnableDevice } =
       JSON.parse(params) || {};
 

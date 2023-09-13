@@ -1,4 +1,4 @@
-import { AgoraOnlineclassWidget } from 'agora-common-libs';
+import { FcrUISceneWidget } from 'agora-common-libs';
 import { observer } from 'mobx-react';
 import {
   CSSProperties,
@@ -11,15 +11,15 @@ import {
 } from 'react';
 import { Rnd } from 'react-rnd';
 import { useFitted } from '../hooks';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { ZIndexContext } from '@onlineclass/utils/hooks/use-z-index';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
+import { ZIndexContext } from '@ui-scene/utils/hooks/use-z-index';
 import { useMinimize } from '@ui-kit-utils/hooks/animations';
 import { resizeHandleStyleOverride } from '../helpers';
 
-import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@onlineclass/extension/events';
+import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@ui-scene/extension/events';
 
 export const WidgetDraggableWrapper = observer(
-  forwardRef<HTMLDivElement, PropsWithChildren<{ widget: AgoraOnlineclassWidget }>>(function W(
+  forwardRef<HTMLDivElement, PropsWithChildren<{ widget: FcrUISceneWidget }>>(function W(
     props,
     ref,
   ) {

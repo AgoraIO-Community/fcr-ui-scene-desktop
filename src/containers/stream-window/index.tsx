@@ -1,4 +1,4 @@
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { AudioRecordinDeviceIcon } from '../action-bar/device';
@@ -9,19 +9,19 @@ import { Popover } from '@components/popover';
 import { StreamWindowContext, StreamWindowMouseContext } from './context';
 import { InteractLabelGroup } from '../common/interact-labels';
 import { themeVal } from '@ui-kit-utils/tailwindcss';
-import { useDeviceSwitch } from '@onlineclass/utils/hooks/use-device-switch';
-import { useVideoRenderable } from '@onlineclass/utils/hooks/use-video-renderable';
+import { useDeviceSwitch } from '@ui-scene/utils/hooks/use-device-switch';
+import { useVideoRenderable } from '@ui-scene/utils/hooks/use-video-renderable';
 import { EduRoleTypeEnum } from 'agora-edu-core';
-import { usePinStream } from '@onlineclass/utils/hooks/use-pin-stream';
+import { usePinStream } from '@ui-scene/utils/hooks/use-pin-stream';
 import { Avatar } from '@components/avatar';
-import { Layout } from '@onlineclass/uistores/type';
+import { Layout } from '@ui-scene/uistores/type';
 
 import { SvgaPlayer } from '@components/svga-player';
 import { SoundPlayer } from '@components/sound-player';
 import RewardSVGA from './assets/svga/reward.svga';
 import RewardSound from './assets/audio/reward.mp3';
 import { AGRemoteVideoStreamType, AGRenderMode } from 'agora-rte-sdk';
-import { useAuthorization } from '@onlineclass/utils/hooks/use-authorization';
+import { useAuthorization } from '@ui-scene/utils/hooks/use-authorization';
 import { useI18n } from 'agora-common-libs';
 
 const colors = themeVal('colors');

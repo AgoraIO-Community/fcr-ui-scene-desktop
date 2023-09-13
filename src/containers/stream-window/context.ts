@@ -1,6 +1,5 @@
-import { Layout, StreamWindowPlacement } from '@onlineclass/uistores/type';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { EduStreamUI } from '@onlineclass/utils/stream/struct';
+import { Layout, StreamWindowPlacement } from '@ui-scene/uistores/type';
+import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { EduRoleTypeEnum } from 'agora-edu-core';
 import { AGRenderMode, AgoraRteVideoSourceType } from 'agora-rte-sdk';
 import { createContext } from 'react';

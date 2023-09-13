@@ -2,7 +2,7 @@ import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToastApi } from '@components/toast';
 import { ToolTip } from '@components/tooltip';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { AGServiceErrorCode, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { AGError } from 'agora-rte-sdk';

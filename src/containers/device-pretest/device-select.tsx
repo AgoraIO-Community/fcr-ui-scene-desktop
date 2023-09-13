@@ -1,9 +1,9 @@
 import { Button } from '@components/button';
 import { Dropdown } from '@components/dropdown';
 import { SvgIconEnum } from '@components/svg-img';
-import { getAssetURL } from '@onlineclass/utils/asset';
-import { isElectron } from '@onlineclass/utils/check';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { getAssetURL } from '@ui-scene/utils/asset';
+import { isElectron } from '@ui-scene/utils/check';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { useMemo, useRef, useEffect } from 'react';
 import pretestAudio from '@res/pretest-audio.mp3';

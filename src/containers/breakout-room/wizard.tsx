@@ -4,7 +4,7 @@ import { Popover, PopoverWithTooltip } from '@components/popover';
 import { Radio } from '@components/radio';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToolTip } from '@components/tooltip';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { CreatePanel } from './create-panel';

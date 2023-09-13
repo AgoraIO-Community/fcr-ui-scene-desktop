@@ -3,16 +3,16 @@ import classnames from 'classnames';
 import './index.css';
 
 import { LayoutSwitch } from './layout-switch';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { ClassDuration } from './class-duration';
 import { RecordStatus } from './record-status';
 
 import { observer } from 'mobx-react';
 import { StatusBarInfo, StatusBarRoomName } from './room-info';
 import { FullscreenButton } from './fullscreen';
-import { getConfig } from '@onlineclass/utils/launch-options-holder';
+import { getConfig } from '@ui-scene/utils/launch-options-holder';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
-import { Layout } from '@onlineclass/uistores/type';
+import { Layout } from '@ui-scene/uistores/type';
 import { StatusBarWidgetSlot } from './widgets';
 import { InteractLabelGroup } from '../common/interact-labels';
 import { ToolTip } from '@components/tooltip';

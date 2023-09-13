@@ -2,10 +2,9 @@ import { observer } from 'mobx-react';
 import React, { createRef, forwardRef, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './index.css';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
-import { AgoraOnlineclassWidget } from 'agora-common-libs';
-
-import { useZIndex } from '@onlineclass/utils/hooks/use-z-index';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
+import { FcrUISceneWidget } from 'agora-common-libs';
+import { useZIndex } from '@ui-scene/utils/hooks/use-z-index';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { WidgetDraggableWrapper } from './draggable-wrapper';
 import { ParticipantsDialogWrapper } from './participants';
@@ -23,7 +22,7 @@ export const WidgetContainer = observer(() => {
         <TransitionGroup>
           {z0Widgets
             .filter((w) => isWidgetVisible(w.widgetId))
-            .map((w: AgoraOnlineclassWidget) => {
+            .map((w: FcrUISceneWidget) => {
               const ref = createRef<HTMLDivElement>();
               const animationTime = isWidgetMinimized(w.widgetId) ? 0 : 500;
               const animationClassname = isWidgetMinimized(w.widgetId)
@@ -48,7 +47,7 @@ export const WidgetContainer = observer(() => {
         <TransitionGroup>
           {z10Widgets
             .filter((w) => isWidgetVisible(w.widgetId))
-            .map((w: AgoraOnlineclassWidget) => {
+            .map((w: FcrUISceneWidget) => {
               const ref = createRef<HTMLDivElement>();
               const animationTime = isWidgetMinimized(w.widgetId) ? 0 : 500;
               const animationClassname = isWidgetMinimized(w.widgetId)
@@ -74,7 +73,7 @@ export const WidgetContainer = observer(() => {
 });
 
 export const Widget = observer(
-  forwardRef<HTMLDivElement, { widget: AgoraOnlineclassWidget }>(function w({ widget }, ref) {
+  forwardRef<HTMLDivElement, { widget: FcrUISceneWidget }>(function w({ widget }, ref) {
     const containerDom = useRef<HTMLElement>();
 
     const [mounted, setMounted] = useState(false);
@@ -108,7 +107,7 @@ export const Widget = observer(
   }),
 );
 const WidgetWrapper = observer(
-  forwardRef<HTMLDivElement, { widget: AgoraOnlineclassWidget }>(function w({ widget }, ref) {
+  forwardRef<HTMLDivElement, { widget: FcrUISceneWidget }>(function w({ widget }, ref) {
     const { zIndex, ref: zIndexRef } = useZIndex(widget.widgetId);
     const renderRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {

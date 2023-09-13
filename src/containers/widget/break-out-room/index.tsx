@@ -1,5 +1,5 @@
-import { BreakoutDialog } from '@onlineclass/containers/breakout-room';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { BreakoutDialog } from '@ui-scene/containers/breakout-room';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { observer } from 'mobx-react';
 import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';

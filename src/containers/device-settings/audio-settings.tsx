@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { VolumeIndicator } from '@components/volume';
 import { observer } from 'mobx-react';
-import { useStore } from '@onlineclass/utils/hooks/use-store';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { MicrophoneSelect, SpeakerSelect } from '../device-pretest/device-select';
 import { Checkbox } from '@components/checkbox';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
