@@ -9,6 +9,7 @@ import {
   CustomMessageDeviceType,
 } from '@ui-scene/uistores/type';
 import { useI18n } from 'agora-common-libs';
+import { EduRoleTypeEnum } from 'agora-edu-core';
 const colors = themeVal('colors');
 export const checkCameraEnabled = (stream?: EduStreamUI) => {
   return stream?.isVideoDeviceEnabled && stream.isVideoStreamPublished;
@@ -47,14 +48,21 @@ export const useDeviceSwitch = ({
       if (stream?.isVideoStreamPublished) {
         enableCamera(true);
       } else {
-        addDialog('confirm', {
-          title: transI18n('fcr_user_tips_capture_screen_permission_title'),
-          content: transI18n('fcr_user_tips_banned_video_content'),
-          cancelButtonVisible: false,
-          okButtonProps: {
-            styleType: 'danger',
-          },
-        });
+        if (isLocal && stream?.role === EduRoleTypeEnum.teacher) {
+          enableCamera(true);
+          updateRemotePublishState(stream.fromUser.userUuid, stream.stream.streamUuid, {
+            videoState: AgoraRteMediaPublishState.Published,
+          });
+        } else {
+          addDialog('confirm', {
+            title: transI18n('fcr_user_tips_capture_screen_permission_title'),
+            content: transI18n('fcr_user_tips_banned_video_content'),
+            cancelButtonVisible: false,
+            okButtonProps: {
+              styleType: 'danger',
+            },
+          });
+        }
       }
     }
   };
@@ -65,14 +73,21 @@ export const useDeviceSwitch = ({
       if (stream?.isMicStreamPublished) {
         enableAudioRecording(true);
       } else {
-        addDialog('confirm', {
-          title: transI18n('fcr_user_tips_capture_screen_permission_title'),
-          content: transI18n('fcr_user_tips_muted_content'),
-          cancelButtonVisible: false,
-          okButtonProps: {
-            styleType: 'danger',
-          },
-        });
+        if (isLocal && stream?.role === EduRoleTypeEnum.teacher) {
+          enableAudioRecording(true);
+          updateRemotePublishState(stream.fromUser.userUuid, stream.stream.streamUuid, {
+            audioState: AgoraRteMediaPublishState.Published,
+          });
+        } else {
+          addDialog('confirm', {
+            title: transI18n('fcr_user_tips_capture_screen_permission_title'),
+            content: transI18n('fcr_user_tips_muted_content'),
+            cancelButtonVisible: false,
+            okButtonProps: {
+              styleType: 'danger',
+            },
+          });
+        }
       }
     }
   };

@@ -132,11 +132,10 @@ const LeavePopoverContent = observer(() => {
 
 const LeaveBreakoutPopoverContent = observer(() => {
   const {
-    actionBarUIStore: { setShowLeaveOption },
+    actionBarUIStore: { setShowLeaveOption, isHost },
     breakoutUIStore: { leaveSubRoom },
   } = useStore();
   const transI18n = useI18n();
-  const { role } = EduClassroomConfig.shared.sessionInfo;
 
   const handleOk = () => {
     setShowLeaveOption(false, 2);
@@ -145,7 +144,7 @@ const LeaveBreakoutPopoverContent = observer(() => {
 
   return (
     <div className="fcr-action-bar-leave-popover">
-      {role === EduRoleTypeEnum.teacher || role === EduRoleTypeEnum.assistant ? (
+      {isHost ? (
         <div className="fcr-action-bar-leave-popover-text">
           {transI18n('fcr_group_tips_leave_content')}
         </div>

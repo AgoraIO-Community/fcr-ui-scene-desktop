@@ -17,6 +17,7 @@ import range from 'lodash/range';
 import findLast from 'lodash/findLast';
 import { v4 as uuidv4 } from 'uuid';
 import { AGRtcConnectionType, AGRtcState, Scheduler } from 'agora-rte-sdk';
+import { isTeacher } from '@ui-scene/utils/check';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 enum GroupMethod {
@@ -872,7 +873,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
         pretestCameraEnabled,
         pretestMicEnabled,
       } = this.getters.classroomUIStore.deviceSettingUIStore;
-      if (EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher) {
+      if (isTeacher()) {
         this.logger.info("remove teacher's stream");
         await this.classroomStore.connectionStore.scene?.localUser?.deleteLocalMediaStream();
         this.logger.info("remove teacher's stream success");
@@ -968,7 +969,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
         pretestCameraEnabled,
         pretestMicEnabled,
       } = this.getters.classroomUIStore.deviceSettingUIStore;
-      if (EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher) {
+      if (isTeacher()) {
         this.logger.info("remove teacher's stream");
         await this.classroomStore.connectionStore.scene?.localUser?.deleteLocalMediaStream();
         this.logger.info("remove teacher's stream success");
@@ -1017,9 +1018,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
 
     if (type === AgoraEduClassroomEvent.InvitedToGroup) {
       const { groupUuid, groupName, inviter = 'Student' } = args;
-      const isTeacher = [EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(
-        EduClassroomConfig.shared.sessionInfo.role,
-      );
+      const isTeacher = this.getters.isHost;
 
       if (isTeacher) {
         runInAction(() => {
@@ -1056,9 +1055,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
 
     if (type === AgoraEduClassroomEvent.RejectedToGroup) {
       const { groupUuid } = args;
-      const isTeacher = [EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(
-        EduClassroomConfig.shared.sessionInfo.role,
-      );
+      const isTeacher = this.getters.isHost;
       const dialogId = this._dialogsMap.get(groupUuid);
       if (dialogId) {
         this.getters.classroomUIStore.layoutUIStore.deleteDialog(dialogId);
@@ -1082,7 +1079,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
       reaction(
         () => this.getters.boardApi.mounted,
         (mounted) => {
-          if (mounted && this.getters.boardApi.hasPrivilege()) {
+          if (mounted && this.getters.isGranted) {
             this._copyRoomContent();
           }
         },

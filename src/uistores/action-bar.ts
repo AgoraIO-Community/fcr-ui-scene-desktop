@@ -117,7 +117,9 @@ export class ActionBarUIStore extends EduUIStoreBase {
     this.classroomStore.roomStore.sendCustomChannelMessage(message);
     this.handsUpMap.clear();
   }
-
+  @computed get isHost() {
+    return this.getters.isHost;
+  }
   @computed get showEndClassButton() {
     return this.getters.isHost;
   }

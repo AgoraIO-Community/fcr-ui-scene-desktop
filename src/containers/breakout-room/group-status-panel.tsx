@@ -4,10 +4,10 @@ import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { BroadcastMessagePanel } from './broadcast-panel';
 import { observer } from 'mobx-react';
 import { useStore } from '@ui-scene/utils/hooks/use-store';
-import { EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
 import { useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { useI18n } from 'agora-common-libs';
+import { isTeacher } from '@ui-scene/utils/check';
 
 export const GroupStatusPanel = observer(() => {
   const {
@@ -17,8 +17,6 @@ export const GroupStatusPanel = observer(() => {
   const transI18n = useI18n();
 
   const [visible, setVisible] = useState(false);
-
-  const isTeacher = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
 
   const handleStop = () => {
     addDialog('confirm', {
@@ -37,7 +35,7 @@ export const GroupStatusPanel = observer(() => {
     setVisible(false);
   };
 
-  return isTeacher && groupState ? (
+  return isTeacher() && groupState ? (
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}

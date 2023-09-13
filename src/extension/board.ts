@@ -172,12 +172,9 @@ export class Board {
   }
   @bound
   hasPrivilege() {
-    const { userUuid, role } = EduClassroomConfig.shared.sessionInfo;
+    const { userUuid } = EduClassroomConfig.shared.sessionInfo;
 
-    return (
-      [EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role) ||
-      this.grantedUsers.has(userUuid)
-    );
+    return this.grantedUsers.has(userUuid);
   }
 
   install(controller: AgoraWidgetController) {

@@ -2,6 +2,7 @@ import { Button } from '@components/button';
 import { SvgImg, SvgIconEnum } from '@components/svg-img';
 import { ToastApi } from '@components/toast';
 import { ToolTip } from '@components/tooltip';
+import { isTeacher } from '@ui-scene/utils/check';
 import { useStore } from '@ui-scene/utils/hooks/use-store';
 import { useI18n } from 'agora-common-libs';
 import { AGServiceErrorCode, EduClassroomConfig, EduRoleTypeEnum } from 'agora-edu-core';
@@ -16,8 +17,6 @@ export const GroupInfoPanel = observer(() => {
     classroomStore,
   } = useStore();
   const transI18n = useI18n();
-
-  const isTeacher = EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.teacher;
 
   const handleHelp = () => {
     const { updateGroupUsers, currentSubRoom } = classroomStore.groupStore;
@@ -72,7 +71,7 @@ export const GroupInfoPanel = observer(() => {
     });
   };
 
-  return !isTeacher && currentSubRoomInfo ? (
+  return !isTeacher() && currentSubRoomInfo ? (
     <Rnd
       default={{ x: 15, y: 38, width: 'auto', height: 'auto' }}
       enableResizing={false}

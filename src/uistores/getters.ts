@@ -31,7 +31,7 @@ export class Getters {
 
   @computed
   get isGranted() {
-    return this._classroomUIStore.boardApi.granted;
+    return this._classroomUIStore.boardApi.granted || this.isHost;
   }
 
   get roomName() {

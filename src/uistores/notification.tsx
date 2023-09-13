@@ -136,7 +136,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
         }
 
         if (students.length) {
-          if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
+          if (this.getters.isHost) {
             ToastApi.open({
               toastProps: {
                 type: 'normal',
@@ -193,7 +193,7 @@ export class NotiticationUIStore extends EduUIStoreBase {
         }
 
         if (students.length) {
-          if ([EduRoleTypeEnum.teacher, EduRoleTypeEnum.assistant].includes(role)) {
+          if (this.getters.isHost) {
             ToastApi.open({
               toastProps: {
                 type: 'warn',
