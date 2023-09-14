@@ -43,6 +43,10 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  /**
+    fix bug on safari
+  **/
+  transform: translate3d(0, 0, 0);
 }
 .fcr-stream-window-player-gray-bg video {
   @apply fcr-bg-3;

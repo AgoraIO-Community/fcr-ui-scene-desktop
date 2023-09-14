@@ -9,6 +9,7 @@
 }
 .fcr-layout-content-main-view {
   position: relative;
+  user-select: none;
 }
 .fcr-layout-content-list-on-top .fcr-layout-content-main-view {
   flex: 1;
