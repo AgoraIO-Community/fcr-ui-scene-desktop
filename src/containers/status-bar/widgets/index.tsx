@@ -163,6 +163,7 @@ const CountdownTimerMinimize = observer(() => {
   };
 
   const { current, state, tooltip, icon } = countdownTimerState;
+  const timeFormat = formatTime(current || 0);
   return countdownTimer ? (
     <ToolTip content={tooltip}>
       <div
@@ -172,8 +173,19 @@ const CountdownTimerMinimize = observer(() => {
         })}
         onClick={handleClick}>
         <SvgImg type={icon} size={20} />
-        {current !== undefined && dayjs.duration(current, 'seconds').format('mm:ss')}
+        {`${timeFormat.tensOfMinutes}${timeFormat.minutes}:${timeFormat.tensOfSeconds}${timeFormat.seconds}`}
       </div>
     </ToolTip>
   ) : null;
 });
+const formatTime = (time: number) => {
+  const duration = dayjs.duration(time, 'seconds');
+  const minutes = duration.asMinutes() || 0;
+  const seconds = duration.seconds() || 0;
+  return {
+    tensOfMinutes: Math.floor(minutes / 10),
+    minutes: Math.floor(minutes % 10),
+    tensOfSeconds: Math.floor(seconds / 10),
+    seconds: Math.floor(seconds % 10),
+  };
+};
