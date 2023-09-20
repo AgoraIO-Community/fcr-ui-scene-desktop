@@ -25,13 +25,18 @@ export class FcrUIScene {
    * 启动入口
    * @param dom 教室挂载节点
    * @param launchOption 教室启动参数
-   * @param callbackSuccess
+   * @param callbackSuccess 教室启动成功回调
+   * @param callbackFailure 教室启动失败回调
+   * @param callbackDestroy 教室销毁回调
    * @returns 卸载函数
    */
   /** @en
    * Entry point of FcrUIScene, which is used to create an online classroom app and render at the specified dom.
    * @param dom dom to mount classroom UI
    * @param launchOption options to launch a classroom
+   * @param callbackSuccess callback fired when joined the room successfully
+   * @param callbackFailure callback fired when failed to join the room
+   * @param callbackDestroy callback fired when quitted the room
    * @returns unmount function
    */
   static launch(
