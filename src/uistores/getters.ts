@@ -53,6 +53,9 @@ export class Getters {
   get isStudent() {
     return EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student;
   }
+  get isAudience() {
+    return EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.invisible;
+  }
   @computed
   get localUser() {
     return this._classroomUIStore.classroomStore.userStore.localUser;

@@ -21,10 +21,11 @@ export const Participants = observer(() => {
       toggleParticipantsDialogVisible,
       setParticipantsDialogVisible,
       isHost,
+      isAudience,
     },
   } = useStore();
   useEffect(() => {
-    if (handsUpMap.size > 0 && !participantsDialogVisible && isHost) {
+    if (handsUpMap.size > 0 && !participantsDialogVisible && (isHost || isAudience)) {
       setDialogTooltipVisible(true);
     } else {
       setDialogTooltipVisible(false);

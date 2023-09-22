@@ -35,6 +35,9 @@ export class ParticipantsUIStore extends EduUIStoreBase {
   }
   participants = [];
   tableIconSize = 28;
+  get isAudience() {
+    return this.getters.isAudience;
+  }
   get isHost() {
     return this.getters.isHost;
   }
