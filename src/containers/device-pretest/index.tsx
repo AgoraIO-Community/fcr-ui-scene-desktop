@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import pretestLogo from '@res/images/pretest-logo.png';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import './index.css';
 import { observer } from 'mobx-react';
@@ -40,7 +39,7 @@ export const DevicePretest = observer(() => {
     <div className="fcr-pretest">
       {/* header */}
       <div className="fcr-pretest__header">
-        <img className="fcr-pretest__logo" src={pretestLogo} />
+        <div></div>
         <button className="fcr-pretest__close-btn fcr-btn-click-effect" onClick={onClose}>
           <SvgImg type={SvgIconEnum.FCR_CLOSE} />
         </button>

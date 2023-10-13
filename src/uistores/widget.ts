@@ -1,4 +1,4 @@
-import { AgoraUiCapableConfirmDialogProps, FcrUISceneWidget } from 'agora-common-libs';
+import { AgoraUiCapableConfirmDialogProps, FcrUISceneWidget, transI18n } from 'agora-common-libs';
 import { AgoraWidgetTrack, AgoraWidgetController, WidgetState } from 'agora-edu-core';
 import { bound, Log } from 'agora-rte-sdk';
 import { action, computed, observable, reaction } from 'mobx';
@@ -284,7 +284,7 @@ export class WidgetUIStore extends EduUIStoreBase {
       ToastApi.open({
         toastProps: {
           type: 'info',
-          content: 'Teacher has ended the poll.',
+          content: transI18n('fcr_room_tips_end_poll'),
         },
       });
     }

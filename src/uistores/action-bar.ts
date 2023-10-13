@@ -23,7 +23,7 @@ import {
   CustomMessageHandsUpType,
 } from './type';
 import { chatroomWidgetId } from '@ui-scene/extension/type';
-import { getLanguage } from 'agora-common-libs';
+import { getLanguage, transI18n } from 'agora-common-libs';
 export class ActionBarUIStore extends EduUIStoreBase {
   // for student hands up
   private _handsUpTask: Scheduler.Task | null = null;
@@ -252,7 +252,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
                 ToastApi.open({
                   toastProps: {
                     type: 'info',
-                    content: 'Teacher lower your hand',
+                    content: transI18n('fcr_room_tips_lower_hand'),
                   },
                 });
               }
@@ -269,7 +269,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
               ToastApi.open({
                 toastProps: {
                   type: 'info',
-                  content: 'Teacher lower all hands',
+                  content: transI18n('fcr_room_tips_lower_all_hand'),
                 },
               });
             }
@@ -302,7 +302,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
             ToastApi.open({
               toastProps: {
                 type: 'info',
-                content: 'You have stopped sharing',
+                content: transI18n('fcr_room_tips_stop_sharing'),
               },
             });
           }

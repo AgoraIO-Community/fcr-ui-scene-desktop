@@ -591,6 +591,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
                 id: dialogId,
                 title: transI18n('fcr_user_tips_teacher_start_video_title'),
                 content: transI18n('fcr_user_tips_teacher_start_video_content'),
+                okText: transI18n('fcr_user_tips_teacher_unmute_ok'),
+                cancelText: transI18n('fcr_user_tips_teacher_unmute_cancel'),
                 onOk: () => {
                   this.enableCamera(true);
                 },
@@ -606,6 +608,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
                 id: dialogId,
                 title: transI18n('fcr_user_tips_teacher_unmute_title'),
                 content: transI18n('fcr_user_tips_teacher_unmute_content'),
+                okText: transI18n('fcr_user_tips_teacher_unmute_ok'),
+                cancelText: transI18n('fcr_user_tips_teacher_unmute_cancel'),
                 onOk: () => {
                   this.enableAudioRecording(true);
                 },
@@ -637,6 +641,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
                 id: dialogId,
                 title: transI18n('fcr_user_tips_teacher_start_video_title'),
                 content: transI18n('fcr_user_tips_teacher_start_video_content'),
+                okText: transI18n('fcr_user_tips_teacher_unmute_ok'),
+                cancelText: transI18n('fcr_user_tips_teacher_unmute_cancel'),
                 onOk: () => {
                   this.enableCamera(true);
                 },
@@ -652,6 +658,8 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
                 id: dialogId,
                 title: transI18n('fcr_user_tips_teacher_unmute_title'),
                 content: transI18n('fcr_user_tips_teacher_unmute_content'),
+                okText: transI18n('fcr_user_tips_teacher_unmute_ok'),
+                cancelText: transI18n('fcr_user_tips_teacher_unmute_cancel'),
                 onOk: () => {
                   this.enableAudioRecording(true);
                 },
