@@ -233,7 +233,6 @@ export class StreamUIStore extends EduUIStoreBase {
         (scene) => {
           if (scene) {
             scene.addListener(AgoraRteEventType.UserRemoved, this._handleUserRemoved);
-            this.classroomStore.streamStore.unpublishScreenShare();
           }
         },
       ),
