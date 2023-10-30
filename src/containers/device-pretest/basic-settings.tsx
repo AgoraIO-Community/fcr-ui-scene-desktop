@@ -10,7 +10,7 @@ export const BasicSettings = observer(() => {
   const transI18n = useI18n();
   const { deviceSettingUIStore } = useStore();
 
-  const { localRecordingTestVolume, localPlaybackTestVolume, toggleAiDenoiser } =
+  const { localRecordingTestVolume, localPlaybackTestVolume, toggleAiDenoiser, aiDenoiserEnabled } =
     deviceSettingUIStore;
 
   return (
@@ -27,6 +27,7 @@ export const BasicSettings = observer(() => {
             {transI18n('fcr_device_label_microphone')}
           </span>
           <Checkbox
+            checked={aiDenoiserEnabled}
             size="small"
             label={transI18n('fcr_device_label_noise_cancellation')}
             onChange={toggleAiDenoiser}

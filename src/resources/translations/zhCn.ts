@@ -403,7 +403,7 @@ export const zhCn = {
   fcr_group_button_cancel: '取消',
   fcr_group_stop_discussion: '停止讨论',
   fcr_group_button_stop: '停止',
-  fcr_group_ungrouped: '重新分组',
+  fcr_group_ungrouped: '未分组',
   fcr_group_grouped: '已分组',
   fcr_group_button_add_room: '添加分组',
   fcr_group_delete_room_title: '删除分组',
