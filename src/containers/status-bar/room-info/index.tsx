@@ -13,7 +13,8 @@ import './index.css';
 import { formatRoomID } from '@ui-scene/utils';
 import { useNetwork } from '@ui-scene/utils/hooks/use-network';
 import { useI18n } from 'agora-common-libs';
-export const StatusBarInfo: FC = () => {
+import { observer } from 'mobx-react';
+export const StatusBarInfo: FC = observer(() => {
   const transI18n = useI18n();
   const ref = useRef<HTMLSpanElement | null>(null);
   const {
@@ -87,7 +88,7 @@ export const StatusBarInfo: FC = () => {
       </div>
     </StatusBarItemWrapper>
   );
-};
+});
 export const StatusBarRoomName = () => {
   const {
     statusBarUIStore: { roomName },
