@@ -16,6 +16,7 @@ export const AudioSettings = observer(() => {
     toggleAiDenoiser,
     startAudioRecordingPreview,
     stopAudioRecordingPreview,
+    isAiDenoiserEnabled,
   } = deviceSettingUIStore;
   useEffect(() => {
     startAudioRecordingPreview();
@@ -44,6 +45,7 @@ export const AudioSettings = observer(() => {
         </div>
 
         <Checkbox
+          checked={isAiDenoiserEnabled}
           size="small"
           label={transI18n('fcr_device_label_noise_cancellation')}
           onChange={toggleAiDenoiser}
