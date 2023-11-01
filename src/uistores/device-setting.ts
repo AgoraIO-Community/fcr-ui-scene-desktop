@@ -92,7 +92,10 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   private _beautyFilterEnabled = false;
   @observable
   private _aiDenoiserEnabled = false;
-
+  @computed
+  get isAiDenoiserEnabled() {
+    return this._aiDenoiserEnabled;
+  }
   @computed
   get noCameraDevice() {
     return this.cameraDevicesList.length === 0;
