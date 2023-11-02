@@ -79,8 +79,9 @@ export class ParticipantsUIStore extends EduUIStoreBase {
   get participantTableList() {
     return this.participantList
       .filter((item) => {
-        return item.user.userName.includes(this.searchKey);
+        return item.user.userName.toLowerCase().includes(this.searchKey.toLowerCase());
       })
+      .slice()
       .sort((prev, next) => {
         if (this.isHostByUserRole(prev.user.userRole)) {
           return -1;
