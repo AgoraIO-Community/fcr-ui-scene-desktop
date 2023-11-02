@@ -238,9 +238,9 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     return this.classroomStore.mediaStore.audioRecordingDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .slice()
-      .sort((a, b) => {
-        if (a.isDefault || b.isDefault) {
-          return -1;
+      .sort(({ isDefault }) => {
+        if (isDefault) {
+          return 1;
         }
         return 0;
       })
@@ -265,9 +265,9 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     const playbackDevicesList = this.classroomStore.mediaStore.audioPlaybackDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
       .slice()
-      .sort((a, b) => {
-        if (a.isDefault || b.isDefault) {
-          return -1;
+      .sort(({ isDefault }) => {
+        if (isDefault) {
+          return 1;
         }
         return 0;
       })
