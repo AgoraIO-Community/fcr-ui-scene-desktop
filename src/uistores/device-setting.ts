@@ -237,6 +237,13 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   get recordingDevicesList() {
     return this.classroomStore.mediaStore.audioRecordingDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
+      .slice()
+      .sort((a, b) => {
+        if (a.isDefault || b.isDefault) {
+          return -1;
+        }
+        return 0;
+      })
       .map((item) => ({
         text:
           item.deviceid === DEVICE_DISABLE
@@ -257,6 +264,13 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   get playbackDevicesList() {
     const playbackDevicesList = this.classroomStore.mediaStore.audioPlaybackDevices
       .filter(({ deviceid }) => deviceid !== DEVICE_DISABLE)
+      .slice()
+      .sort((a, b) => {
+        if (a.isDefault || b.isDefault) {
+          return -1;
+        }
+        return 0;
+      })
       .map((item) => ({
         text: item.devicename,
         value: item.deviceid,
@@ -508,7 +522,9 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   }
   @action.bound
   setAudioPlaybackDevice(deviceId: string) {
+    const { setPlaybackDevice } = this.classroomStore.mediaStore;
     this._audioPlaybackDeviceId = deviceId;
+    setPlaybackDevice(deviceId);
   }
 
   @bound
@@ -795,28 +811,20 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
       () => this.classroomStore.mediaStore.audioRecordingDevices,
     ).observe(({ newValue, oldValue }) => {
       const { recordingDeviceId } = this.classroomStore.mediaStore;
-      // 避免初始化阶段触发新设备的弹窗通知
-      if (oldValue && oldValue.length > 1) {
-        if (newValue.length > oldValue.length) {
-          // this.addToast({
-          //   type: 'audio_recording',
-          //   info: DeviceStateChangedReason.newDeviceDetected,
-          // });
+      const newDefaultDevice = newValue?.find((v) => v.isDefault);
+
+      if (newDefaultDevice) {
+        if (newDefaultDevice.deviceid !== recordingDeviceId) {
+          this.setAudioRecordingDevice(newDefaultDevice.deviceid);
         }
-        const inOldList = oldValue.find((v) => v.deviceid === recordingDeviceId);
+      } else if (newValue.length > 0) {
+        const inOldList = oldValue?.find((v) => v.deviceid === recordingDeviceId);
         const inNewList = newValue.find((v) => v.deviceid === recordingDeviceId);
-        if (inOldList && !inNewList) {
-          //change to first device if there's any
-          newValue.length > 0 && this.setAudioRecordingDevice(newValue[0].deviceid);
+        if (!inOldList || (inOldList && !inNewList)) {
+          this.setAudioRecordingDevice(newValue[0].deviceid);
         }
       } else {
-        if (EduClassroomConfig.shared.openRecordingDeviceAfterLaunch) {
-          let deviceId = null;
-          if (newValue.length > 0 && (deviceId = newValue[0].deviceid) !== DEVICE_DISABLE) {
-            // initailize, pick the first device
-            this.setAudioRecordingDevice(deviceId);
-          }
-        }
+        this.setAudioRecordingDevice('default');
       }
     });
 
@@ -826,28 +834,19 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
       () => this.classroomStore.mediaStore.audioPlaybackDevices,
     ).observe(({ newValue, oldValue }) => {
       const { playbackDeviceId } = this.classroomStore.mediaStore;
-      // 避免初始化阶段触发新设备的弹窗通知
-      if (oldValue && oldValue.length > 0) {
-        if (newValue.length > oldValue.length) {
-          // this.addToast({
-          //   type: 'audio_playback',
-          //   info: DeviceStateChangedReason.newDeviceDetected,
-          // });
+      const newDefaultDevice = newValue?.find((v) => v.isDefault);
+      if (newDefaultDevice) {
+        if (newDefaultDevice.deviceid !== playbackDeviceId) {
+          this.setAudioPlaybackDevice(newDefaultDevice.deviceid);
         }
-        const inOldList = oldValue.find((v) => v.deviceid === playbackDeviceId);
+      } else if (newValue.length > 0) {
+        const inOldList = oldValue?.find((v) => v.deviceid === playbackDeviceId);
         const inNewList = newValue.find((v) => v.deviceid === playbackDeviceId);
-        if (inOldList && !inNewList) {
-          //change to first device if there's any
-          newValue.length > 0 && this.setAudioPlaybackDevice(newValue[0].deviceid);
+        if (!inOldList || (inOldList && !inNewList)) {
+          this.setAudioPlaybackDevice(newValue[0].deviceid);
         }
       } else {
-        let deviceId = null;
-        if (newValue.length > 0 && (deviceId = newValue[0].deviceid) !== DEVICE_DISABLE) {
-          // initailize, pick the first device
-          this.setAudioPlaybackDevice(deviceId);
-        } else {
-          this.setAudioPlaybackDevice('default');
-        }
+        this.setAudioPlaybackDevice('default');
       }
     });
 
@@ -886,7 +885,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
         const { audioRecordingDeviceId } = this;
         if (newValue.classroomState === ClassroomState.Idle) {
           // if idle, e.g. pretest
-          if (audioRecordingDeviceId) {
+          if (audioRecordingDeviceId && audioRecordingDeviceId !== DEVICE_DISABLE) {
             this.logger.info('enableLocalAudio => true in device pretest');
             this.startAudioRecordingPreview();
           } else {
