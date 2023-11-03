@@ -251,6 +251,15 @@
   padding-top: 10px;
 }
 
+.fcr-cloud-personal-tab-table-convert-failed {
+  color: rgba(251, 88, 78, 1) !important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: flex-end;
+  padding-right: 20px
+}
+
 .fcr-cloud-personal-tab-table-convert-progress {
   @apply fcr-text-3;
   display: flex;

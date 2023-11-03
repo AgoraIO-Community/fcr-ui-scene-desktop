@@ -476,7 +476,8 @@ export const enUs = {
 
   //xxx文件格式
   fcr_cloud_unsupported_file_type: 'Unsupported file type {reason1}',
-  fcr_cloud_fail_to_convert: 'Fail to convert resource',
+  fcr_cloud_fail_to_convert: 'Courseware conversion failed. Please delete and upload again',
+  fcr_cloud_fail_to_convert_label: 'Failed',
 
   //****************** 工具箱Tool Box ******************
   fcr_tool_box_breakout_room: 'Breakout Room',

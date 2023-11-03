@@ -465,7 +465,8 @@ export const zhCn = {
 
   //xxx文件格式
   fcr_cloud_unsupported_file_type: '不支持文件格式{reason1}',
-  fcr_cloud_fail_to_convert: '转换失败',
+  fcr_cloud_fail_to_convert: '课件转换失败，请删除后重新上传',
+  fcr_cloud_fail_to_convert_label: '转换失败',
 
   //****************** 工具箱Tool Box ******************
   fcr_tool_box_breakout_room: '分组讨论',

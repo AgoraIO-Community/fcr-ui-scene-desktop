@@ -461,6 +461,9 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
           <PersonalTableFilenameRow
             onClick={async () => {
               try {
+                if ((record as CloudDriveCourseResource).status === 'Fail') {
+                  return;
+                }
                 await openResource(record);
                 setCloudDialogVisible(false);
               } catch (error) {
@@ -533,9 +536,18 @@ const usePersonalTableColumns = ({ tableRowHover }: { tableRowHover: string }) =
         const hovered = tableRowHover === resourceUuid;
         const renaming = renameResource === resourceUuid;
         const needConvert = convertableTypes.includes(record.ext);
-        const isConverting = needConvert
-          ? (record as CloudDriveCourseResource).status === 'Converting'
-          : false;
+        const status = (record as CloudDriveCourseResource).status;
+        const isConverting = needConvert ? status === 'Converting' : false;
+
+        if (status === 'Fail') {
+          return (
+            <div className="fcr-cloud-personal-tab-table-convert-failed">
+              <SvgImg type={SvgIconEnum.FCR_PPT_BROKEN} size={16}></SvgImg>
+              {transI18n('fcr_cloud_fail_to_convert_label')}
+            </div>
+          );
+        }
+
         return renaming || hovered ? null : isConverting ? (
           <div className="fcr-cloud-personal-tab-table-convert-progress">
             <SvgImg type={SvgIconEnum.FCR_LOADING} size={16}></SvgImg>
