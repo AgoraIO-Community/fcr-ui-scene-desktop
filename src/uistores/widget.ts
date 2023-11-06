@@ -357,12 +357,13 @@ export class WidgetUIStore extends EduUIStoreBase {
         () => ({
           controller: this.classroomStore.widgetStore.widgetController,
           layoutReady: this.layoutReady,
+          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
         }),
-        ({ controller, layoutReady }) => {
+        ({ controller, layoutReady, widgetIds }) => {
           // install widgets
-          if (controller && layoutReady) {
+          if (controller && layoutReady && widgetIds) {
             // recovery widget state
-            controller.widgetIds.forEach((widgetId) => {
+            widgetIds.forEach((widgetId) => {
               const state = controller.getWidgetState(widgetId);
               if (state === WidgetState.Active || this._defaultActiveWidgetIds.includes(widgetId)) {
                 this._handleWidgetActive(widgetId);
