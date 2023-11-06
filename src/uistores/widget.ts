@@ -351,22 +351,15 @@ export class WidgetUIStore extends EduUIStoreBase {
       reaction(
         () => ({
           widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
-          isJoingingSubRoom: this.getters.isJoiningSubRoom,
-          controller: this.classroomStore.widgetStore.widgetController,
         }),
-        ({ controller, isJoingingSubRoom, widgetIds }) => {
+        ({ widgetIds }) => {
           // install widgets
-          if (controller && !isJoingingSubRoom && widgetIds) {
-            // recovery widget state
-
-            controller.widgetIds.forEach((widgetId) => {
-              const state = controller.getWidgetState(widgetId);
-
-              if (state === WidgetState.Active || this._defaultActiveWidgetIds.includes(widgetId)) {
+          widgetIds &&
+            widgetIds.forEach((widgetId) => {
+              if (this._defaultActiveWidgetIds.includes(widgetId)) {
                 this._handleWidgetActive(widgetId);
               }
             });
-          }
         },
       ),
     );
