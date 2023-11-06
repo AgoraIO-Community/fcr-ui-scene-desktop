@@ -15,6 +15,7 @@ export const WidgetContainer = observer(() => {
     widgetUIStore: { z0Widgets, z10Widgets, setLayoutReady },
     breakoutUIStore: { isJoiningSubRoom },
     classroomStore: {
+      connectionStore: { scene },
       widgetStore: { widgetController },
     },
   } = useStore();
@@ -44,7 +45,7 @@ export const WidgetContainer = observer(() => {
                   onEntered={w.onEntered}
                   onExited={w.onExited}
                   nodeRef={ref}
-                  key={w.widgetId}
+                  key={`${w.widgetId}-${scene?.sceneId}`}
                   timeout={animationTime}
                   unmountOnExit
                   classNames={animationClassname}>
@@ -69,7 +70,7 @@ export const WidgetContainer = observer(() => {
                   onEntered={w.onEntered}
                   onExited={w.onExited}
                   nodeRef={ref}
-                  key={w.widgetId}
+                  key={`${w.widgetId}-${scene?.sceneId}`}
                   timeout={animationTime}
                   unmountOnExit
                   classNames={animationClassname}>
