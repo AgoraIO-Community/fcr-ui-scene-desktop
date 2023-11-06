@@ -12,8 +12,19 @@ import { BreakoutDialogWrapper } from './break-out-room';
 export const WidgetContainer = observer(() => {
   const {
     eduToolApi: { isWidgetVisible, isWidgetMinimized },
-    widgetUIStore: { z0Widgets, z10Widgets },
+    widgetUIStore: { z0Widgets, z10Widgets, setLayoutReady },
+    breakoutUIStore: { isJoiningSubRoom },
+    classroomStore: {
+      widgetStore: { widgetController },
+    },
   } = useStore();
+  useEffect(() => {
+    if (isJoiningSubRoom) {
+      setLayoutReady(false);
+    } else {
+      setLayoutReady(!!widgetController);
+    }
+  }, [widgetController, isJoiningSubRoom]);
   return (
     <React.Fragment>
       <div className="fcr-widget-container fcr-z-0">

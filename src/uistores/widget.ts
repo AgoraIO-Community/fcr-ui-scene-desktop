@@ -16,6 +16,11 @@ import { CommonDialogType } from './type';
 
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
+  @observable layoutReady = false;
+  @action.bound
+  setLayoutReady(ready: boolean) {
+    this.layoutReady = ready;
+  }
   private _defaultActiveWidgetIds = ['easemobIM'];
   private _registeredWidgets: Record<string, typeof FcrUISceneWidget> = {};
   @observable
@@ -350,16 +355,20 @@ export class WidgetUIStore extends EduUIStoreBase {
       }),
       reaction(
         () => ({
-          widgetIds: this.classroomStore.widgetStore.widgetController?.widgetIds,
+          controller: this.classroomStore.widgetStore.widgetController,
+          layoutReady: this.layoutReady,
         }),
-        ({ widgetIds }) => {
+        ({ controller, layoutReady }) => {
           // install widgets
-          widgetIds &&
-            widgetIds.forEach((widgetId) => {
-              if (this._defaultActiveWidgetIds.includes(widgetId)) {
+          if (controller && layoutReady) {
+            // recovery widget state
+            controller.widgetIds.forEach((widgetId) => {
+              const state = controller.getWidgetState(widgetId);
+              if (state === WidgetState.Active || this._defaultActiveWidgetIds.includes(widgetId)) {
                 this._handleWidgetActive(widgetId);
               }
             });
+          }
         },
       ),
     );
