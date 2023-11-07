@@ -13,7 +13,7 @@ import { ToastApi } from '@components/toast';
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@ui-scene/extension/events';
 import { ConfirmDialogProps } from '@components/dialog/confirm-dialog';
 import { CommonDialogType } from './type';
-
+import { v4 as uuidv4 } from 'uuid';
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
   @observable layoutReady = false;
@@ -23,6 +23,7 @@ export class WidgetUIStore extends EduUIStoreBase {
   }
   private _defaultActiveWidgetIds = ['easemobIM'];
   private _registeredWidgets: Record<string, typeof FcrUISceneWidget> = {};
+  private _widgetInstanceRenderKeys: Record<string, string> = {};
   @observable
   private _widgetInstances: Record<string, FcrUISceneWidget> = {};
   private _stateListener = {
@@ -46,6 +47,10 @@ export class WidgetUIStore extends EduUIStoreBase {
   @computed
   get widgetInstanceList() {
     return Object.values(this._widgetInstances);
+  }
+
+  get widgetInstanceRenderKeys() {
+    return this._widgetInstanceRenderKeys;
   }
 
   @computed
@@ -109,6 +114,7 @@ export class WidgetUIStore extends EduUIStoreBase {
       );
 
       this._widgetInstances[widgetId] = widget;
+      this._widgetInstanceRenderKeys[widgetId] = uuidv4();
       this.logger.info('Current created widgets:', Object.keys(this._widgetInstances));
     } else {
       this.logger.info('Widget controller not ready for creating widget');
@@ -122,6 +128,7 @@ export class WidgetUIStore extends EduUIStoreBase {
       this.logger.info(`Widget [${widgetId}] is going to be destroyed`);
       this._callWidgetDestroy(widget);
       delete this._widgetInstances[widgetId];
+      delete this._widgetInstanceRenderKeys[widgetId];
       this.logger.info(`Widget [${widgetId}] is destroyed`);
     }
   }
