@@ -175,4 +175,7 @@ export class Getters {
   get isJoiningSubRoom() {
     return this.classroomUIStore.breakoutUIStore.isJoiningSubRoom;
   }
+  get isInSubRoom() {
+    return !!this.classroomUIStore.breakoutUIStore.currentSubRoomInfo;
+  }
 }

@@ -134,7 +134,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
     return this.getters.isHost;
   }
   @computed get showRecord() {
-    return this.getters.isHost;
+    return this.getters.isHost && this.getters.isInSubRoom;
   }
   @computed get showRaiseHands() {
     return this.getters.isStudent;
