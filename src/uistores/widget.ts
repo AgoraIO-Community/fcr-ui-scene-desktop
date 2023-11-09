@@ -265,7 +265,7 @@ export class WidgetUIStore extends EduUIStoreBase {
     return {
       addToast: (
         message: string,
-        type: 'error' | 'success' | 'warning',
+        type?: 'error' | 'success' | 'warning',
         options?: { persist?: boolean; duration?: number },
       ) => {
         const { persist, duration } = options || {};
@@ -278,7 +278,7 @@ export class WidgetUIStore extends EduUIStoreBase {
         ToastApi.open({
           persist,
           duration,
-          toastProps: { type: toastTypeMap[type], content: message },
+          toastProps: { type: type ? toastTypeMap[type] : 'info', content: message },
         });
       },
       addConfirmDialog: (params: AgoraUiCapableConfirmDialogProps) => {
@@ -288,18 +288,6 @@ export class WidgetUIStore extends EduUIStoreBase {
         );
       },
     };
-  }
-
-  @bound
-  private _handlePollActiveStateChanged(state: boolean) {
-    if (this.getters.isStudent && !state) {
-      ToastApi.open({
-        toastProps: {
-          type: 'info',
-          content: transI18n('fcr_room_tips_end_poll'),
-        },
-      });
-    }
   }
 
   onInstall() {
@@ -330,10 +318,6 @@ export class WidgetUIStore extends EduUIStoreBase {
             messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
             onMessage: this._handleBecomeInactive,
           });
-          oldController.removeBroadcastListener({
-            messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
-            onMessage: this._handlePollActiveStateChanged,
-          });
         }
         // install widgets
         if (controller) {
@@ -349,10 +333,6 @@ export class WidgetUIStore extends EduUIStoreBase {
           controller.addBroadcastListener({
             messageType: AgoraExtensionWidgetEvent.WidgetBecomeInactive,
             onMessage: this._handleBecomeInactive,
-          });
-          controller.addBroadcastListener({
-            messageType: AgoraExtensionWidgetEvent.PollActiveStateChanged,
-            onMessage: this._handlePollActiveStateChanged,
           });
           controller.broadcast(
             AgoraExtensionRoomEvent.BoardSetAnimationOptions,
