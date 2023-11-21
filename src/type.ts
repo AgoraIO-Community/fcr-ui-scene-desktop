@@ -4,6 +4,7 @@ import {
   EduRoleTypeEnum,
   EduRoomTypeEnum,
   EduRtcConfig,
+  AgoraCloudProxyType,
 } from 'agora-edu-core';
 import { AGMediaOptions, AgoraLatencyLevel, AGVideoEncoderConfiguration } from 'agora-rte-sdk';
 import { FcrMultiThemeMode } from 'agora-common-libs';
@@ -211,6 +212,14 @@ export type LaunchOptions = {
    * BoardRecordOptions
    */
   recordOptions?: BoardWindowAnimationOptions;
+
+  /**
+   * 云代理类型
+   */
+  /** @en
+   * Cloud proxy type
+   */
+  cloudProxy?: AgoraCloudProxyType;
 };
 
 /**
