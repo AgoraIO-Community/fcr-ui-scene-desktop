@@ -16,6 +16,7 @@ import { setLaunchOptions, setConfig, getConfig } from './utils/launch-options-h
 import { ApiBase } from 'agora-rte-sdk';
 import { zhCn } from './resources/translations/zhCn';
 import { enUs } from './resources/translations/enUs';
+import { ROOM_TEMPLATE_FINITY_V1 } from './configs/room-templates';
 
 /**
  * Scene SDK
@@ -82,6 +83,7 @@ export class FcrUIScene {
       duration,
       flexProperties: userFlexProperties,
       token,
+      roomTemplate: ROOM_TEMPLATE_FINITY_V1,
     };
     if (recordOptions) {
       setConfig({

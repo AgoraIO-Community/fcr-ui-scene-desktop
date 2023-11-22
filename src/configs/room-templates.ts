@@ -1,0 +1,1 @@
+export const ROOM_TEMPLATE_FINITY_V1 = 'scene_finity_v1';
