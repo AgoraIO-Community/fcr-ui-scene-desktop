@@ -83,7 +83,6 @@ export class FcrUIScene {
       duration,
       flexProperties: userFlexProperties,
       token,
-      roomTemplate: ROOM_TEMPLATE_FINITY_V1,
     };
     if (recordOptions) {
       setConfig({

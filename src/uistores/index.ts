@@ -142,7 +142,7 @@ export class SceneUIStore {
   async join() {
     const { joinClassroom, joinRTC, setCloudProxy } = this.classroomStore.connectionStore;
     try {
-      await joinClassroom();
+      await joinClassroom({ mode: 'entry'});
     } catch (e) {
       if (AGError.isOf(e as AGError, AGServiceErrorCode.SERV_CANNOT_JOIN_ROOM)) {
         return this.classroomStore.connectionStore.leaveClassroom(
