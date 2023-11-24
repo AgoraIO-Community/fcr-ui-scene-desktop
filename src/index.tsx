@@ -16,7 +16,6 @@ import { setLaunchOptions, setConfig, getConfig } from './utils/launch-options-h
 import { ApiBase } from 'agora-rte-sdk';
 import { zhCn } from './resources/translations/zhCn';
 import { enUs } from './resources/translations/enUs';
-import { ROOM_TEMPLATE_FINITY_V1 } from './configs/room-templates';
 
 /**
  * Scene SDK
@@ -171,7 +170,7 @@ export class FcrUIScene {
    */
   static setParameters(params: string) {
     Logger.info(`[FcrUIScene]set parameters`, params);
-    const { host, ignoreUrlRegionPrefix, logo, shareUrl, defaultEnableDevice } =
+    const { host, ignoreUrlRegionPrefix, logo, shareUrl, defaultEnableDevice, fastMode } =
       JSON.parse(params) || {};
 
     const config = getConfig() || {};
@@ -195,6 +194,11 @@ export class FcrUIScene {
     if (defaultEnableDevice) {
       config.defaultEnableDevice = defaultEnableDevice;
     }
+
+    if (fastMode) {
+      config.fastMode = true;
+    }
+
     setConfig(config);
   }
 

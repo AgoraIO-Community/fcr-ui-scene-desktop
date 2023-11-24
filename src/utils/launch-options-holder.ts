@@ -10,7 +10,8 @@ type Config = Partial<
     | 'uiConfig'
     | 'theme'
     | 'recordOptions'
-    | 'defaultEnableDevice',
+    | 'defaultEnableDevice'
+    | 'fastMode',
     unknown
   >
 >;
