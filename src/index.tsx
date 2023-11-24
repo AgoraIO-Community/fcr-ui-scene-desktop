@@ -16,6 +16,7 @@ import { setLaunchOptions, setConfig, getConfig } from './utils/launch-options-h
 import { ApiBase } from 'agora-rte-sdk';
 import { zhCn } from './resources/translations/zhCn';
 import { enUs } from './resources/translations/enUs';
+import { isLocked, lock, unlock } from './lock';
 
 /**
  * Scene SDK
@@ -66,6 +67,15 @@ export class FcrUIScene {
       language,
       recordOptions,
     } = launchOptions;
+
+    if (isLocked()) {
+      Logger.error(
+        '[FcrUIScene]failed to launch as you have already launched an UI Scene, you need to destory it by call the function returned by the launch method before you relaunch it',
+      );
+      return () => {
+        /** noop */
+      };
+    }
 
     Logger.info('[FcrUIScene]launched with options:', launchOptions);
 
@@ -152,10 +162,13 @@ export class FcrUIScene {
         Logger.info('[FcrUIScene]SDK is unmounted before first render.');
       }
     });
+
+    lock();
     // return a disposer
     return () => {
       isUnmounted = true;
       unmountComponentAtNode(dom);
+      unlock();
       Logger.info(`[FcrUIScene]unmounted.`);
     };
   }
