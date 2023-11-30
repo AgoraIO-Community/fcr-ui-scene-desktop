@@ -18,6 +18,7 @@ import findLast from 'lodash/findLast';
 import { v4 as uuidv4 } from 'uuid';
 import { AGRtcConnectionType, AGRtcState, Scheduler } from 'agora-rte-sdk';
 import { isTeacher } from '@ui-scene/utils/check';
+import { getConfig } from '@ui-scene/utils/launch-options-holder';
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 enum GroupMethod {
@@ -930,6 +931,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
     await this._waitUntilJoined();
     this._setConnectionState(true);
     try {
+      const { fastMode } = getConfig();
       await this.classroomStore.connectionStore.leaveSubRoom();
 
       await when(() => this.classroomStore.connectionStore.rtcState === AGRtcState.Idle);
@@ -939,6 +941,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
       await this.classroomStore.connectionStore.checkIn(
         EduClassroomConfig.shared.sessionInfo,
         SceneType.Main,
+        fastMode ? 'check-in' : 'entry'
       );
     } catch (e) {
       //   this.shareUIStore.addGenericErrorDialog(e as AGError);
