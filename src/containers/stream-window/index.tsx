@@ -93,7 +93,6 @@ const StreamPlayer = observer(() => {
   const {
     classroomStore: {
       mediaStore: { setupLocalVideo },
-      streamStore: { setRemoteVideoStreamType },
     },
     streamUIStore: { updateVideoDom, removeVideoDom },
     deviceSettingUIStore: { isLocalMirrorEnabled },
@@ -114,12 +113,6 @@ const StreamPlayer = observer(() => {
               dom: ref.current,
               renderMode: renderMode ?? AGRenderMode.fill,
             });
-            setRemoteVideoStreamType(
-              stream.stream.streamUuid,
-              renderMode === AGRenderMode.fit
-                ? AGRemoteVideoStreamType.HIGH_STREAM
-                : AGRemoteVideoStreamType.LOW_STREAM,
-            );
           }
         }
       }

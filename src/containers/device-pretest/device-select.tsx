@@ -29,13 +29,20 @@ export const CameraSelect = observer(() => {
 export const MicrophoneSelect = observer(() => {
   const { deviceSettingUIStore } = useStore();
   const transI18n = useI18n();
-  const { recordingDevicesList, setAudioRecordingDevice, audioRecordingDeviceId } =
-    deviceSettingUIStore;
+  const {
+    recordingDevicesList,
+    setAudioRecordingDevice,
+    setUserHasSelectedAudioRecordingDevice,
+    audioRecordingDeviceId,
+  } = deviceSettingUIStore;
 
   return (
     <Dropdown
       options={recordingDevicesList}
-      onChange={setAudioRecordingDevice}
+      onChange={(deviceId) => {
+        setAudioRecordingDevice(deviceId);
+        setUserHasSelectedAudioRecordingDevice();
+      }}
       value={audioRecordingDeviceId}
       placeholder={transI18n('fcr_device_tips_no_device')}
       disabled={recordingDevicesList.length === 0}
@@ -49,6 +56,7 @@ export const SpeakerSelect = observer(() => {
   const {
     playbackDevicesList,
     setAudioPlaybackDevice,
+    setUserHasSelectedAudioPlaybackDevice,
     audioPlaybackDeviceId,
     isAudioPlaybackDeviceEnabled,
     startPlaybackDeviceTest,
@@ -92,7 +100,10 @@ export const SpeakerSelect = observer(() => {
     <div className="fcr-pretest__settings__combined-item">
       <Dropdown
         options={playbackDevicesList}
-        onChange={setAudioPlaybackDevice}
+        onChange={(deviceId) => {
+          setAudioPlaybackDevice(deviceId);
+          setUserHasSelectedAudioPlaybackDevice();
+        }}
         value={audioPlaybackDeviceId}
         placeholder={transI18n('fcr_device_tips_no_device')}
         disabled={playbackDevicesList.length === 0}

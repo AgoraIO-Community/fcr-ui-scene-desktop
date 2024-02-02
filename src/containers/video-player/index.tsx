@@ -1,2 +1,2 @@
 import './index.css';
-export { LocalVideoPlayer, RemoteVideoPlayer } from './players';
+export { LocalVideoPlayer } from './players';

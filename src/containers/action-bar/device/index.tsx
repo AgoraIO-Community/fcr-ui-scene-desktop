@@ -234,9 +234,11 @@ const AudioDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
       recordingDevicesList,
       audioRecordingDeviceId,
       setAudioRecordingDevice,
+      setUserHasSelectedAudioRecordingDevice,
       playbackDevicesList,
       audioPlaybackDeviceId,
       setAudioPlaybackDevice,
+      setUserHasSelectedAudioPlaybackDevice,
     },
   } = useStore();
   const transI18n = useI18n();
@@ -264,7 +266,12 @@ const AudioDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
             )}
             {recordingDevicesList.map((device) => {
               return (
-                <div onClick={() => setAudioRecordingDevice(device.value)} key={device.value}>
+                <div
+                  onClick={() => {
+                    setAudioRecordingDevice(device.value);
+                    setUserHasSelectedAudioRecordingDevice();
+                  }}
+                  key={device.value}>
                   <Radio
                     name="mic"
                     styleType="transparent"
@@ -292,7 +299,12 @@ const AudioDeviceListPopoverContent = observer(({ onMoreClick }: { onMoreClick: 
             )}
             {playbackDevicesList.map((device) => {
               return (
-                <div onClick={() => setAudioPlaybackDevice(device.value)} key={device.value}>
+                <div
+                  onClick={() => {
+                    setAudioPlaybackDevice(device.value);
+                    setUserHasSelectedAudioPlaybackDevice();
+                  }}
+                  key={device.value}>
                   <Radio
                     name="speaker"
                     styleType="transparent"

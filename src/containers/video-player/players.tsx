@@ -30,7 +30,3 @@ export const LocalVideoPlayer = observer(() => {
     </div>
   );
 });
-
-export const RemoteVideoPlayer = observer(() => {
-  return <div />;
-});

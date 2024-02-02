@@ -146,10 +146,10 @@ export const VideoPortal = observer(() => {
           onClick={deviceSettingUIStore.toggleAudioRecordingPreview}
           {...microphoneIconProps}
         />
-        <PretestDeviceIcon
+        {/* <PretestDeviceIcon
           onClick={deviceSettingUIStore.toggleAudioPlaybackDevice}
           {...speakerIconProps}
-        />
+        /> */}
         <MirrorToggle placement="pretest" />
       </div>
     </div>

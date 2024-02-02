@@ -178,4 +178,12 @@ export class Getters {
   get isInSubRoom() {
     return !!this.classroomUIStore.breakoutUIStore.currentSubRoomInfo;
   }
+
+  get galleryStreamsByPage() {
+    return this.classroomUIStore.galleryUIStore.streamsByPage;
+  }
+
+  get presentationStreamsByPage() {
+    return this.classroomUIStore.presentationUIStore.listViewStreamsByPage;
+  }
 }

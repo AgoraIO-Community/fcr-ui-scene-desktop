@@ -1,6 +1,6 @@
 import { isInvisible, isWeb } from '@ui-scene/utils/check';
 import { builtInExtensions, getProcessorInitializer } from '@ui-scene/utils/rtc-extensions';
-import { ClassroomState, DEVICE_DISABLE, EduClassroomConfig } from 'agora-edu-core';
+import { ClassroomState, DEVICE_DISABLE } from 'agora-edu-core';
 import { action, computed, observable, reaction, runInAction } from 'mobx';
 import { IAIDenoiserProcessor } from 'agora-extension-ai-denoiser';
 import { IVirtualBackgroundProcessor } from 'agora-extension-virtual-background';
@@ -29,6 +29,7 @@ import {
   DeviceSwitchDialogId,
 } from './type';
 import { matchVirtualSoundCardPattern } from '@ui-scene/utils/vsd-pattern';
+import { toJS } from 'mobx';
 
 /**
  * 设备设置
@@ -48,6 +49,13 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   private _virtualBackgroundProcessorForPreview?: IVirtualBackgroundProcessor;
   private _beautyEffectProcessorForPreview?: IBeautyProcessor;
   private _aiDenoiserProcessorForPreview?: IAIDenoiserProcessor;
+
+  private _defaultSystemAudioRecordingDeviceId?: string;
+  private _defaultSystemAudioPlaybackDeviceId?: string;
+
+  private _userHasSelectedAudioRecordingDevice = false;
+  private _userHasSelectedAudioPlaybackDevice = false;
+
   @observable deviceSettingDialogVisible = false;
   @action.bound
   setDeviceSettingDialogVisible(visible: boolean) {
@@ -83,6 +91,10 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   private _beautyFilterEnabled = false;
   @observable
   private _aiDenoiserEnabled = false;
+
+  private _userHasEnabledCamera = true;
+  private _userHasEnabledAudioRecording = true;
+
   @computed
   get isAiDenoiserEnabled() {
     return this._aiDenoiserEnabled;
@@ -425,6 +437,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   }
   @bound
   toggleCameraPreview() {
+    this._userHasEnabledCamera = !this._userHasEnabledCamera;
     if (this.isPreviewCameraDeviceEnabled) {
       this.stopCameraPreview();
     } else {
@@ -457,6 +470,16 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   }
 
   @bound
+  setUserHasSelectedAudioRecordingDevice() {
+    this._userHasSelectedAudioRecordingDevice = true;
+  }
+
+  @bound
+  setUserHasSelectedAudioPlaybackDevice() {
+    this._userHasSelectedAudioPlaybackDevice = true;
+  }
+
+  @bound
   updateAudioRecordingTrack() {
     if (this.audioRecordingDeviceId) {
       const track = this.classroomStore.mediaStore.mediaControl.createMicrophoneAudioTrack();
@@ -484,6 +507,7 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
   }
   @bound
   toggleAudioRecordingPreview() {
+    this._userHasEnabledAudioRecording = !this._userHasEnabledAudioRecording;
     if (this.isPreviewAudioRecordingDeviceEnabled) {
       this.stopAudioRecordingPreview();
     } else {
@@ -760,29 +784,29 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     // 处理视频设备列表变更
     const videoDisposer = computed(() => this.classroomStore.mediaStore.videoCameraDevices).observe(
       ({ newValue, oldValue }) => {
-        /**
-         * 触发设备变更事件
-         */
-        const { cameraDeviceId } = this.classroomStore.mediaStore;
-        if (oldValue && oldValue.length > 1) {
-          if (newValue.length > oldValue.length) {
-            // this.addToast({
-            //   type: 'video',
-            //   info: DeviceStateChangedReason.newDeviceDetected,
-            // });
+        const cameraDeviceId = this._cameraDeviceId;
+
+        const _newValue = newValue.filter(({ deviceid }) => {
+          return deviceid !== 'DEVICE_DISABLE';
+        });
+
+        const _oldValue = oldValue?.filter(({ deviceid }) => {
+          return deviceid !== 'DEVICE_DISABLE';
+        });
+        // if there's a new device plugged in and no devices selected yet, switch to default device
+        if (!cameraDeviceId && _newValue.length > (_oldValue?.length ?? 0)) {
+          this.logger.info('set to first camera device', toJS(newValue[0]));
+          if (newValue[0]) {
+            this.setCameraDevice(newValue[0].deviceid);
           }
-          const inOldList = oldValue.find((v) => v.deviceid === cameraDeviceId);
-          const inNewList = newValue.find((v) => v.deviceid === cameraDeviceId);
-          if (inOldList && !inNewList) {
-            //change to first device if there's any
-            newValue.length > 0 && this.setCameraDevice(newValue[0].deviceid);
-          }
-        } else {
-          if (EduClassroomConfig.shared.openCameraDeviceAfterLaunch) {
-            let deviceId = null;
-            if (newValue.length > 0 && (deviceId = newValue[0].deviceid) !== DEVICE_DISABLE) {
-              // initailize, pick the first device
-              this.setCameraDevice(deviceId);
+        } else if (_newValue.length < (_oldValue?.length ?? 0)) {
+          const unpluggedDevice = _oldValue?.find((v) => {
+            return !_newValue.find((newv) => newv.deviceid === v.deviceid);
+          });
+          this.logger.info('camera device unplugged', toJS(unpluggedDevice));
+          if (unpluggedDevice) {
+            if (cameraDeviceId === unpluggedDevice.deviceid) {
+              this.enableCamera(false);
             }
           }
         }
@@ -795,24 +819,54 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     const audioRecordingDisposer = computed(
       () => this.classroomStore.mediaStore.audioRecordingDevices,
     ).observe(({ newValue, oldValue }) => {
-      const { recordingDeviceId } = this.classroomStore.mediaStore;
-      const nonVsdDeviceList = newValue.filter((v) => !matchVirtualSoundCardPattern(v.devicename));
-      let newDefaultDevice = nonVsdDeviceList.find((v) => v.isDefault);
-      if (!newDefaultDevice && nonVsdDeviceList.length > 0) {
-        newDefaultDevice = nonVsdDeviceList[0];
-      }
-      if (newDefaultDevice) {
-        if (newDefaultDevice.deviceid !== recordingDeviceId) {
-          this.setAudioRecordingDevice(newDefaultDevice.deviceid);
+      const recordingDeviceId = this._audioRecordingDeviceId;
+
+      const _newValue = newValue.filter(({ deviceid, devicename }) => {
+        return deviceid !== 'DEVICE_DISABLE' && !matchVirtualSoundCardPattern(devicename);
+      });
+
+      const _oldValue = oldValue?.filter(({ deviceid, devicename }) => {
+        return deviceid !== 'DEVICE_DISABLE' && !matchVirtualSoundCardPattern(devicename);
+      });
+      // if there's a new device plugged in and no devices selected yet, switch to default device
+      if (!recordingDeviceId && _newValue.length > (_oldValue?.length ?? 0)) {
+        const defaultDevice = _newValue.find((v) => v.isDefault);
+        this.logger.info('set default audio recording device', toJS(defaultDevice));
+        if (defaultDevice) {
+          this._defaultSystemAudioRecordingDeviceId = defaultDevice.deviceid;
+          this.setAudioRecordingDevice(defaultDevice.deviceid);
         }
-      } else if (newValue.length > 0) {
-        const inOldList = oldValue?.find((v) => v.deviceid === recordingDeviceId);
-        const inNewList = newValue.find((v) => v.deviceid === recordingDeviceId);
-        if (!inOldList || (inOldList && !inNewList)) {
-          this.setAudioRecordingDevice(newValue[0].deviceid);
+        // there's a new device plugged in but there's already a device selected, switch to the new one
+      } else if (_newValue.length > (_oldValue?.length ?? 0)) {
+        const pluggedDevice = _newValue.find((v) => {
+          return !_oldValue?.find((old) => old.deviceid === v.deviceid);
+        });
+        this.logger.info('new audio recording device plugged in', toJS(pluggedDevice));
+        if (pluggedDevice && !this._userHasSelectedAudioRecordingDevice) {
+          this.setAudioRecordingDevice(pluggedDevice.deviceid);
         }
-      } else {
-        this.setAudioRecordingDevice('default');
+        // there's a device unplugged, switch to the default device if the default device exists otherwise switch to the first device
+      } else if (_newValue.length < (_oldValue?.length ?? 0)) {
+        const unpluggedDevice = _oldValue?.find((v) => {
+          return !_newValue.find((newv) => newv.deviceid === v.deviceid);
+        });
+        this.logger.info('audio recording device unplugged', toJS(unpluggedDevice));
+
+        if (unpluggedDevice) {
+          if (unpluggedDevice.deviceid === recordingDeviceId) {
+            const defaultDevice = _newValue.find(
+              (v) => v.isDefault || this._defaultSystemAudioRecordingDeviceId === v.deviceid,
+            );
+
+            if (defaultDevice) {
+              this.logger.info('switch to the default audio recording device', toJS(defaultDevice));
+              this.setAudioRecordingDevice(defaultDevice.deviceid);
+            } else if (_newValue.length > 0) {
+              this.logger.info('switch to the default audio recording device', toJS(_newValue[0]));
+              this.setAudioRecordingDevice(_newValue[0].deviceid);
+            }
+          }
+        }
       }
     });
 
@@ -821,24 +875,54 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
     const playbackDisposer = computed(
       () => this.classroomStore.mediaStore.audioPlaybackDevices,
     ).observe(({ newValue, oldValue }) => {
-      const { playbackDeviceId } = this.classroomStore.mediaStore;
-      const nonVsdDeviceList = newValue.filter((v) => !matchVirtualSoundCardPattern(v.devicename));
-      let newDefaultDevice = nonVsdDeviceList.find((v) => v.isDefault);
-      if (!newDefaultDevice && nonVsdDeviceList.length > 0) {
-        newDefaultDevice = nonVsdDeviceList[0];
-      }
-      if (newDefaultDevice) {
-        if (newDefaultDevice.deviceid !== playbackDeviceId) {
-          this.setAudioPlaybackDevice(newDefaultDevice.deviceid);
+      const audioPlaybackDeviceId = this._audioPlaybackDeviceId;
+
+      const _newValue = newValue.filter(({ deviceid, devicename }) => {
+        return deviceid !== 'DEVICE_DISABLE' && !matchVirtualSoundCardPattern(devicename);
+      });
+
+      const _oldValue = oldValue?.filter(({ deviceid, devicename }) => {
+        return deviceid !== 'DEVICE_DISABLE' && !matchVirtualSoundCardPattern(devicename);
+      });
+      // if there's a new device plugged in and no devices selected yet, switch to default device
+      if (!audioPlaybackDeviceId && _newValue.length > (_oldValue?.length ?? 0)) {
+        const defaultDevice = _newValue.find((v) => v.isDefault);
+        this.logger.info('set default audio playback device', toJS(defaultDevice));
+        if (defaultDevice) {
+          this._defaultSystemAudioPlaybackDeviceId = defaultDevice.deviceid;
+          this.setAudioPlaybackDevice(defaultDevice.deviceid);
         }
-      } else if (newValue.length > 0) {
-        const inOldList = oldValue?.find((v) => v.deviceid === playbackDeviceId);
-        const inNewList = newValue.find((v) => v.deviceid === playbackDeviceId);
-        if (!inOldList || (inOldList && !inNewList)) {
-          this.setAudioPlaybackDevice(newValue[0].deviceid);
+        // there's a new device plugged in but there's already a device selected, switch to the new one
+      } else if (_newValue.length > (_oldValue?.length ?? 0)) {
+        const pluggedDevice = _newValue.find((v) => {
+          return !_oldValue?.find((old) => old.deviceid === v.deviceid);
+        });
+        this.logger.info('new audio playback device plugged in', toJS(pluggedDevice));
+        if (pluggedDevice && !this._userHasSelectedAudioPlaybackDevice) {
+          this.setAudioPlaybackDevice(pluggedDevice.deviceid);
         }
-      } else {
-        this.setAudioPlaybackDevice('default');
+        // there's a device unplugged, switch to the default device if the default device exists otherwise switch to the first device
+      } else if (_newValue.length < (_oldValue?.length ?? 0)) {
+        const unpluggedDevice = _oldValue?.find((v) => {
+          return !_newValue.find((newv) => newv.deviceid === v.deviceid);
+        });
+        this.logger.info('audio playback device unplugged', toJS(unpluggedDevice));
+
+        if (unpluggedDevice) {
+          if (unpluggedDevice.deviceid === audioPlaybackDeviceId) {
+            const defaultDevice = _newValue.find(
+              (v) => v.isDefault || this._defaultSystemAudioPlaybackDeviceId === v.deviceid,
+            );
+
+            if (defaultDevice) {
+              this.logger.info('switch to the default audio playback device', toJS(defaultDevice));
+              this.setAudioPlaybackDevice(defaultDevice.deviceid);
+            } else if (_newValue.length > 0) {
+              this.logger.info('switch to the default audio playback device', toJS(_newValue[0]));
+              this.setAudioPlaybackDevice(_newValue[0].deviceid);
+            }
+          }
+        }
       }
     });
 
@@ -863,7 +947,9 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             const stream = newValue.localCameraStream;
             if (stream.videoState === AgoraRteMediaPublishState.Published) {
               const enableDefault = !!(getConfig().defaultEnableDevice ?? true);
-              if (enableDefault) {
+              const userHasEnabledCamera = this._userHasEnabledCamera;
+
+              if (enableDefault && userHasEnabledCamera) {
                 this.enableCamera(true);
               }
             }
@@ -891,7 +977,9 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
             const stream = newValue.localMicStream;
             if (stream.audioState === AgoraRteMediaPublishState.Published) {
               const enableDefault = !!(getConfig().defaultEnableDevice ?? true);
-              if (enableDefault) {
+              const userHasEnabledAudioRecording = this._userHasEnabledAudioRecording;
+
+              if (enableDefault && userHasEnabledAudioRecording) {
                 this.enableAudioRecording(true);
               }
             }
@@ -1018,6 +1106,23 @@ export class DeviceSettingUIStore extends EduUIStoreBase {
           });
         },
       ),
+      // reaction(
+      //   () => ({
+      //     classroomState: this.classroomStore.connectionStore.classroomState,
+      //     audioPlaybackDeviceEnabled: this._audioPlaybackDeviceEnabled,
+      //     streamUuids: Array.from(this.classroomStore.streamStore.streamByStreamUuid.keys()),
+      //   }),
+      //   ({ classroomState, audioPlaybackDeviceEnabled, streamUuids }) => {
+      //     if (classroomState === ClassroomState.Connected) {
+      //       streamUuids.forEach((streamUuid) => {
+      //         this.classroomStore.connectionStore.scene?.setRemoteTrackVolume(
+      //           streamUuid,
+      //           audioPlaybackDeviceEnabled ? 100 : 0,
+      //         );
+      //       });
+      //     }
+      //   },
+      // ),
     );
   }
 

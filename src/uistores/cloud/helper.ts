@@ -47,7 +47,7 @@ export const createCloudResource = (data: CourseWareItem): CloudDriveResource | 
       size: data.size,
       updateTime: data.updateTime,
       taskProgress: data.taskProgress || {
-        status: 'Fail',
+        status: 'Finished',
         totalPageSize: 0,
         convertedPageSize: 0,
         convertedPercentage: 0,

@@ -5,6 +5,7 @@ import {
   AgoraRteMediaSourceState,
   AgoraRteVideoSourceType,
   AgoraUser,
+  AGRemoteVideoStreamType,
   AGRenderMode,
   AGRtcState,
   bound,
@@ -15,6 +16,7 @@ import { EduUIStoreBase } from './base';
 import { computedFn } from 'mobx-utils';
 import { EduStreamUI } from '@ui-scene/utils/stream/struct';
 import { v4 as uuidv4 } from 'uuid';
+import { Layout } from './type';
 type RenderableVideoDom = {
   dom: HTMLDivElement;
   renderMode: AGRenderMode;
@@ -61,6 +63,7 @@ export class StreamUIStore extends EduUIStoreBase {
     );
     return stream ? new EduStreamUI(stream) : stream;
   }
+
   @action.bound
   subscribeMass(streams: EduStream[]) {
     const subst = streams.filter((s) => {
@@ -236,13 +239,78 @@ export class StreamUIStore extends EduUIStoreBase {
           }
         },
       ),
-    );
-    this._disposers.push(
       reaction(
         () => this.getters.pinnedUIStream,
         () => {
           if (!this.getters.pinnedUIStream) {
             this.removePin();
+          }
+        },
+      ),
+      computed(() => this.pinnedStreamUuid).observe(({ newValue, oldValue }) => {
+        if (oldValue) {
+          console.log('set unpinned remote video stream type to low', oldValue);
+          this.classroomStore.streamStore.setRemoteVideoStreamType(
+            oldValue,
+            AGRemoteVideoStreamType.LOW_STREAM,
+          );
+        }
+
+        if (newValue) {
+          console.log('set pinned remote video stream type to high', newValue);
+          this.classroomStore.streamStore.setRemoteVideoStreamType(
+            newValue,
+            AGRemoteVideoStreamType.HIGH_STREAM,
+          );
+        }
+      }),
+      reaction(
+        () => ({
+          streams: this.getters.galleryStreamsByPage,
+          layout: this.getters.layout,
+        }),
+        ({ streams, layout }) => {
+          if (layout === Layout.Grid) {
+            streams.forEach((stream) => {
+              if (
+                !stream.isLocal &&
+                stream.stream.videoSourceType !== AgoraRteVideoSourceType.ScreenShare
+              ) {
+                const shouldPlayHighStream = streams.length <= 4;
+
+                console.log(
+                  `play ${shouldPlayHighStream ? 'high' : 'low'} stream for`,
+                  stream.stream.streamUuid,
+                );
+
+                this.classroomStore.streamStore.setRemoteVideoStreamType(
+                  stream.stream.streamUuid,
+                  shouldPlayHighStream
+                    ? AGRemoteVideoStreamType.HIGH_STREAM
+                    : AGRemoteVideoStreamType.LOW_STREAM,
+                );
+              }
+            });
+          }
+        },
+      ),
+      reaction(
+        () => ({ streams: this.getters.presentationStreamsByPage, layout: this.getters.layout }),
+        ({ streams, layout }) => {
+          if (layout === Layout.ListOnRight || layout === Layout.ListOnTop) {
+            streams.forEach((stream) => {
+              if (
+                !stream.isLocal &&
+                stream.stream.videoSourceType !== AgoraRteVideoSourceType.ScreenShare
+              ) {
+                console.log('play low stream for', stream.stream.streamUuid);
+
+                this.classroomStore.streamStore.setRemoteVideoStreamType(
+                  stream.stream.streamUuid,
+                  AGRemoteVideoStreamType.LOW_STREAM,
+                );
+              }
+            });
           }
         },
       ),
