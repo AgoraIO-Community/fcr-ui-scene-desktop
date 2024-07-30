@@ -88,6 +88,7 @@ export const zhCn = {
   fcr_participants_tips_device_mobile_web: '移动端网页',
   fcr_participants_tips_device_PC: '电脑设备',
   fcr_participants_tips_device_mobile_web_not_support: '移动端网页不支持此功能',
+  fcr_rct_no_driver: '您使用的浏览器不支持在线教室，请更换chrome浏览器',
 
   //reason为获得奖励的学生名字
   fcr_room_tips_reward_congratulation_single: '祝贺{reason}获得奖励。',

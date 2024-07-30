@@ -179,7 +179,11 @@ export class SceneUIStore {
     }
     await this.enableDualStream();
     try {
-      await joinRTC();
+      if (window.RTCPeerConnection && window.WebSocket) {
+        await joinRTC();
+      } else {
+        this.breakoutUIStore.addToast({ text: transI18n('fcr_rct_no_driver') });
+      }
     } catch (e) {
       this.getters.classroomUIStore.layoutUIStore.addDialog('confirm', {
         closable: false,

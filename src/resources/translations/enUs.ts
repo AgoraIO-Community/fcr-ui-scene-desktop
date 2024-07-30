@@ -91,6 +91,7 @@ export const enUs = {
   fcr_participants_tips_device_mobile_web: 'Mobile web',
   fcr_participants_tips_device_PC: 'PC',
   fcr_participants_tips_device_mobile_web_not_support: 'Mobile web does not support this feature.',
+  fcr_rct_no_driver: 'The browser you are using does not support the FCR classroom. Please switch to the Chrome browser.',
 
   //reason为获得奖励的学生名字
   fcr_room_tips_reward_congratulation_single:
