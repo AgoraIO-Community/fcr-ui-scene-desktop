@@ -12,7 +12,7 @@ import {
 import { ToastApi } from '@components/toast';
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from '@ui-scene/extension/events';
 import { ConfirmDialogProps } from '@components/dialog/confirm-dialog';
-import { CommonDialogType } from './type';
+import { CommonDialogType, RttTypeEnum } from './type';
 import { v4 as uuidv4 } from 'uuid';
 @Log.attach({ proxyMethods: false })
 export class WidgetUIStore extends EduUIStoreBase {
@@ -26,6 +26,8 @@ export class WidgetUIStore extends EduUIStoreBase {
   private _widgetInstanceRenderKeys: Record<string, string> = {};
   @observable
   private _widgetInstances: Record<string, FcrUISceneWidget> = {};
+  //widget是否正在使用的列表，当前为rtt新增的变量，后续也可以添加使用
+  private _widgetActiveList: string[] = [];
   private _stateListener = {
     onActive: this._handleWidgetActive,
     onInactive: this._handleWidgetInactive,
@@ -47,6 +49,11 @@ export class WidgetUIStore extends EduUIStoreBase {
   @computed
   get widgetInstanceList() {
     return Object.values(this._widgetInstances);
+  }
+
+  @computed
+  get widgetActiveList() {
+    return this._widgetActiveList;
   }
 
   get widgetInstanceRenderKeys() {
@@ -295,7 +302,7 @@ export class WidgetUIStore extends EduUIStoreBase {
 
     this._disposers.push(
       reaction(
-        () => ({controller: this.classroomStore.widgetStore.widgetController,}),
+        () => ({controller: this.classroomStore.widgetStore.widgetController}),
         ({ controller }) => {
           if (controller) {
             controller.removeBroadcastListener({
@@ -303,7 +310,11 @@ export class WidgetUIStore extends EduUIStoreBase {
               onMessage: this._handleVisibleRttConversionChange,
             })
             controller.addBroadcastListener({
-              messageType: AgoraExtensionWidgetEvent.RttShowConversion,
+              messageType: AgoraExtensionWidgetEvent.WidgetActiveStateChange,
+              onMessage: this._handleWidgetActiveStateChange,
+            })
+            controller.addBroadcastListener({
+              messageType: AgoraExtensionWidgetEvent.RttSettingShowConversion,
               onMessage: this._handleVisibleRttConversionChange,
             })
           }
@@ -381,17 +392,38 @@ export class WidgetUIStore extends EduUIStoreBase {
 
   @bound
   private _handleVisibleRttConversionChange() {
-    this.createWidget("rttbox");
+    this.createWidget(RttTypeEnum.CONVERSION);
     if (this.classroomStore.widgetStore.widgetController) {
       this.classroomStore.widgetStore.widgetController.broadcast(AgoraExtensionWidgetEvent.SetVisible, {
-        widgetId: "rttbox",
+        widgetId: RttTypeEnum.CONVERSION,
         visible: true,
       });
+    }
+  }
+  //widge状态改变监听
+  @bound
+  @action
+  private _handleWidgetActiveStateChange(message:{state:boolean,widgetId:string}) {
+    if(message.state){
+      this._widgetActiveList.push(message.widgetId)
+    }else{
+      const index = this._widgetActiveList.indexOf(message.widgetId)
+      if(index >= 0){
+        this._widgetActiveList.splice(index,1)
+      }
     }
   }
   onDestroy() {
     this.classroomStore.widgetStore.widgetController?.removeBroadcastListener({
       messageType: AgoraExtensionWidgetEvent.RttShowConversion,
+      onMessage: this._handleVisibleRttConversionChange,
+    })
+    this.classroomStore.widgetStore.widgetController?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.WidgetActiveStateChange,
+      onMessage: this._handleWidgetActiveStateChange,
+    })
+    this.classroomStore.widgetStore.widgetController?.removeBroadcastListener({
+      messageType: AgoraExtensionWidgetEvent.RttSettingShowConversion,
       onMessage: this._handleVisibleRttConversionChange,
     })
     this._disposers.forEach((d) => d());
