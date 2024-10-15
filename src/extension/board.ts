@@ -235,6 +235,7 @@ export class Board {
                 closable: true,
               },
             });
+
           }
           if (!newGranted.has(userUuid) && oldGranted?.has(userUuid)) {
             ToastApi.open({
@@ -247,6 +248,7 @@ export class Board {
                 closable: true,
               },
             });
+
           }
         }),
       );

@@ -7,7 +7,7 @@ import { computedFn } from 'mobx-utils';
 import { SceneUIStore } from '.';
 
 export class Getters {
-  constructor(private _classroomUIStore: SceneUIStore) {}
+  constructor(private _classroomUIStore: SceneUIStore) { }
 
   get classroomUIStore() {
     return this._classroomUIStore;
@@ -76,16 +76,20 @@ export class Getters {
 
   @computed
   get cameraUIStreams() {
-    const isIngroupLocal = this._classroomUIStore.classroomStore.groupStore.groupUuidByUserUuid.get(
+    const {
+      classroomStore: { groupStore: { groupUuidByUserUuid } }
+    } = this._classroomUIStore;
+    const isIngroupLocal = groupUuidByUserUuid.get(
       this.localUser?.userUuid || '',
     );
+
+    const isInMainroom = groupUuidByUserUuid?.size === 0 || !isIngroupLocal;
+
     return Array.from(this.cameraStreams)
       .filter((stream) => {
-        return isIngroupLocal
-          ? true
-          : !this._classroomUIStore.classroomStore.groupStore.groupUuidByUserUuid.get(
-              stream.fromUser.userUuid,
-            );
+        return isInMainroom
+          ? !groupUuidByUserUuid.get(stream.fromUser.userUuid)
+          : !!groupUuidByUserUuid.get(stream.fromUser.userUuid) && isIngroupLocal === groupUuidByUserUuid.get(stream.fromUser.userUuid)
       })
       .map((stream) => new EduStreamUI(stream));
   }

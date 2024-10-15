@@ -9,25 +9,33 @@ import './index.css'
 export const GroupDiscuss = observer(() => {
     const transI18n = useI18n();
     const {
+        eduToolApi,
         breakoutUIStore: { studentInvites, breakoutDialogVisible },
-      } = useStore();
+    } = useStore();
     const { updateZIndex } = useZIndex('breakout');
-    const {  breakoutUIStore } = useStore();
+    const { breakoutUIStore } = useStore();
     const handleClick = () => {
-        
-         if (breakoutDialogVisible) {
+        if (breakoutDialogVisible) {
             updateZIndex();
-         } else {
+            eduToolApi.setMinimizedState({
+                minimized: false,
+                widgetId: 'breakout',
+                minimizedProperties: {
+                    minimizedCollapsed: false,
+                },
+            });
+        } else {
             breakoutUIStore.setDialogVisible(true);
-         }
-       
+        }
+
     };
     const studentInvitesList = studentInvites.filter((v: { isInvite: boolean; }) => v.isInvite) || []
     return (
         <ToolTip
-            trigger="hover" 
+            trigger="hover"
             content={!studentInvitesList.length ? transI18n('fcr_group_label_breakout_rooms_open') : transI18n('fcr_group_label_breakout_rooms_open_help', {
-            reason1: studentInvitesList.length })}
+                reason1: studentInvitesList.length
+            })}
             overlayInnerStyle={{
                 fontSize: '14px',
                 fontWeight: 400,
@@ -43,6 +51,6 @@ export const GroupDiscuss = observer(() => {
                 </div>
             </div>
         </ToolTip>
-        
+
     )
 })

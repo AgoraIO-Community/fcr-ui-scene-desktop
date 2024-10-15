@@ -133,20 +133,24 @@ const LeavePopoverContent = observer(() => {
 const LeaveBreakoutPopoverContent = observer(() => {
   const {
     actionBarUIStore: { setShowLeaveOption, isHost },
-    breakoutUIStore: { leaveSubRoom },
+    breakoutUIStore: { leaveSubRoom, isAttendDiscussionConfig, leaveRtcClient, setIsAttendDiscussionConfig },
   } = useStore();
   const transI18n = useI18n();
 
   const handleOk = () => {
     setShowLeaveOption(false, 2);
     leaveSubRoom();
+    if (isAttendDiscussionConfig?.groupId) {
+      leaveRtcClient();
+      setIsAttendDiscussionConfig({ groupName: '', groupId: '' })
+    }
   };
 
   return (
     <div className="fcr-action-bar-leave-popover">
       {isHost ? (
         <div className="fcr-action-bar-leave-popover-text">
-          {transI18n('fcr_group_tips_leave_content')}
+          {isAttendDiscussionConfig?.groupId ? transI18n('fcr_group_button_leave_group_attend_discussion') : transI18n('fcr_group_tips_leave_content')}
         </div>
       ) : (
         <div className="fcr-action-bar-leave-popover-text">

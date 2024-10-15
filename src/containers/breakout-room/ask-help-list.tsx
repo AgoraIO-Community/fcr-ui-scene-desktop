@@ -13,7 +13,9 @@ type AskHelpRequest = {
 
 export const AskHelpList = observer(() => {
   const {
+    layoutUIStore: { addDialog },
     breakoutUIStore: {
+      isAttendDiscussionConfig,
       studentInvites,
       inviteGroups,
       changeInviteGroup,
@@ -35,8 +37,21 @@ export const AskHelpList = observer(() => {
     api.destroy(cancelGroupUuid);
     setCancelGroupUuid('');
   }
-  const handleOk = (item: AskHelpRequest) => {
-    acceptInvite(item.groupUuid);
+  const handleOk = async (item: AskHelpRequest) => {
+    if (isAttendDiscussionConfig?.groupId) {
+      addDialog('confirm', {
+        title: transI18n('fcr_group_join_group_title'),
+        content: transI18n('fcr_group_attend_discussion_join_confirm'),
+        onOk: async () => {
+          await acceptInvite(item.groupUuid);
+        },
+        okButtonProps: {
+          styleType: 'danger',
+        },
+      });
+    } else {
+      await acceptInvite(item.groupUuid);
+    }
   };
   const handleCancel = (item: AskHelpRequest) => {
     rejectInvite(item.groupUuid);
@@ -103,7 +118,7 @@ export const AskHelpList = observer(() => {
     if (inviteGroups.length && groupState) {
       const lists = studentInvites.filter((item: { isInvite: boolean }) => item.isInvite);
       const index = inviteGroups.findIndex(
-        (v) => v.groupUuid === lists[lists.length - 1].groupUuid,
+        (v) => lists.length > 0 && (v.groupUuid === lists[lists.length - 1]?.groupUuid),
       );
       console.log('useEffectuseEffect', inviteGroups, lists);
       if (lists.length && index > -1 && inviteGroups[index] && !inviteGroups[index].isShow) {

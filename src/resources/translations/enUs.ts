@@ -330,7 +330,7 @@ export const enUs = {
   fcr_group_help_content: 'You can invite the teacher to this group for assistance.',
   fcr_group_help_teacher_busy_msg:
     'The teacher is currently helping others. Please try again later.',
-    fcr_group_teacher_join: 'Teacher has joined the group',
+  fcr_group_teacher_join: 'Teacher has joined the group',
   fcr_group_teacher_is_helping_others_msg:
     'The teacher is helping other groups. Please try again later.',
   fcr_group_teacher_exist_hint: 'The teacher is already in this group.',
@@ -397,6 +397,7 @@ export const enUs = {
   fcr_group_tips_group_is_full: 'Group is full of {reason1}',
   fcr_group_tips_no_groups_to_start: 'Please create a group first',
   fcr_group_tips_initializing: 'Rooms are initializing, please wait...',
+  fcr_group_attend_discussion_initializing: 'Attending discussion is initializing, please wait...',
   fcr_group_tips_stopping: 'Stopping group, please wait...',
   fcr_group_tips_already_in_group: 'You are already in this group',
   fcr_group_tips_joining: 'Joining group, please wait...',
@@ -420,7 +421,7 @@ export const enUs = {
   fcr_group_label_breakout_rooms_open: 'Group is opening...',
   fcr_group_tip_breakout_rooms_help: 'Initiate a request for help from the teacher',
   fcr_group_tip_breakout_rooms_cancel_help: 'When seeking help from the teacher, click to cancel the request..',
-  fcr_group_label_breakout_rooms_open_help:'Group is opening，have{reason1}group inviting...',
+  fcr_group_label_breakout_rooms_open_help: 'Group is opening，have{reason1}group inviting...',
   fcr_group_assign_automatically: 'Assign automatically',
   fcr_group_assign_manually: 'Assign manually',
   fcr_group_create_group_no: 'No',
@@ -433,9 +434,19 @@ export const enUs = {
   fcr_group_grouped: 'Grouped',
   fcr_group_button_add_room: 'Add Room',
   fcr_group_delete_room_title: 'Delete Group',
+  fcr_group_delete_room_button: 'Delete Group',
+  fcr_group_rename_room_button: 'Rename Group',
+  fcr_group_attend_discussion_confirm: 'Stop subscribing to the audio of other students in the room. Are you sure you want to continue listening?',
+  fcr_group_close_discussion_confirm: 'Are you sure you want to end the audit?',
+  fcr_group_attend_discussion_again_confirm: 'Please select a group You are auditing the {reason1} discussion, would you like to auditing a discussion in another group?',
+  fcr_group_attend_discussion_join_room_confirm: 'You have joined {reason1} and cannot listen in',
+  fcr_group_attend_discussion_start_msg: 'The audit discussion has started',
+  fcr_group_attend_discussion_end_msg: 'The audit discussion has been concluded',
 
   //分组名字
   fcr_group_delete_room_confirm: 'Are you sure you want to delete the {reason1} group',
+  fcr_group_delete_room_listening_confirm: 'You are sitting in this group. Do you want to delete the group?',
+  fcr_group_attend_discussion_join_confirm: 'You are sitting in on a group discussion. Join the group. The meeting ends. Do you want to join the group again?',
   fcr_group_tips_ask_help: 'Someone in the group is asking for help.',
   fcr_group_button_delete: 'Delete',
   fcr_group_button_rename: 'Rename',
@@ -451,6 +462,7 @@ export const enUs = {
   fcr_group_tips_broadcast_message: 'Broadcast a message to all breakout rooms',
   fcr_group_recreate: 'Recreate',
   fcr_group_start: 'Start',
+  fcr_group_choose_group: 'Please select a group',
 
   //待分配人
   fcr_group_tips_persons_per_group1: 'To be assigned {reason1} persons',
@@ -501,6 +513,10 @@ export const enUs = {
   fcr_tool_box_poll: 'Poll',
   fcr_tool_box_count_down: 'Countdown',
   fcr_tool_box_popup_quiz: 'Pop-up Quiz',
+  fcr_board_attend_discussion: 'Attend Discussion',
+  fcr_board_close_discussion: 'Close Discussion',
+  fcr_board_join_group: 'Join',
+  fcr_group_join_group_title: 'Join Group',
 
   //****************** 白板Board ******************
   fcr_board_granted: 'You can now annotate on the whiteboard.',
@@ -548,6 +564,7 @@ export const enUs = {
   fcr_group_tips_student_leave_content:
     "Re-entry into the group is only possible with the teacher's invitation.Are you sure you want to leave the group？",
   fcr_group_button_leave_group: 'Leave the Group',
+  fcr_group_button_leave_group_attend_discussion: 'You are auditing a group discussion. Returning to the large room will end the session. Are you sure you want to back to the large room?',
   fcr_group_button_create: 'Create',
 
   //****************** 花名册Participants ******************

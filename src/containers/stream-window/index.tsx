@@ -478,30 +478,70 @@ const AudioVolumeEffect = observer(
     const stream = streamWindowContext?.stream;
     const {
       layoutUIStore: { layout },
-      streamUIStore: { localVolume, remoteStreamVolume, cameraUIStreams },
+      streamUIStore: { localVolume, remoteStreamVolume, cameraUIStreams, handleReportDuration },
       deviceSettingUIStore: { isAudioRecordingDeviceEnabled },
+      statusBarUIStore: { calibratedTime },
     } = useStore();
+
+
+
     const [showAudioVolumeEffect, setShowAudioVolumeEffect] = useState(false);
+
+    const startTime = useRef<number | null>(0);
+
+    const reportDuration = useRef<Array<{ startTime: number | null, endTime: number }>>([]);
+
     const timer = useRef<number | null>(null);
-    const showAudioEffect = () => {
+    const reportTimer = useRef<number | null>(null);
+
+    const showAudioEffect = (isLocal: boolean) => {
       setShowAudioVolumeEffect(true);
+
+      if (isLocal) {
+        if (!startTime.current) {
+          startTime.current = calibratedTime;
+        }
+
+        if (!reportTimer.current) {
+          reportTimer.current = window.setTimeout(async () => {
+            reportTimer.current = null;
+
+            const params = { events: timer.current ? [...reportDuration?.current, { startTime: startTime?.current, endTime: calibratedTime }] : [...reportDuration?.current], cmd: 1700 };
+            await handleReportDuration(params);
+
+            reportDuration.current = [];
+            startTime.current = 0;
+            reportTimer?.current && window.clearTimeout(reportTimer?.current);
+          }, 1000 * 60);
+        }
+      }
+
+
       if (timer.current) {
         window.clearTimeout(timer.current);
       }
+
       timer.current = window.setTimeout(() => {
         setShowAudioVolumeEffect(false);
         timer.current = null;
+        if (isLocal && reportTimer.current) {
+          //记录一次开口
+          reportDuration.current = [...reportDuration.current, { startTime: startTime?.current, endTime: calibratedTime }];
+          startTime.current = 0;
+        }
       }, duration);
     };
+
+
     useEffect(() => {
       if (stream?.stream.isLocal) {
         if (localVolume > minTriggerVolume && isAudioRecordingDeviceEnabled) {
-          showAudioEffect();
+          showAudioEffect(true);
         }
       } else {
         const remoteVolume = remoteStreamVolume(stream);
         if (remoteVolume > minTriggerVolume && stream?.isMicStreamPublished) {
-          showAudioEffect();
+          showAudioEffect(false);
         }
       }
     }, [
@@ -510,6 +550,9 @@ const AudioVolumeEffect = observer(
       isAudioRecordingDeviceEnabled,
       stream?.isMicStreamPublished,
     ]);
+
+
+
     const disableAudioVolumeEffect =
       streamWindowContext?.renderAtMainView &&
       (layout !== Layout.Grid || cameraUIStreams.length <= 1);

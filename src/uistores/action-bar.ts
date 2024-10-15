@@ -149,7 +149,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
   @computed get showHelp() {
     return this.getters.isStudent;
   }
-  
+
   @observable showLeaveOption = false;
   @observable leaveFlag = 1;
 
@@ -288,7 +288,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
     }
   }
   @bound
-  private _onReceivePeerMessage(message: AgoraRteCustomMessage) {}
+  private _onReceivePeerMessage(message: AgoraRteCustomMessage) { }
   onDestroy(): void {
     this._disposers.forEach((d) => d());
     this._disposers = [];

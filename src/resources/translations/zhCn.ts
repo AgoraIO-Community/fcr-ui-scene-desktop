@@ -412,7 +412,7 @@ export const zhCn = {
   fcr_group_label_breakout_rooms_open: '分组正在进行中...',
   fcr_group_tip_breakout_rooms_help: '向老师发起求助',
   fcr_group_tip_breakout_rooms_cancel_help: '向老师求助中，点击取消求助..',
-  fcr_group_label_breakout_rooms_open_help:'分组开启中，有{reason1}组人员向你发起求助...',
+  fcr_group_label_breakout_rooms_open_help: '分组开启中，有{reason1}组人员向你发起求助...',
   fcr_group_assign_automatically: '自动分组',
   fcr_group_assign_manually: '手动分组',
   fcr_group_create_group_no: '否',
@@ -425,9 +425,21 @@ export const zhCn = {
   fcr_group_grouped: '已分组',
   fcr_group_button_add_room: '添加分组',
   fcr_group_delete_room_title: '删除分组',
+  fcr_group_delete_room_button: '删除该组',
+  fcr_group_rename_room_button: '重命名',
+  fcr_group_attend_discussion_confirm: '旁听分组讨论会停止订阅房间内其他学生的音频，是否继续旁听？',
+  fcr_group_close_discussion_confirm: '是否结束旁听？',
+  fcr_group_attend_discussion_again_confirm: '您正在旁听「{reason1}」讨论，是否要旁听其他分组的讨论？',
+  fcr_group_attend_discussion_join_room_confirm: '您已加入 {reason1} ，无法旁听',
+  fcr_group_attend_discussion_initializing: '旁听讨论正在初始化，请等待...',
+  fcr_group_join_group_title: '加入分组',
+  fcr_group_attend_discussion_start_msg: '已开启旁听讨论',
+  fcr_group_attend_discussion_end_msg: '已结束旁听讨论',
 
   //分组名字
   fcr_group_delete_room_confirm: '确定要删除 {reason1} 分组吗？',
+  fcr_group_delete_room_listening_confirm: '您正在旁听该分组讨论，是否要删除分组？',
+  fcr_group_attend_discussion_join_confirm: '您正在旁听分组讨论，加入分组会结束旁听，是否继续加入分组？',
   fcr_group_tips_ask_help: '有学生在分组里请求帮助。',
   fcr_group_button_delete: '删除',
   fcr_group_button_rename: '重命名',
@@ -491,6 +503,9 @@ export const zhCn = {
   fcr_tool_box_poll: '投票',
   fcr_tool_box_count_down: '倒计时',
   fcr_tool_box_popup_quiz: '答题器',
+  fcr_board_attend_discussion: '旁听讨论',
+  fcr_board_close_discussion: '结束旁听',
+  fcr_board_join_group: '加入',
 
   //****************** 白板Board ******************
   fcr_board_granted: '你已被老师授权，请使用白板工具互动。',
@@ -535,7 +550,9 @@ export const zhCn = {
   fcr_group_tips_leave_content: '确定要退出分组吗？',
   fcr_group_tips_student_leave_content: '需要老师的邀请才能重新进入小组。确定要离开小组吗?',
   fcr_group_button_leave_group: '离开分组',
+  fcr_group_button_leave_group_attend_discussion: '您正在旁听分组讨论，回到大房间会结束旁听，是否继续回到大房间？',
   fcr_group_button_create: '创建',
+  fcr_group_choose_group: '请选择分组',
 
   //****************** 花名册Participants ******************
   fcr_participants_label_search: '搜索',

@@ -86,7 +86,7 @@ export enum AgoraExtensionRoomEvent {
   //插件全屏
   SetFullscreen = 'set-fullscreen',
   // 学生邀请
-  StudentGroupInvites = 'student-group-invites',
+  StudentGroupInvites = 'student-group-invites', 
 }
 
 /**
@@ -159,5 +159,5 @@ export enum AgoraExtensionWidgetEvent {
   //设置插件位置
   UpdatePosition = 'update-position',
   //更新倒计时状态
-  CountdownTimerStateChanged = 'countdown-timer-state-changed',
+  CountdownTimerStateChanged = 'countdown-timer-state-changed', 
 }

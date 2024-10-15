@@ -175,6 +175,21 @@ export class StreamUIStore extends EduUIStoreBase {
   }
 
   @action.bound
+  async handleReportDuration(params: { events: Array<{ startTime: number | null, endTime: number }>, cmd: number }) {
+    const {
+      sessionInfo: { roomUuid, userUuid },
+      //@ts-ignore
+    } = window.EduClassroomConfig;
+
+    //@ts-ignore
+    window.globalStore.classroomStore.connectionStore.scene._apiService.fetch({
+      path: `/v1/rooms/${roomUuid}/users/${userUuid}/client/events`,
+      method: 'POST',
+      data: { ...params },
+    })
+  }
+
+  @action.bound
   private _handleUserRemoved(users: AgoraUser[]) {
     const uuids = users.map(({ userUuid }) => userUuid);
 
