@@ -34,6 +34,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
     if (this.isHandsUp) return;
     const localUserUuid = this.classroomStore.userStore.localUser!.userUuid;
     this.isHandsUp = true;
+    this.getters.classroomUIStore.streamUIStore.handleHandState({ events: [{ action: 1 }], cmd: 1503 })
     this.addHandsUpStudent(localUserUuid);
     const intervalInMs = getRandomInt(2000, 4000);
     this._handsUpTask = Scheduler.shared.addIntervalTask(
@@ -55,9 +56,9 @@ export class ActionBarUIStore extends EduUIStoreBase {
   @action.bound
   lowerHand(userUuid?: string) {
     const localUserUuid = this.classroomStore.userStore.localUser!.userUuid;
-
     const uuid = userUuid || localUserUuid;
     this.isHandsUp = false;
+    this.getters.classroomUIStore.streamUIStore.handleHandState({ events: [{ action: 2 }], cmd: 1503 })
     this.removeHandsUpStudent(uuid);
     this._handsUpTask?.stop();
     const message: CustomMessageData<CustomMessageHandsUpType> = {
