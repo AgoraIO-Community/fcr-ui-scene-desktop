@@ -120,3 +120,10 @@ export type StreamMediaPlayerOpenParams = {
   url: string;
   title: string;
 };
+//rtt功能类型枚举
+export enum RttTypeEnum{
+  //字幕
+  SUBTITLE = "rtt",
+  //转写
+  CONVERSION = "rttbox",
+}

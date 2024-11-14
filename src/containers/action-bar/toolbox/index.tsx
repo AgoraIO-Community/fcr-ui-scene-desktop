@@ -7,6 +7,7 @@ import './index.css';
 import { useI18n } from 'agora-common-libs';
 import { ToolTip } from '@components/tooltip';
 import { useZIndex } from '@ui-scene/utils/hooks/use-z-index';
+import { RttTypeEnum } from '@ui-scene/uistores/type';
 export const ToolBox = observer(() => {
   const {
     layoutUIStore: { setHasPopoverShowed }  } = useStore();
@@ -57,6 +58,7 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
   const {
     getters,
     eduToolApi: { registeredCabinetToolItems },
+    widgetUIStore: { widgetActiveList }
   } = useStore();
   const transI18n = useI18n();
   const isWidgetActive = (widgetId: string) => {
@@ -64,10 +66,10 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
       return getters.isBreakoutActive;
     }
     if (widgetId === 'rtt') {
-      return "true" === localStorage.getItem(`${getters.roomUuid}_subtitle`)
+      return widgetActiveList.includes(widgetId)
     }
     if (widgetId === 'rttbox') {
-      return "true" === localStorage.getItem(`${getters.roomUuid}_transcribe`)
+      return widgetActiveList.includes(widgetId)
     }
     return getters.activeWidgetIds.includes(widgetId);
   };
@@ -85,7 +87,6 @@ const ToolBoxPopoverContent = observer(({ onClick }: { onClick: () => void }) =>
             onWidgetIdChange={()=>{
             }}
             active={isWidgetActive(id)}
-            dropupActive={id === "rtt" || id === "rttbox"}
           />
         ))}
       </div>
@@ -97,52 +98,81 @@ interface ToolBoxItemProps {
   icon: SvgIconEnum;
   label: string;
   active: boolean;
-  dropupActive: boolean;
   onClick: () => void;
   onWidgetIdChange: (id: string) => void;
 }
 const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
-  const { icon, label, active, dropupActive, id, onClick, onWidgetIdChange } = props;
+  const { icon, label, active, id, onClick, onWidgetIdChange } = props;
   const { widgetUIStore, eduToolApi, breakoutUIStore } = useStore();
   const { updateZIndex } = useZIndex(id);
   useEffect(() => {
     if (id === 'rtt') {
       widgetUIStore.createWidget(id);
-      eduToolApi.setWidgetVisible(id, false);
       eduToolApi.sendWidgetVisibleIsShowTool(id, true);
     }
     if (id === 'rttbox') {
       widgetUIStore.createWidget(id);
-      eduToolApi.setWidgetVisible(id, false);
     }
   }, []);
+
+  //修改最大最小化
+  const setMinimizedState = (minimized: boolean) => {
+    eduToolApi.setMinimizedState({
+      minimized: minimized,
+      widgetId: id,
+      minimizedProperties: {
+        minimizedCollapsed:
+          widgetUIStore.widgetInstanceList.find((w) => w.widgetId === id)?.minimizedProperties
+            ?.minimizedCollapsed || false,
+      },
+    });
+  }
+
   const handleClick = () => {
-    if (eduToolApi.isWidgetMinimized(id)) {
-      eduToolApi.setMinimizedState({
-        minimized: false,
-        widgetId: id,
-        minimizedProperties: {
-          minimizedCollapsed:
-            widgetUIStore.widgetInstanceList.find((w) => w.widgetId === id)?.minimizedProperties
-              ?.minimizedCollapsed || false,
-        },
-      });
-    } else {
-      updateZIndex();
-      onWidgetIdChange(id)
-      if (id === 'breakout') {
-        breakoutUIStore.setDialogVisible(true);
-      } else if (id === 'rtt') {
-        eduToolApi.setWidgetVisible('rtt', true);
-        eduToolApi.sendWidgetVisibleIsShowRtt(id, true);
-        eduToolApi.changeSubtitleOpenState()
-      } else {
-        if (id === "rttbox") {
+    //当前widget是否是最小化的
+    const widgetIsMinimized = eduToolApi.isWidgetMinimized(id);
+    //档位widget是否是正在使用的状态
+    const widgetActive = (RttTypeEnum.SUBTITLE === id || RttTypeEnum.CONVERSION === id) ? widgetUIStore.widgetActiveList.includes(id) : active;
+    switch (id) {
+      case RttTypeEnum.SUBTITLE:
+        if(widgetIsMinimized){setMinimizedState(false)}else{
+          updateZIndex();
+          onWidgetIdChange(id)
+          //如果没有激活使用的话也要弹窗显示
+          if(!widgetActive){
+            eduToolApi.setWidgetVisible(id, true);
+          }
+          eduToolApi.sendWidgetVisibleIsShowRtt(id, true);
+          eduToolApi.changeSubtitleOpenState()
+        }
+        break
+      case RttTypeEnum.CONVERSION:
+        updateZIndex();
+        onWidgetIdChange(id)
+        if(!eduToolApi.isWidgetVisible(id)){
+          eduToolApi.setWidgetVisible(id, true);
+        }
+        if(widgetActive){
+          setMinimizedState(!widgetIsMinimized)
+        }else{
           eduToolApi.sendWidgetRttboxShow(id, true); 
           eduToolApi.changeConversionOpenState()
         }
-        widgetUIStore.createWidget(id);
-      }
+        break;
+      case 'breakout':
+        if (widgetIsMinimized) { setMinimizedState(false) } else {
+          updateZIndex();
+          onWidgetIdChange(id)
+          breakoutUIStore.setDialogVisible(true);
+        }
+        break;
+      default:
+        if (widgetIsMinimized) { setMinimizedState(false) } else {
+          widgetUIStore.createWidget(id);
+          updateZIndex();
+          onWidgetIdChange(id)
+        }
+        break;
     }
     onClick();
   };
@@ -154,8 +184,7 @@ const ToolBoxItem: FC<ToolBoxItemProps> = observer((props) => {
     <div className="fcr-toolbox-popover-item" onClick={handleClick}>
       <SvgImg type={icon} size={30}></SvgImg>
       <span className="fcr-toolbox-popover-item-label">{label}</span>
-     {dropupActive&&<div className='fcr-toolbox-popover-item-dropbox' onClick={()=>handleSettingClick}>
-      </div>}
+      {(id === "rtt" || id === "rttbox") && <div className='fcr-toolbox-popover-item-dropbox' onClick={() => handleSettingClick}></div>}
       {active && <div className="fcr-toolbox-popover-item-active"></div>}
     </div>
   );

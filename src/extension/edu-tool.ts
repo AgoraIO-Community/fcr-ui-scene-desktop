@@ -1,12 +1,13 @@
-import { AgoraWidgetController } from 'agora-edu-core';
+import { AgoraWidgetController,EduRoleTypeEnum } from 'agora-edu-core';
 import { Log, Logger, bound } from 'agora-rte-sdk';
 import { action, computed, IReactionDisposer, observable } from 'mobx';
 import { AgoraExtensionRoomEvent, AgoraExtensionWidgetEvent } from './events';
 import { SvgIconEnum } from '@components/svg-img';
 import { computedFn } from 'mobx-utils';
-import { StreamMediaPlayerOpenParams, WebviewOpenParams } from '@ui-scene/uistores/type';
+import { RttTypeEnum, StreamMediaPlayerOpenParams, WebviewOpenParams } from '@ui-scene/uistores/type';
 import { transI18n, FcrUISceneWidget } from 'agora-common-libs';
 import { AgoraIMMessageBase, CabinetToolItem } from './type';
+import { useStore } from '@ui-scene/utils/hooks/use-store';
 
 @Log.attach({ proxyMethods: false })
 export class EduTool {
@@ -22,7 +23,8 @@ export class EduTool {
     onTrackUpdate: () => {},
   };
   @observable
-  private _registeredCabinetToolItems: CabinetToolItem[] = [
+  //@ts-ignore
+  private _registeredCabinetToolItems: CabinetToolItem[] = EduRoleTypeEnum.student === window.EduClassroomConfig.sessionInfo.role ? [] : [
     {
       name: transI18n('fcr_tool_box_breakout_room'),
       id: 'breakout',
@@ -268,6 +270,11 @@ export class EduTool {
 
   @action.bound
   private _handleRegisterCabinetTool(cabinetToolItem: CabinetToolItem) {
+    //@ts-ignore
+    if (EduRoleTypeEnum.student === window.EduClassroomConfig.sessionInfo.role && !(RttTypeEnum.SUBTITLE === cabinetToolItem.id || RttTypeEnum.CONVERSION === cabinetToolItem.id)) {
+      return
+    }
+
     const item = this._registeredCabinetToolItems.find(item=>item.id === cabinetToolItem.id)
     if (!item) {
       this._registeredCabinetToolItems.push(cabinetToolItem);

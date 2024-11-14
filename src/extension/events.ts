@@ -177,6 +177,22 @@ export enum AgoraExtensionWidgetEvent {
   UpdatePosition = 'update-position',
   //更新倒计时状态
   CountdownTimerStateChanged = 'countdown-timer-state-changed',
+  //widget启用状态改变处理
+  WidgetActiveStateChange = 'WidgetActiveStateChange',
   //显示转写弹窗
   RttShowConversion = "RttShowConversion",
+  //字幕功能开启成功
+  RttSubtitleOpenSuccess = "RttSubtitleOpenSuccess",
+  //字幕功能关闭成功
+  RttSubtitleCloseSuccess = "RttSubtitleCloseSuccess",
+  //转写功能开启成功
+  RttConversionOpenSuccess = "RttConversionOpenSuccess",
+  //转写功能关闭成功
+  RttConversionCloseSuccess = "RttConversionCloseSuccess",
+  //修改字幕开启状态
+  RttChangeToSubtitleOpenState = "RttChangeToSubtitleOpenState",
+  //修改转写开启状态
+  RttChangeToConversionOpenState = "RttChangeToConversionOpenState",
+  //设置里面的显示转写视图
+  RttSettingShowConversion = "RttSettingShowConversion",
 }

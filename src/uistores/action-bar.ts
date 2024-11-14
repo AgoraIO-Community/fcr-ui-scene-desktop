@@ -125,7 +125,7 @@ export class ActionBarUIStore extends EduUIStoreBase {
   }
 
   @computed get showToolBox() {
-    return this.getters.isHost;
+    return this.getters.isHost || this.getters.isStudent;
   }
   @computed get showWhiteBoard() {
     return this.getters.isHost;
@@ -141,6 +141,9 @@ export class ActionBarUIStore extends EduUIStoreBase {
   }
   @computed get showCloud() {
     return this.getters.isHost;
+  }
+  @computed get isStudent() {
+    return this.getters.isStudent;
   }
   @observable showLeaveOption = false;
   @observable leaveFlag = 1;
