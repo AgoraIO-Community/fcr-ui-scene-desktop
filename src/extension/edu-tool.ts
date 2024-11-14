@@ -270,7 +270,6 @@ export class EduTool {
 
   @action.bound
   private _handleRegisterCabinetTool(cabinetToolItem: CabinetToolItem) {
-    debugger
     //@ts-ignore
     if (EduRoleTypeEnum.student === window.EduClassroomConfig.sessionInfo.role && !(RttTypeEnum.SUBTITLE === cabinetToolItem.id || RttTypeEnum.CONVERSION === cabinetToolItem.id)) {
       return
