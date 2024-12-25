@@ -37,6 +37,8 @@ export class BreakoutUIStore extends EduUIStoreBase {
    * 总分组数
    */
   static readonly MAX_GROUP_COUNT = 20;
+
+  private _coursewareLoaded = false;
   /**
    * 当前分组序号
    */
@@ -1060,10 +1062,15 @@ export class BreakoutUIStore extends EduUIStoreBase {
   onInstall() {
     this._disposers.push(
       reaction(
-        () => this.getters.boardApi.mounted,
-        (mounted) => {
-          if (mounted && this.getters.isGranted) {
+        () => ({ mounted: this.getters.boardApi.mounted, isGranted: this.getters.isGranted }),
+        ({ mounted, isGranted }) => {
+          if (!this._coursewareLoaded && mounted && isGranted) {
+            this._coursewareLoaded = true;
             this._copyRoomContent();
+          }
+          // when whiteboard is unmounted, reset courseware loaded state
+          if (!mounted) {
+            this._coursewareLoaded = false;
           }
         },
       ),
