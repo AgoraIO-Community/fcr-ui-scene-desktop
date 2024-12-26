@@ -851,6 +851,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   }
 
   private _grantWhiteboard() {
+    this.logger.info('grant whiteboard in breakout room');
     this.getters.boardApi.grantPrivilege(EduClassroomConfig.shared.sessionInfo.userUuid, true);
   }
 
@@ -915,6 +916,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
 
   @bound
   private async _copyRoomContent() {
+    this.logger.info('copy room content');
     this.getters.boardApi.loadAttributes();
   }
 
@@ -1066,10 +1068,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
         ({ mounted, isGranted }) => {
           if (!this._coursewareLoaded && mounted && isGranted) {
             this._coursewareLoaded = true;
+            this.logger.info('set coursewareLoaded');
             this._copyRoomContent();
           }
           // when whiteboard is unmounted, reset courseware loaded state
           if (!mounted) {
+            this.logger.info('reset coursewareLoaded');
             this._coursewareLoaded = false;
           }
         },
