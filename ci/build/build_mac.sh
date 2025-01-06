@@ -4,8 +4,7 @@ build_branch=$fcr_ui_scene_desktop_branch
 
 ci_script_version=v1
 
-. ../apaas-cicd-web/versions.sh
-. ../apaas-cicd-web/utilities/tools.sh
+. ../apaas-cicd-web/utilities/$ci_script_version/tools.sh
 . ../apaas-cicd-web/build/$ci_script_version/dependency.sh
 . ../apaas-cicd-web/build/$ci_script_version/build.sh
 
