@@ -304,7 +304,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
     const teachers = this.classroomStore.userStore.mainRoomDataStore.teacherList;
 
     if (teachers.size) {
-      const teacherUuid = teachers.keys().next().value;
+      const teacherUuid = teachers.keys().next().value!;
       const { groupUuidByUserUuid } = this.classroomStore.groupStore;
 
       const teacherGroupUuid = groupUuidByUserUuid.get(teacherUuid);
