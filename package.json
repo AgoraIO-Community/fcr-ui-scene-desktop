@@ -4,11 +4,11 @@
   "main": "lib/scene.bundle.js",
   "types": "lib/fcr-ui-scene/src/index.d.ts",
   "scripts": {
-    "dev": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=4096 webpack --watch --config ./webpack/webpack.dev.js",
+    "dev": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=2048 webpack --watch --config ./webpack/webpack.dev.js",
     "build:types": "tsc -p tsconfig.json",
     "build:docs": "typedoc",
     "pack:npm": "run-s bundle:npm build:types",
-    "bundle:npm": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=4096 webpack --config ./webpack.config.js",
+    "bundle:npm": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=2048 webpack --config ./webpack.config.js",
     "ci:build": "run-s bundle:npm build:types"
   },
   "dependencies": {
