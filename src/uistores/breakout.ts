@@ -39,6 +39,7 @@ export class BreakoutUIStore extends EduUIStoreBase {
   static readonly MAX_GROUP_COUNT = 20;
 
   private _coursewareLoaded = false;
+  private _localStorageKey = 'fcr_breakout_courseware_loaded';
   /**
    * 当前分组序号
    */
@@ -909,8 +910,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
       this._setConnectionState(false);
     }
 
-    if (joinSuccess && EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student) {
-      this._grantWhiteboard();
+    if (joinSuccess) {
+      // 按子房间恢复是否已加载过快照，支持刷新页面后重进房不重复加载。
+      this._restoreCoursewareLoadedState(roomUuid);
+      if (EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student) {
+        this._grantWhiteboard();
+      }
     }
   }
 
@@ -918,6 +923,42 @@ export class BreakoutUIStore extends EduUIStoreBase {
   private async _copyRoomContent() {
     this.logger.info('copy room content');
     this.getters.boardApi.loadAttributes();
+  }
+
+  private _getCoursewareLoadedStorageKey(subRoomUuid: string) {
+    const mainRoomUuid = EduClassroomConfig.shared.sessionInfo.roomUuid;
+    return `${this._localStorageKey}_${mainRoomUuid}_${subRoomUuid}`;
+  }
+
+  private _restoreCoursewareLoadedState(subRoomUuid?: string) {
+    if (!subRoomUuid) {
+      this._coursewareLoaded = false;
+      return;
+    }
+
+    this._coursewareLoaded =
+      localStorage.getItem(this._getCoursewareLoadedStorageKey(subRoomUuid)) === 'true';
+    this.logger.info('restore coursewareLoaded', subRoomUuid, this._coursewareLoaded);
+  }
+
+  private _saveCoursewareLoadedState(subRoomUuid?: string) {
+    if (!subRoomUuid) {
+      return;
+    }
+
+    localStorage.setItem(this._getCoursewareLoadedStorageKey(subRoomUuid), 'true');
+  }
+
+  private _clearAllCoursewareLoadedState() {
+    const mainRoomUuid = EduClassroomConfig.shared.sessionInfo.roomUuid;
+    const prefix = `${this._localStorageKey}_${mainRoomUuid}_`;
+
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key?.startsWith(prefix)) {
+        localStorage.removeItem(key);
+      }
+    }
   }
 
   @bound
@@ -941,6 +982,8 @@ export class BreakoutUIStore extends EduUIStoreBase {
       //   this.shareUIStore.addGenericErrorDialog(e as AGError);
     } finally {
       this._setConnectionState(false);
+      // 离开分组房间后仅重置运行时状态，持久化状态保留给后续重进房恢复。
+      this._coursewareLoaded = false;
     }
   }
 
@@ -989,8 +1032,12 @@ export class BreakoutUIStore extends EduUIStoreBase {
     } finally {
       this._setConnectionState(false);
     }
-    if (joinSuccess && EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student) {
-      this._grantWhiteboard();
+    if (joinSuccess) {
+      // 切换到目标子房间后，按该房间单独恢复加载状态。
+      this._restoreCoursewareLoadedState(roomUuid);
+      if (EduClassroomConfig.shared.sessionInfo.role === EduRoleTypeEnum.student) {
+        this._grantWhiteboard();
+      }
     }
   }
 
@@ -1064,17 +1111,44 @@ export class BreakoutUIStore extends EduUIStoreBase {
   onInstall() {
     this._disposers.push(
       reaction(
-        () => ({ mounted: this.getters.boardApi.mounted, isGranted: this.getters.isGranted }),
-        ({ mounted, isGranted }) => {
-          if (!this._coursewareLoaded && mounted && isGranted) {
+        () => ({
+          mounted: this.getters.boardApi.mounted,
+          isGranted: this.getters.isGranted,
+          inSubRoom: !!this.classroomStore.connectionStore.subRoomScene,
+          subRoomUuid: this.classroomStore.connectionStore.subRoomScene?.sceneId,
+          widgetController: this.classroomStore.widgetStore.widgetController,
+          hasCurrentSceneBoardWidget: this.getters.widgetInstanceList.some(
+            (widget) =>
+              widget.widgetName === 'netlessBoard' &&
+              widget.widgetController === this.classroomStore.widgetStore.widgetController,
+          ),
+        }),
+        ({
+          mounted,
+          isGranted,
+          inSubRoom,
+          subRoomUuid,
+          widgetController,
+          hasCurrentSceneBoardWidget,
+        }) => {
+          // 当白板挂载且快照未加载时，加载快照
+          if (
+            inSubRoom &&
+            !!widgetController &&
+            hasCurrentSceneBoardWidget &&
+            !this._coursewareLoaded &&
+            mounted &&
+            isGranted
+          ) {
             this._coursewareLoaded = true;
-            this.logger.info('set coursewareLoaded');
+            this._saveCoursewareLoadedState(subRoomUuid);
+            this.logger.info('set coursewareLoaded and copy room content');
             this._copyRoomContent();
           }
-          // when whiteboard is unmounted, reset courseware loaded state
-          if (!mounted) {
-            this.logger.info('reset coursewareLoaded');
-            this._coursewareLoaded = false;
+          // 白板卸载时，如果用户已离开分组房间则重置状态
+          // 用户离开时由 _leaveSubRoom 处理，这里只处理临时卸载场景
+          if (!mounted && !this._coursewareLoaded) {
+            this.logger.info('coursewareLoaded already false on unmount');
           }
         },
       ),
@@ -1083,6 +1157,9 @@ export class BreakoutUIStore extends EduUIStoreBase {
         () => {
           if (this.groupState) {
             this._wizardState = 1;
+          } else {
+            this._coursewareLoaded = false;
+            this._clearAllCoursewareLoadedState();
           }
         },
       ),
