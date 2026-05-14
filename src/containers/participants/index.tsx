@@ -1,7 +1,5 @@
 import { createContext, FC, PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react';
 import { Input } from '@components/input';
-import { Table } from '@components/table';
-
 import './index.css';
 import { SvgIconEnum, SvgImg } from '@components/svg-img';
 import { observer } from 'mobx-react-lite';
@@ -52,6 +50,7 @@ export const Participants = observer(() => {
       streamStore: { updateRemotePublishStateBatch },
       roomStore: { sendCustomChannelMessage },
     },
+    layoutUIStore: { viewportBoundaries },
   } = useStore();
   const { hostColumns, studentColumns } = useParticipantsColumn();
 
@@ -60,6 +59,33 @@ export const Participants = observer(() => {
     return tableColumns.reduce((prev, columns) => {
       return prev + columns.width;
     }, 0);
+  }, [tableColumns]);
+  const tableScrollY = useMemo(() => {
+    const viewportHeight = viewportBoundaries.height;
+
+    if (!viewportHeight) {
+      return 400;
+    }
+
+    const headerHeight = 44;
+    const footerHeight = isHost ? 50 : 0;
+    const tableHeaderHeight = 36;
+    const availableBodyHeight =
+      viewportHeight - headerHeight - footerHeight - tableHeaderHeight;
+
+    return Math.min(400, Math.max(120, availableBodyHeight));
+  }, [isHost, viewportBoundaries.height]);
+  const containerStyle = useMemo(() => {
+    return {
+      width: tableWidth,
+      minHeight: Math.min(490, viewportBoundaries.height || 490),
+      maxHeight: viewportBoundaries.height || undefined,
+    };
+  }, [tableWidth, viewportBoundaries.height]);
+  const tableGridStyle = useMemo(() => {
+    return {
+      gridTemplateColumns: tableColumns.map((column) => `${column.width}px`).join(' '),
+    };
   }, [tableColumns]);
 
   const participantsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -146,7 +172,7 @@ export const Participants = observer(() => {
     <ParticipantsContext.Provider value={{ toastApi: toastApiRef.current }}>
       <div
         ref={participantsContainerRef}
-        style={{ width: tableWidth }}
+        style={containerStyle}
         className="fcr-participants-container">
         <div className="fcr-participants-header">
           <div className="fcr-participants-title">
@@ -170,13 +196,37 @@ export const Participants = observer(() => {
             <SvgImg type={SvgIconEnum.FCR_CLOSE} size={16}></SvgImg>
           </div>
         </div>
-        <Table
-          scroll={{
-            y: 400,
-          }}
-          columns={tableColumns as any}
-          data={participantTableList}
-          rowKey={(record) => record.user.userUuid}></Table>
+        <div className="fcr-participants-table">
+          <div className="fcr-participants-table-header-row" style={tableGridStyle}>
+            {tableColumns.map((column, index) => (
+              <div
+                key={`header-${index}`}
+                className={classnames('fcr-participants-table-header-cell', {
+                  'fcr-participants-table-header-cell-left': column.align === 'left',
+                })}>
+                {column.title}
+              </div>
+            ))}
+          </div>
+          <div className="fcr-participants-table-body" style={{ maxHeight: tableScrollY * 2 }}>
+            {participantTableList.map((item) => (
+              <div
+                key={item.user.userUuid}
+                className="fcr-participants-table-row"
+                style={tableGridStyle}>
+                {tableColumns.map((column, index) => (
+                  <div
+                    key={`${item.user.userUuid}-${index}`}
+                    className={classnames('fcr-participants-table-cell', {
+                      'fcr-participants-table-cell-left': column.align === 'left',
+                    })}>
+                    {column.render?.(undefined, item, index)}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
 
         {isHost && (
           <div className="fcr-participants-footer">

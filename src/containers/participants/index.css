@@ -9,9 +9,52 @@
   min-height: 490px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
-.fcr-participants-container .fcr-table {
+.fcr-participants-table {
   flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
+.fcr-participants-table-header-row,
+.fcr-participants-table-row {
+  display: grid;
+  width: 100%;
+}
+.fcr-participants-table-header-row {
+  @apply fcr-bg-4;
+  height: 36px;
+}
+.fcr-participants-table-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.fcr-participants-table-row:nth-child(2n + 1) {
+  @apply fcr-bg-3;
+}
+.fcr-participants-table-row:hover {
+  @apply fcr-bg-brand-6;
+}
+.fcr-participants-table-header-cell,
+.fcr-participants-table-cell {
+  @apply fcr-text-1 fcr-font-regular;
+  font-size: 12px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.fcr-participants-table-header-cell {
+  user-select: none;
+  height: 36px;
+}
+.fcr-participants-table-cell {
+  height: 56px;
+}
+.fcr-participants-table-header-cell-left,
+.fcr-participants-table-cell-left {
+  justify-content: flex-start;
 }
 .fcr-participants-container::-webkit-scrollbar {
   @apply fcr-bg-2;
@@ -71,7 +114,7 @@
   @apply fcr-text-1;
   font-size: 12px;
   padding-left: 4px;
-  font-size: 300;
+  font-weight: 300;
   padding-right: 40px;
 }
 .fcr-participants-search {
