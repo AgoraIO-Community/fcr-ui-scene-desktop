@@ -198,7 +198,9 @@ export class FcrUIScene {
     if (shareUrl) {
       config.shareUrl = shareUrl;
     }
-    config.ignoreUrlRegionPrefix = ['dev', 'pre'].some((v) => (host ? host.includes(v) : false));
+    config.ignoreUrlRegionPrefix = ['dev', 'pre', 'test'].some((v) =>
+      host ? host.includes(v) : false,
+    );
 
     if (ignoreUrlRegionPrefix) {
       config.ignoreUrlRegionPrefix = ignoreUrlRegionPrefix;
