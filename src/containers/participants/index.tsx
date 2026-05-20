@@ -583,7 +583,7 @@ const RemoveDialogContent = observer(
 );
 
 type UserTableItem = {
-  stream: EduStreamUI;
+  stream?: EduStreamUI;
   user: EduUserStruct;
   notAllowed: boolean;
 };
