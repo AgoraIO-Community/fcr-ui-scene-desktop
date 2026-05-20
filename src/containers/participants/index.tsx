@@ -220,7 +220,7 @@ export const Participants = observer(() => {
                     className={classnames('fcr-participants-table-cell', {
                       'fcr-participants-table-cell-left': column.align === 'left',
                     })}>
-                    {column.render?.(undefined, item, index)}
+                    {column.render?.(undefined, item)}
                   </div>
                 ))}
               </div>
