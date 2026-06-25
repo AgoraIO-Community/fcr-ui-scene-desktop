@@ -1,6 +1,6 @@
 {
   "name": "fcr-ui-scene",
-  "version": "2.9.51",
+  "version": "2.9.52",
   "main": "lib/scene.bundle.js",
   "types": "lib/fcr-ui-scene/src/index.d.ts",
   "scripts": {
